@@ -15,10 +15,8 @@ class CreateWaypointsTable extends Migration
     {
         Schema::create('waypoints', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('route_id');
-            $table->foreign('route_id')->references('id')->on('routes');
-            $table->unsignedBigInteger('point_id');
-            $table->foreign('point_id')->references('id')->on('points');
+            $table->foreignId('route_id')->nullable()->constrained('routes')->cascadeOnDelete();
+            $table->foreignId('point_id')->nullable()->constrained('points')->cascadeOnDelete();
             $table->unsignedInteger('status');
             $table->unsignedInteger('stop_number');
             $table->dateTime('delivered_time')->nullable();

@@ -18,7 +18,7 @@ class CreateDriversTable extends Migration
             $table->string('name');
             $table->string('login')->unique();
             $table->string('password');
-            $table->unsignedInteger('color');
+            $table->string('color');
             $table->text('note')->nullable();
             $table->double('lat',10,7)->nullable();
             $table->double('long',10,7)->nullable();

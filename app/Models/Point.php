@@ -7,5 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Point extends Model
 {
-    use HasFactory;
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'lock_geo' => 'bool'
+    ];
+
+    public function getGeocodedAttribute(): bool
+    {
+        return ($this->lat && $this->long);
+    }
+
+    public function getAddressAttribute(): string
+    {
+        if ($this->apartament) {
+            return $this->street . ' ' . $this->building_number . '/' . $this->apartament . ' ' . $this->city;
+        }
+
+        return $this->street . ' ' . $this->building_number . ' ' . $this->city;
+    }
 }

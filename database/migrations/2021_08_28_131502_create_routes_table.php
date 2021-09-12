@@ -16,7 +16,7 @@ class CreateRoutesTable extends Migration
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
             $table->date('delivery_time');
-            $table->unsignedInteger('driver_id');
+            $table->foreignId('driver_id')->nullable()->constrained('drivers')->nullOnDelete();
             $table->unsignedInteger('status');
             $table->unsignedInteger('optimize_status');
             $table->text('note')->nullable();

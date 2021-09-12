@@ -26,7 +26,7 @@ class CreatePointsTable extends Migration
             $table->double('lat', 10, 7)->nullable();
             $table->double('long', 10, 7)->nullable();
             $table->text('note')->nullable();
-            $table->boolean('lock_geo')->nullable();
+            $table->boolean('lock_geo')->default(false);
             $table->string('quantity')->nullable();
             $table->timestamp('last_used_at')->nullable();
             $table->timestamps();

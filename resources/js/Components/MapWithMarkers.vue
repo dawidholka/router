@@ -1,0 +1,86 @@
+<template>
+    <div class="map"/>
+</template>
+
+<script>
+import GoogleMapsService from '../Services/GoogleMapsService'
+
+export default {
+    name: "MapWithMarkers",
+    props: {
+        apiKey: {
+            type: String,
+            required: true
+        },
+        markers: {
+            type: Array,
+            required: true
+        }
+    },
+    createdMarkers: [],
+    data() {
+        return {
+            createdMap: null,
+        }
+    },
+    async mounted() {
+        try {
+            const google = await GoogleMapsService();
+            const geocoder = new google.maps.Geocoder();
+            const map = new google.maps.Map(this.$el, {
+                zoom: 6,
+                center: {
+                    lat: this.markers[0].lat,
+                    lng: this.markers[0].lng
+                },
+                mapTypeControl: false,
+                streetViewControl: false
+            });
+
+            this.createdMap = map;
+            this.setMarkers(map);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    methods: {
+        setMarkers(map) {
+            this.createdMarkers = [];
+
+            for (let i = 0; i < this.markers.length; i++) {
+                const mapWaypoint = this.markers[i];
+                this.createdMarkers.push(new google.maps.Marker({
+                    position: {lat: mapWaypoint.lat, lng: mapWaypoint.lng},
+                    map: map,
+                    label: mapWaypoint.stop_number.toString(),
+                    title: mapWaypoint.id.toString(),
+                    zIndex: mapWaypoint.stop_number,
+                    icon: {
+                        url: this.route('map-pin', mapWaypoint.color),
+                        labelOrigin: new google.maps.Point(12, 14)
+                    }
+                }));
+            }
+        },
+        clearMarkers() {
+            for (let i = 0; i < this.createdMarkers.length; i++) {
+                this.createdMarkers[i].setPosition(null);
+                this.createdMarkers[i].setMap(null);
+                this.createdMarkers[i] = null;
+            }
+            this.createdMarkers = [];
+        },
+        reloadMarkers() {
+            this.clearMarkers();
+            this.setMarkers(this.createdMap);
+        }
+    }
+}
+</script>
+
+<style scoped>
+.map {
+    width: 100%;
+    height: 500px;
+}
+</style>

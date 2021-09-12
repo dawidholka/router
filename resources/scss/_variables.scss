@@ -1,0 +1,68 @@
+/* General */
+$fontSize: 14px;
+$bodyBgColor: #edf0f5;
+$textColor: #333333;
+$textSecondaryColor: #707070;
+$borderRadius: 3px;
+$dividerColor: #e3e3e3;
+$transitionDuration: .2s;
+$maskBgColor: #424242;
+$focusShadowColor: #8dcdff;
+
+/* Menu Common */
+$menuitemBadgeBgColor: #4CAF50;
+$menuitemBadgeColor: #ffffff;
+$submenuFontSize: 13px;
+$menuitemActiveRouteColor: #4CAF50;
+
+/* Menu Light */
+$menuBgColorFirst: #f3f4f9;
+$menuBgColorLast: #d7dbe8;
+$menuitemColor: #232428;
+$menuitemHoverColor: #4CAF50;
+$menuitemActiveColor: #4CAF50;
+$menuitemActiveBgColor: #ffffff;
+$menuitemBorderColor: rgba(207, 211, 224, 0.6);
+
+/* Menu Dark */
+$menuDarkBgColorFirst: #f3f4f9;
+$menuDarkBgColorLast: #d7dbe8;
+$menuitemDarkColor: #232428;
+$menuitemDarkHoverColor: #4CAF50;
+$menuitemDarkActiveColor: #4CAF50;
+$menuitemDarkActiveBgColor: #ffffff;
+$menuitemDarkBorderColor: rgba(207, 211, 224, 0.6);
+
+/* Topbar */
+$topbarLeftBgColor: #4CAF50;
+$topbarRightBgColor: #4CAF50;
+$topbarItemBadgeBgColor: #ef6262;
+$topbarItemBadgeColor: #ffffff;
+$topbarItemColor: #ffffff;
+$topbarItemHoverColor: #c3e8fb;
+$topbarSearchInputBorderBottomColor: #ffffff;
+$topbarSearchInputColor: #ffffff;
+
+/* Footer */
+$footerBgColor: #ffffff;
+
+$cardBg: white;
+
+/* Progress */
+$progressEditBorder: #ebebeb;
+$progressEditBg: #ffffff;
+$progressEditColor: #6c6c6c;
+$progressEditActiveBg: #edf0fA;
+$progressEditActiveColor: #5472d4;
+$progressEditHoverBg: rgba(0, 0, 0, 0.03);
+$progressEditHoverColor: rgba(0, 0, 0, 0.87);
+
+/* Scrollbar */
+$scrollbarShadowColor:rgba(0, 0, 0, 0.3);
+$scrollbarThumbColor: #7cadef;
+
+.p-sidebar-close {
+    position: absolute;
+    top: 16px !important;
+    right: 17px !important;
+}

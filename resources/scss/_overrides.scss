@@ -1,0 +1,75 @@
+$sm:640px;
+$md:720px;
+$lg:1100px;
+$xl:1480px;
+
+@import '~primeflex/primeflex.scss';
+
+//Suggested location to add your overrides so that migration would be easy by just updating the SASS folder in the future
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.product-image {
+    width: 100px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.p-dialog .product-image {
+    width: 150px;
+    margin: 0 auto 2rem auto;
+    display: block;
+}
+
+.confirmation-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.p-datatable-responsive-demo .p-datatable-tbody > tr > td .p-column-title {
+    display: none;
+}
+
+@media screen and (max-width: 40em) {
+    ::v-deep(.p-datatable) {
+        &.p-datatable-responsive-demo {
+            .p-datatable-thead > tr > th,
+            .p-datatable-tfoot > tr > td {
+                display: none !important;
+            }
+
+            .p-datatable-tbody > tr > td {
+                text-align: left;
+                display: block;
+                width: 100%;
+                float: left;
+                clear: left;
+                border: 0 none;
+
+                .p-column-title {
+                    padding: .4rem;
+                    min-width: 30%;
+                    display: inline-block;
+                    margin: -.4em 1em -.4em -.4rem;
+                    font-weight: bold;
+                }
+
+                &:last-child {
+                    border-bottom: 1px solid var(--surface-d);
+                    text-align: center;
+                }
+
+                .p-rating {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
+
+#nprogress .bar {
+    height: 5px !important;
+}

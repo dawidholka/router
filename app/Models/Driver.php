@@ -3,13 +3,35 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 
 class Driver extends Model
 {
     use HasApiTokens;
 
+    const COLORS = [
+        ['name' => 'aqua', 'value' => 'aqua'],
+        ['name' => 'blueviolet', 'value' => 'blueviolet'],
+        ['name' => 'cornflowerblue', 'value' => 'cornflowerblue'],
+        ['name' => 'chartreuse', 'value' => 'chartreuse'],
+        ['name' => 'coral', 'value' => 'coral'],
+        ['name' => 'cornsilk', 'value' => 'cornsilk'],
+        ['name' => 'darkgray', 'value' => 'darkgray'],
+        ['name' => 'darkorange', 'value' => 'darkorange'],
+        ['name' => 'darksalmon', 'value' => 'darksalmon'],
+        ['name' => 'gold', 'value' => 'gold'],
+        ['name' => 'hotpink', 'value' => 'hotpink'],
+        ['name' => 'lightgreen', 'value' => 'lightgreen'],
+        ['name' => 'yellowgreen', 'value' => 'yellowgreen'],
+    ];
+
     protected $guarded = ['id'];
 
     protected $hidden = ['password'];
+
+    public function routes(): HasMany
+    {
+        return $this->hasMany(Route::class);
+    }
 }

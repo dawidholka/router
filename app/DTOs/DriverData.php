@@ -8,5 +8,6 @@ class DriverData extends DataTransferObject
 {
     public string $name;
     public string $login;
-    public string $password;
+    public ?string $password;
+    public string $color;
 }

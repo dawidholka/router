@@ -1,0 +1,24 @@
+@charset "UTF-8";
+@import '~primevue/resources/themes/saga-green/theme.css';
+@import '~primevue/resources/primevue.css';
+@import '~primeflex/primeflex.css';
+@import '~primeicons/primeicons.css';
+@import "./_variables";
+@import "./sass/_layout";
+@import "./_overrides";
+
+.p-toast .p-toast-message .p-toast-message-content{
+    border-width: 0;
+}
+
+.p-avatar.p-avatar-circle img{
+    border-radius: 50%;
+}
+
+.p-card {
+    box-shadow: none;
+}
+
+.p-fluid .p-inputtext{
+    width: 100%;
+}

@@ -1,0 +1,79 @@
+.login-body {
+    padding: 0;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    height: 100vh;
+    background: url("/images/sky.jpg") no-repeat;
+    background-size: cover;
+
+    .login-panel {
+        padding: 0 70px 20px 70px;
+        height: 100%;
+        width: 556px;
+        position: absolute;
+        right: 0;
+        border-radius: 0;
+        background-color: $bodyBgColor;
+
+        .login-panel-content {
+            margin-top: 33.3%;
+        }
+
+        .logo-container {
+            text-align: left;
+
+            img {
+                display: block;
+                margin-bottom: 25px;
+            }
+        }
+
+        button {
+            margin-top: .5em;
+            display: block;
+            min-width: 120px;
+        }
+    }
+}
+
+@media screen and (max-width: 40em) {
+
+    .login-body {
+
+        .login-image {
+            height: calc(100%);
+            width: calc(100%);
+            transform: scale(1.5);
+            background-position-x: -290px;
+            background-position-y: -160px;
+        }
+
+        .login-panel {
+            left: 0;
+            bottom: 0%;
+            width: 100%;
+            margin-bottom: 0px;
+            margin-top: 0;
+            margin-left: 0;
+            padding: 0 27px 20px 28px;
+            height: calc(100% - 128px);
+
+            .login-panel-content {
+                margin-top: 30px;
+            }
+
+            input {
+                width: 100%;
+            }
+
+            .footer {
+                font-size: 11px;
+                padding-right: 11px;
+                margin-top: 60px;
+            }
+        }
+
+    }
+
+}

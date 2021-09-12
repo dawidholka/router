@@ -1,0 +1,89 @@
+.miller__col {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid $progressEditBorder;
+    border-radius: 6px;
+}
+
+.miller__col-heading {
+    border-bottom: 2px solid $progressEditBorder;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background: $progressEditBg;
+    color: $progressEditColor;
+    padding: 1rem 1.25rem;
+    font-weight: 700;
+}
+
+.miller__link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    color: $progressEditColor;
+    background: transparent;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 2px solid $progressEditBorder;
+
+    &:hover {
+        background: $progressEditHoverBg;
+        color: $progressEditHoverColor;
+    }
+
+    &.selected {
+        color: $progressEditActiveColor;
+        font-weight: bold;
+        background: $progressEditActiveBg;
+    }
+
+    &.active {
+        color: $progressEditActiveColor;
+        background: $progressEditActiveBg;
+    }
+}
+
+.miller {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+}
+
+.miller__list {
+    max-height: 40vh;
+    min-height: 40vh;
+    padding: 0;
+    list-style: none;
+    overflow: auto;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin: 0;
+}
+
+.miller__add {
+    margin-top: auto;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.miller__add span{
+    font-weight: 700;
+}
+
+.miller__icon {
+    align-self: flex-start;
+    margin-right: 0.35rem;
+    padding-top: 0.2rem;
+    opacity: 0.75;
+}
+
+.miller__archived {
+    align-self: flex-start;
+    margin-left: auto;
+    padding-top: 0.2rem;
+    padding-left: 0.5rem;
+}
+
+.checkbox-label {
+    cursor: pointer;
+}
