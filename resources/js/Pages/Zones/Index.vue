@@ -101,6 +101,9 @@
                     :custom-upload="true"
                     @select="onUpload"
                 />
+                <small v-if="importForm.errors.file" class="p-invalid">
+                    {{ importForm.errors.file }}
+                </small>
 
                 <template #footer>
                     <Button
@@ -129,6 +132,7 @@ import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
 import MapWithPolygons from "../../Components/MapWithPolygons";
+import FlashMessage from "../../Services/FlashMessage";
 
 export default {
     name: "Index",
@@ -143,6 +147,7 @@ export default {
         Dialog,
         FileUpload
     },
+    mixins: [FlashMessage],
     props: {
         zones: {
             type: Array,
@@ -184,14 +189,16 @@ export default {
                     onSuccess: () => {
                         this.deletingModel = false;
                         this.deleteDialog = false;
+                        this.flashSuccess('Usunięto strefy.');
                         this.$refs.deleteDialog.onClose();
                     }
                 })
             }else{
-                this.$inertia.delete(this.route('routes.destroy', this.selectedModel.id), {
+                this.$inertia.delete(this.route('zones.destroy', this.selectedModel.id), {
                     onSuccess: () => {
                         this.deletingModel = false;
                         this.deleteDialog = false;
+                        this.flashSuccess('Usunięto strefę.');
                         this.loadLazyData();
                         this.$refs.deleteDialog.onClose();
                     }
@@ -213,6 +220,8 @@ export default {
         importKML() {
             this.importForm.post(this.route('zones.store'), {
                 onSuccess: () => {
+                    this.importDialog = false;
+                    this.flashSuccess('Dodano strefy.');
                     this.closeImportDialog();
                 }
             })

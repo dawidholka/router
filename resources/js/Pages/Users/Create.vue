@@ -14,6 +14,9 @@
                                 v-model="form.name"
                                 :class="{'p-invalid': form.errors.name}"
                             />
+                            <small v-if="form.errors.name" class="p-invalid">
+                                {{ form.errors.name }}
+                            </small>
                         </div>
                         <div class="field">
                             <label for="login">Email</label>
@@ -23,6 +26,9 @@
                                 v-model="form.email"
                                 :class="{'p-invalid': form.errors.email}"
                             />
+                            <small v-if="form.errors.email" class="p-invalid">
+                                {{ form.errors.email }}
+                            </small>
                         </div>
                         <div class="field">
                             <label for="password">Hasło</label>
@@ -33,6 +39,9 @@
                                 v-model="form.password"
                                 :class="{'p-invalid': form.errors.password}"
                             />
+                            <small v-if="form.errors.password" class="p-invalid">
+                                {{ form.errors.password }}
+                            </small>
                         </div>
                         <div class="field">
                             <label for="color">Admin</label>
@@ -46,6 +55,9 @@
                                 v-model="form.admin"
                                 :class="{'p-invalid': form.errors.admin}"
                             />
+                            <small v-if="form.errors.admin" class="p-invalid">
+                                {{ form.errors.admin }}
+                            </small>
                         </div>
 
                     </div>
@@ -73,6 +85,7 @@ import AppLayout from "../../Layouts/AppLayout";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
+import FlashMessage from "../../Services/FlashMessage";
 
 export default {
     name: "Create",
@@ -82,6 +95,7 @@ export default {
         InputText,
         Dropdown,
     },
+    mixins: [FlashMessage],
     props: {
         pageUser: {
             type: Object,
@@ -110,13 +124,13 @@ export default {
             if (this.pageUser) {
                 this.form.put(this.route('users.update', this.pageUser.id), {
                     onSuccess: () => {
-
+                        this.flashSuccess('Zapisano użytkownika.');
                     }
                 })
             } else {
                 this.form.post(this.route('users.store'), {
                     onSuccess: () => {
-
+                        this.flashSuccess('Dodano użytkownika.');
                     }
                 })
             }

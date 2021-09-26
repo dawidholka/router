@@ -48,6 +48,7 @@ class ImportFileToPoints
             'street' => $row[2],
             'building_number' => (string)$row[3],
             'city' => $row[6],
+            'rawData' => $row->toArray()
         ]);
     }
 

@@ -17,8 +17,8 @@ class CreateRoutesTable extends Migration
             $table->id();
             $table->date('delivery_time');
             $table->foreignId('driver_id')->nullable()->constrained('drivers')->nullOnDelete();
-            $table->unsignedInteger('status');
-            $table->unsignedInteger('optimize_status');
+            $table->string('status')->default('new');
+            $table->string('optimize_status')->default('no-optimization');
             $table->text('note')->nullable();
             $table->string('distance')->nullable();
             $table->string('time')->nullable();

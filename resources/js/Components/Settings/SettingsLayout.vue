@@ -1,10 +1,10 @@
 <template>
     <AppLayout>
-        <div class="p-grid">
-            <div class="p-md-3 p-col-12">
+        <div class="grid">
+            <div class="p-md-3 col-12 md:col-3">
                 <SettingsMenu/>
             </div>
-            <div class="p-md-9 p-col-12">
+            <div class="p-md-9 ol-12 md:col-9">
                 <slot></slot>
             </div>
         </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import SettingsMenu from '@/Components/Settings/SettingsMenu';
+import SettingsMenu from './SettingsMenu';
 import AppLayout from '@/Layouts/AppLayout';
 
 export default {

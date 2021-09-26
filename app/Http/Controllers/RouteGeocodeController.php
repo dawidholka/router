@@ -12,6 +12,8 @@ class RouteGeocodeController extends Controller
 {
     public function __invoke(Route $route, GeocodePoint $geocodePoint): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $route->load(['waypoints', 'waypoints.point']);
         $waypoints = $route->waypoints;
 

@@ -16,6 +16,9 @@
                                     :manual-input="false"
                                     :class="{'p-invalid': form.errors.delivery_date}"
                                 />
+                                <small v-if="form.errors.delivery_date" class="p-invalid">
+                                    {{ form.errors.delivery_date }}
+                                </small>
                             </div>
                             <div class="field col">
                                 <label for="driver">Kierowca</label>
@@ -28,6 +31,9 @@
                                     option-value="id"
                                     placeholder="Wybierz kierowcę"
                                 />
+                                <small v-if="form.errors.driver" class="p-invalid">
+                                    {{ form.errors.driver }}
+                                </small>
                             </div>
                         </div>
                         <div class="field">
@@ -38,6 +44,9 @@
                                 rows="5"
                                 v-model="form.note"
                             />
+                            <small v-if="form.errors.note" class="p-invalid">
+                                {{ form.errors.note }}
+                            </small>
                         </div>
                     </div>
                     <div class="flex justify-content-end mt-3">
@@ -65,6 +74,7 @@ import Dropdown from "primevue/dropdown";
 import Calendar from "primevue/calendar";
 import Textarea from "primevue/textarea";
 import Button from "primevue/button";
+import FlashMessage from "../../Services/FlashMessage";
 
 export default {
     name: "Create",
@@ -75,6 +85,7 @@ export default {
         Textarea,
         Button
     },
+    mixins: [FlashMessage],
     props: {
         drivers: {
             type: Array,
@@ -97,7 +108,7 @@ export default {
         submit() {
             this.form.post(this.route('routes.store'), {
                 onSuccess: () => {
-
+                    this.flashSuccess('Utworzono trasę.');
                 }
             })
         }

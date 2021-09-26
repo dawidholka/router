@@ -2,7 +2,7 @@
     <div>
         <AppLayout>
             <div class="p-grid">
-                <div class="p-col-12">
+                <div v-if="$page.props.admin" class="p-col-12">
                     <div class="card">
                         <Menubar :model="menuItems"/>
                     </div>
@@ -63,11 +63,14 @@
                                         @click="show(slotProps.data.id)"
                                     />
                                     <Button
+                                        v-if="$page.props.admin"
                                         icon="pi pi-pencil"
                                         class="p-button-success p-button-sm mr-1"
                                         @click="edit(slotProps.data.id)"
                                     />
-                                    <Button icon="pi pi-trash" class="p-button-sm p-button-danger"
+                                    <Button
+                                        v-if="$page.props.admin"
+                                        icon="pi pi-trash" class="p-button-sm p-button-danger"
                                             @click="showDeleteDialog(slotProps.data)"
                                     />
                                 </template>
@@ -86,6 +89,47 @@
                 :loading="deletingModel"
                 @delete="onDelete"
             />
+
+            <Dialog
+                v-model:visible="bulkDeleteModal"
+                :style="{width: '450px'}"
+                header="Czyszczenie tras"
+                :modal="true"
+                :closable="false"
+            >
+                <div class="field">
+                    <label for="bulk-delete">
+                        Wyczyść dane aplikacji
+                    </label>
+                    <Dropdown
+                        id="bulk-delete"
+                        class="w-full"
+                        :options="bulkDeleteOptions"
+                        option-value="value"
+                        option-label="label"
+                        v-model="bulkDeleteForm.option"
+                        :class="{'p-invalid': bulkDeleteForm.errors.option}"
+                    />
+                    <small v-if="bulkDeleteForm.errors.option" class="p-invalid">
+                        {{ bulkDeleteForm.errors.option }}
+                    </small>
+                </div>
+                <template #footer>
+                    <Button
+                        label="Anuluj"
+                        icon="pi pi-times"
+                        class="p-button-text"
+                        @click="bulkDeleteModal = false"
+                    />
+                    <Button
+                        label="Zapisz"
+                        icon="pi pi-check"
+                        class="p-button-text"
+                        :loading="bulkDeleteForm.processing"
+                        @click="bulkDelete"
+                    />
+                </template>
+            </Dialog>
         </AppLayout>
     </div>
 </template>
@@ -99,6 +143,9 @@ import Menubar from "primevue/menubar";
 import Column from "primevue/column";
 import DeleteDialog from "../../Components/DeleteDialog";
 import Button from "primevue/button";
+import Dialog from "primevue/dialog";
+import Dropdown from "primevue/dropdown";
+import FlashMessage from "../../Services/FlashMessage";
 
 export default {
     name: "Index",
@@ -108,8 +155,11 @@ export default {
         DataTable,
         Column,
         DeleteDialog,
-        Button
+        Button,
+        Dialog,
+        Dropdown
     },
+    mixins: [FlashMessage],
     data() {
         return {
             datatable: {
@@ -130,10 +180,27 @@ export default {
                         this.$inertia.get(this.route('routes.create'));
                     },
                 },
+                {
+                    label: 'Wyczyść trasy',
+                    icon: 'pi pi-fw pi-trash',
+                    command: () => {
+                        this.openBulkDeleteModal();
+                    },
+                },
             ],
             selectedModel: null,
             deleteDialog: false,
             deletingModel: false,
+            bulkDeleteModal: false,
+            bulkDeleteForm: this.$inertia.form({
+                option: null
+            }),
+            bulkDeleteOptions: [
+                {value: 'all', label: 'Wszystkie'},
+                {value: 'last-hour', label: 'Z ostatniej godziny'},
+                {value: 'older-then-30-days', label: 'Starsze niż 30 dni'},
+                {value: 'older-then-90-days', label: 'Starsze niż 90 dni'},
+            ],
         }
     },
     datatableService: null,
@@ -180,6 +247,7 @@ export default {
                 onSuccess: () => {
                     this.deletingModel = false;
                     this.deleteDialog = false;
+                    this.flashSuccess('Usunięto trasę.');
                     this.loadLazyData();
                     this.$refs.deleteDialog.onClose();
                 }
@@ -188,6 +256,18 @@ export default {
         showDeleteDialog(model) {
             this.selectedModel = model;
             this.deleteDialog = true;
+        },
+        openBulkDeleteModal() {
+            this.bulkDeleteModal = true;
+        },
+        bulkDelete() {
+            this.bulkDeleteForm.post(this.route('routes.bulk-destroy'), {
+                onSuccess: () => {
+                    this.loadLazyData();
+                    this.flashSuccess('Wyczyszczono trasy.');
+                    this.bulkDeleteModal = false;
+                }
+            });
         }
     }
 }

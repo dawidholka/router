@@ -14,7 +14,7 @@ class GoogleMaps
 
     public function __construct()
     {
-        $this->apiKey = 'AIzaSyBtjnD1z7quLk8jedtP6d746tAHNw_vyX0';
+        $this->apiKey = 'AIzaSyBw4Uu9vk6g98EWxke4l9IIR_-AD1DHNrQ';
     }
 
     protected function buildUrl(string $url, array $query): string

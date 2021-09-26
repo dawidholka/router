@@ -13,6 +13,7 @@
                                type="email"
                                required="true"
                                :class="{'p-invalid': form.errors.email}"
+                               @keyup.enter="submit"
                     />
                     <small v-if="form.errors.email" class="p-invalid">
                         {{ form.errors.email }}
@@ -27,6 +28,7 @@
                                required="true"
                                type="password"
                                autocomplete="current-password"
+                               @keyup.enter="submit"
                                :class="{'p-invalid': form.errors.password}"
                     />
                     <small v-if="form.errors.password" class="p-invalid">
@@ -40,11 +42,6 @@
                             @click="submit"
                             :loading="form.processing"
                     />
-                </div>
-                <div class="field text-center">
-                    <inertia-link :href="route('password.request')">
-                        Zapomniałeś hasła?
-                    </inertia-link>
                 </div>
             </div>
         </template>

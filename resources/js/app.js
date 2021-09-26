@@ -2,8 +2,9 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import PrimeVue from 'primevue/config';
+import ToastService from "primevue/toastservice";
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Router';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -12,6 +13,7 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(PrimeVue)
+            .use(ToastService)
             .mixin({ methods: { route } })
             .mount(el);
     },

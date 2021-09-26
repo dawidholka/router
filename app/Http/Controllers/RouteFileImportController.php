@@ -11,6 +11,8 @@ class RouteFileImportController extends Controller
 {
     public function __invoke(Request $request, Route $route, ImportFileToRoute $importFileToRoute): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $request->validate([
             'file' => ['required', 'file']
         ]);

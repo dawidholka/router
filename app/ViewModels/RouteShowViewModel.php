@@ -3,9 +3,12 @@
 namespace App\ViewModels;
 
 use App\Models\Driver;
+use App\Models\DriverLocation;
 use App\Models\Route;
 use App\Models\Waypoint;
 use App\Support\ColorDictionary;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Spatie\ViewModels\ViewModel;
 
 class RouteShowViewModel extends ViewModel
@@ -13,7 +16,7 @@ class RouteShowViewModel extends ViewModel
     public function __construct(private Route $route)
     {
         $route->load([
-            'waypoints' => function ($query){
+            'waypoints' => function ($query) {
                 $query->orderBy('stop_number');
             },
             'waypoints.point',
@@ -51,7 +54,7 @@ class RouteShowViewModel extends ViewModel
         ];
     }
 
-    public function waypoints()
+    public function waypoints(): array
     {
         return $this->route->waypoints->map(function (Waypoint $waypoint) {
             return [
@@ -60,11 +63,48 @@ class RouteShowViewModel extends ViewModel
                 'address' => $waypoint->point->address,
                 'city' => $waypoint->point->city,
                 'stop_number' => $waypoint->stop_number,
+                'status' => $waypoint->status,
+                'delivered_time' => $waypoint->delivered_time?->format('Y-m-d H:m:s'),
+                'photo_uploaded' => $waypoint->photo_uploaded,
                 'geocoded' => $waypoint->point->geocoded,
-                'color' => $this->route->driver->color ?? ColorDictionary::getRandomColor(),
+                'color' => $waypoint->status_color,
                 'lat' => $waypoint->point->lat,
                 'lng' => $waypoint->point->long
             ];
         })->toArray();
+    }
+
+    public function driverLocations(): array
+    {
+        return $this->route->driver_locations()->latest()->get()->map(function (DriverLocation $location) {
+            return [
+                'id' => $location->id,
+                'lat' => $location->lat,
+                'lng' => $location->lng
+            ];
+        })->toArray();
+    }
+
+    public function deliveryContent(): array
+    {
+        $contentArray = [];
+        /** @var Collection $waypoints */
+        $waypoints = $this->route->waypoints;
+        $groupedByContent = $waypoints->groupBy('content');
+
+        /**
+         * @var String $content
+         * @var Collection $items
+         */
+        foreach ($groupedByContent as $content => $items) {
+            $count = $items->sum('quantity');
+            $name = $content;
+            $contentArray[] = [
+                'name' => $name,
+                'count' => $count
+            ];
+        }
+
+        return $contentArray;
     }
 }

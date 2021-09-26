@@ -2,7 +2,28 @@
     <div>
         <AppLayout>
             <div class="grid">
-                <div class="col">
+                <div
+                    v-if="viewRoute.status === 'ok'"
+                    class="col-12"
+                >
+                    <MapWithMarkers
+                        ref="map"
+                        :api-key="$page.props.google_maps_api_key"
+                        :markers="waypoints"
+                        :driver-locations="driverLocations"
+                    />
+                </div>
+
+                <div v-if="deliveryContent.length" class="col-12">
+                    <div class="card">
+                        <h5>Zawartość</h5>
+                        <ul>
+                            <li v-for="item in deliveryContent" :key="item.name">{{ item.name }} - {{item.count}}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12">
                     <Card>
                         <template #content>
                             <DataTable
@@ -10,81 +31,42 @@
                                 :value="routeWaypoints"
                                 :loading="loadingWaypoints"
                                 responsiveLayout="scroll"
-                                :reorderableColumns="true"
                                 striped-rows
                                 data-key="id"
-                                selection-mode="multiple"
-                                :meta-key-selection="false"
-                                v-model:selection="selectedWaypoints"
                                 @rowReorder="onRowReorder"
                             >
                                 <template #header>
                                     <div class="flex justify-content-between align-content-center">
-                                        <h5>Punkty</h5>
+                                        <h5>Lista punktów</h5>
                                         <div>
                                             <Button
-                                                class="p-button-sm ml-1 p-button-info"
-                                                type="button"
-                                                label="Podgląd"
-                                                @click="show"
-                                                aria-haspopup="true"
-                                                aria-controls="overlay_tmenu"
-                                            />
-                                            <Button
-                                                class="p-button-sm ml-1 p-button-help"
-                                                type="button"
-                                                label="Geolokalizuj"
-                                                @click="geocodeAll"
-                                                aria-haspopup="true"
-                                                aria-controls="overlay_tmenu"
-                                            />
-                                            <Button
                                                 class="p-button-sm ml-1"
                                                 type="button"
-                                                label="Zaznaczone"
-                                                @click="toggleSelectedMenu"
+                                                label="Edytuj trasę"
+                                                @click="edit"
                                                 aria-haspopup="true"
-                                                aria-controls="overlay_tmenu"
-                                            />
-                                            <TieredMenu
-                                                id="overlay_tmenu"
-                                                ref="selectedMenu"
-                                                :model="selectedMenu"
-                                                :popup="true"
-                                            />
-                                            <Button
-                                                class="p-button-sm ml-1"
-                                                type="button"
-                                                label="Dodaj punkt"
-                                                @click="toggleAddMenu"
-                                                aria-haspopup="true"
-                                                aria-controls="overlay_tmenu"
-                                            />
-                                            <TieredMenu
-                                                id="overlay_tmenu"
-                                                ref="addMenu"
-                                                :model="addMenu"
-                                                :popup="true"
+                                                aria-controls="overlay_menu"
                                             />
                                         </div>
                                     </div>
                                 </template>
-                                <Column :rowReorder="true" headerStyle="width: 3rem" :reorderableColumn="false"/>
-                                <Column field="id" header="Przystanek"></Column>
+                                <Column field="stop_number" header="Przystanek"></Column>
                                 <Column field="name" header="Nazwa"></Column>
                                 <Column field="address" header="Adres"></Column>
                                 <Column field="city" header="Miasto"></Column>
-                                <Column field="geocoded" header="GEO"></Column>
-                                <Column field="quantity" header="Opcje"></Column>
+                                <Column field="status" header="Status"></Column>
+                                <Column field="delivered_time" header="Data dostarczenia"></Column>
+                                <Column header="Opcje">
+                                    <template #body="slotProps">
+                                        <Button
+                                            v-if="slotProps.data.photo_uploaded"
+                                            icon="pi pi-image"
+                                            class="p-button-info p-button-sm mr-1"
+                                            @click="showPhoto(slotProps.data.id)"
+                                        />
+                                    </template>
+                                </Column>
                             </DataTable>
-                        </template>
-                        <template #footer>
-                            <Button
-                                label="Zapisz kolejność"
-                                class="p-button-sm"
-                                :loading="reorderForm.processing"
-                                @click="saveOrder"
-                            />
                         </template>
                     </Card>
                 </div>
@@ -138,7 +120,9 @@ import DeleteDialog from "../../Components/DeleteDialog";
 import TieredMenu from "primevue/tieredmenu";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
+import MapWithMarkers from "../../Components/MapWithMarkers";
 import {Inertia} from "@inertiajs/inertia";
+
 export default {
     name: "Show",
     components: {
@@ -151,7 +135,8 @@ export default {
         Column,
         TieredMenu,
         Dialog,
-        FileUpload
+        FileUpload,
+        MapWithMarkers
     },
     props: {
         viewRoute: {
@@ -161,6 +146,14 @@ export default {
         waypoints: {
             type: Array,
             required: true
+        },
+        driverLocations: {
+            type: Array,
+            required: true,
+        },
+        deliveryContent: {
+            type: Array,
+            default: () => []
         }
     },
     data() {
@@ -276,19 +269,22 @@ export default {
                 }
             })
         },
-        show() {
-            this.$inertia.get(this.route('routes.show', this.viewRoute.id));
+        edit() {
+            this.$inertia.get(this.route('routes.edit', this.viewRoute.id));
+        },
+        showPhoto(id) {
+            window.open(this.route('waypoints.photo', id), '_blank');
         },
         deleteRoute() {
             this.deleteDialog = true;
         },
         onDelete() {
-          this.deletingModel = true;
-          this.$inertia.delete(this.route('routes.destroy', this.viewRoute.id), {
-              onSuccess: () => {
-                  this.deletingModel = false;
-              }
-          })
+            this.deletingModel = true;
+            this.$inertia.delete(this.route('routes.destroy', this.viewRoute.id), {
+                onSuccess: () => {
+                    this.deletingModel = false;
+                }
+            })
         }
     }
 }

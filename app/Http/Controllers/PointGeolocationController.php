@@ -10,6 +10,7 @@ class PointGeolocationController extends Controller
 {
     public function __invoke(Point $point, GeocodePoint $geocodePoint): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
 
         $geocodePoint->execute($point);
 

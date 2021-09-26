@@ -13,10 +13,15 @@ class CreateWaypoint
     {
         $waypoint = new Waypoint();
 
+        $stops = $data->route->waypoints()->count();
+
         $waypoint->route_id = $data->route->id;
         $waypoint->point_id = $data->point->id;
-        $waypoint->status = 0;
-        $waypoint->stop_number = 0;
+        $waypoint->content = $data->content;
+        $waypoint->quantity = $data->quantity;
+        $waypoint->status = 'undelivered';
+        $waypoint->stop_number = $stops + 1;
+
 
         $waypoint->save();
 

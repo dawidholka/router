@@ -10,4 +10,7 @@ class WaypointData extends DataTransferObject
 {
     public Route $route;
     public Point $point;
+    public ?string $content;
+    public ?string $quantity;
+    public ?array $rawData;
 }

@@ -31,6 +31,7 @@ class DriverController extends Controller
 
     public function create(): Response
     {
+        abort_if(!auth()->user()->admin, 403);
         $colors = Driver::COLORS;
 
         return Inertia::render('Drivers/Create', compact('colors'));
@@ -38,6 +39,7 @@ class DriverController extends Controller
 
     public function store(Request $request, CreateDriver $createDriver): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
         $request->validate([
             'login' => ['required', 'string', 'unique:drivers,login'],
             'password' => ['required', 'string'],
@@ -49,7 +51,7 @@ class DriverController extends Controller
 
         $createDriver->execute($data);
 
-        return redirect()->back();
+        return redirect()->route('drivers.index');
     }
 
     public function show(Driver $driver): Response
@@ -59,6 +61,7 @@ class DriverController extends Controller
 
     public function edit(Driver $driver): Response
     {
+        abort_if(!auth()->user()->admin, 403);
         $colors = Driver::COLORS;
         return Inertia::render('Drivers/Create', compact(
             'driver', 'colors'
@@ -72,6 +75,8 @@ class DriverController extends Controller
         UpdateDriverPassword $updateDriverPassword
     ): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $request->validate([
             'login' => ['required', 'string', 'unique:drivers,login,' . $driver->id],
             'password' => ['nullable', 'string'],
@@ -87,11 +92,13 @@ class DriverController extends Controller
             $updateDriverPassword->execute($driver, $data);
         }
 
-        return redirect()->back();
+        return redirect()->route('drivers.index');
     }
 
     public function destroy(Driver $driver, DeleteDriver $deleteDriver): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $deleteDriver->execute($driver);
 
         return redirect()->back();

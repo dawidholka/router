@@ -13,7 +13,7 @@
         </transition>
 
         <div class="layout-main">
-            <!--            <Toast/>-->
+            <Toast/>
             <slot></slot>
         </div>
     </div>
@@ -24,7 +24,7 @@
 import AppTopBar from '../Components/AppTopBar';
 import AppProfile from '../Components/AppProfile';
 import AppMenu from '../Components/AppMenu';
-// import Toast from 'primevue/toast';
+import Toast from 'primevue/toast';
 
 export default {
     name: 'AppLayout',
@@ -32,6 +32,7 @@ export default {
         AppTopBar,
         AppProfile,
         AppMenu,
+        Toast
     },
     data() {
         return {
@@ -46,49 +47,60 @@ export default {
                     label: 'Trasy',
                     icon: 'pi pi-fw pi-directions',
                     route: this.route('routes.index'),
-                    prefix: 'routes'
+                    prefix: 'routes',
+                    visible: true,
+                },
+                {
+                    label: 'Kalendarz',
+                    icon: 'pi pi-fw pi-calendar',
+                    route: this.route('calendar.index'),
+                    prefix: 'calendar'
                 },
                 {
                     label: 'Kierowcy',
                     icon: 'pi pi-fw pi-users',
                     route: this.route('drivers.index'),
-                    prefix: 'drivers'
+                    prefix: 'drivers',
+                    visible: this.$page.props.admin
                 },
                 {
                     label: 'Punkty',
                     icon: 'pi pi-fw pi-tag',
                     route: this.route('points.index'),
-                    prefix: 'points'
+                    prefix: 'points',
                 },
                 {
                     label: 'Strefy',
                     icon: 'pi pi-fw pi-table',
                     route: this.route('zones.index'),
-                    prefix: 'zones'
+                    prefix: 'zones',
+                    visible: this.$page.props.admin
                 },
                 {
                     label: 'Użytkownicy',
                     icon: 'pi pi-fw pi-user',
                     route: this.route('users.index'),
-                    prefix: 'users'
+                    prefix: 'users',
+                    visible: this.$page.props.admin
                 },
                 {
                     label: 'Kreator',
                     icon: 'pi pi-fw pi-star',
                     route: this.route('creator'),
-                    prefix: 'creator'
+                    prefix: 'creator',
+                    visible: this.$page.props.admin
                 },
                 {
                     label: 'Ustawienia',
                     icon: 'pi pi-fw pi-cog',
-                    route: this.route('login'),
-                    prefix: 'announcements'
+                    route: this.route('settings.general'),
+                    prefix: 'settings',
+                    visible: this.$page.props.admin
                 },
                 {
                     label: 'Wyloguj',
                     icon: 'pi pi-fw pi-sign-out',
                     command: () => this.logout(),
-                    prefix: 'announcements'
                 }
             ]
         };
