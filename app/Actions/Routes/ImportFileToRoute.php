@@ -26,7 +26,7 @@ class ImportFileToRoute
     {
         $importedPoints = $this->importFileToPoints->execute($file);
 
-        foreach($importedPoints as $importedPoint){
+        foreach ($importedPoints as $importedPoint) {
             $waypointData = $this->mapRowToWaypointData(
                 $route,
                 $importedPoint->point,
@@ -38,9 +38,14 @@ class ImportFileToRoute
 
     private function mapRowToWaypointData(Route $route, Point $point, PointData $data): WaypointData
     {
+        //TODO Custom mappings from settings
+
         return new WaypointData([
             'route' => $route,
             'point' => $point,
+            'quantity' => (string)$data->rawData[17],
+            'content' => $data->rawData[12] . ' ' . $data->rawData[14],
+            'rawData' => $data->rawData,
         ]);
     }
 }

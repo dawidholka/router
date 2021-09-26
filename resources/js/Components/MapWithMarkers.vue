@@ -15,6 +15,10 @@ export default {
         markers: {
             type: Array,
             required: true
+        },
+        driverLocations: {
+            type: Array,
+            default: () => [],
         }
     },
     createdMarkers: [],
@@ -38,7 +42,12 @@ export default {
             });
 
             this.createdMap = map;
+
             this.setMarkers(map);
+
+            if (this.driverLocations.length) {
+                this.setDriverLocations(map);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -73,6 +82,31 @@ export default {
         reloadMarkers() {
             this.clearMarkers();
             this.setMarkers(this.createdMap);
+        },
+        setDriverLocations(map) {
+            const driverPath = new google.maps.Polyline({
+                path: this.driverLocations,
+                geodesic: true,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+            });
+
+            driverPath.setMap(map);
+
+            const driverPin = new google.maps.Marker({
+                position: {
+                    lat: this.driverLocations[0].lat,
+                    lng: this.driverLocations[0].lng,
+                },
+                icon: {
+                    url: '/images/driver.svg',
+                    labelOrigin: new google.maps.Point(12, 14)
+                }
+            });
+
+            driverPin.setMap(map);
+
         }
     }
 }

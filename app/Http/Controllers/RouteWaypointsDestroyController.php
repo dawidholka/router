@@ -11,6 +11,8 @@ class RouteWaypointsDestroyController extends Controller
 {
     public function __invoke(Request $request, Route $route): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $request->validate([
             'waypoint_ids' => ['array', 'required'],
             'waypoint_ids.*' => ['integer', 'exists:waypoints,id']

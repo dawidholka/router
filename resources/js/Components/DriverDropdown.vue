@@ -49,19 +49,7 @@ export default {
         },
         search(event) {
             this.getDriverByName(event.query).then((data) => {
-                if (!this.multiple) {
-                    this.filteredDrivers = data;
-                    return;
-                }
-                if (!(this.modelValue && this.modelValue.length)) {
-                    this.filteredDrivers = data;
-                    return;
-                }
-                let filteredSkills;
-                filteredSkills = data.filter((val) => {
-                    return this.modelValue.findIndex(val2 => val2.id === val.id) === -1;
-                });
-                this.filteredDrivers = filteredSkills;
+                this.filteredDrivers = data.data;
             });
         },
         updateValue(event) {

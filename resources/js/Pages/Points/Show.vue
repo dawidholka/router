@@ -32,12 +32,14 @@
                         </template>
                         <template #footer>
                             <Button
+                                v-if="$page.props.admin"
                                 class="p-button-sm"
                                 icon="pi pi-pencil"
                                 label="Edytuj"
                                 @click="edit"
                             />
                             <Button
+                                v-if="$page.props.admin"
                                 class="p-button-sm p-button-info ml-1"
                                 icon="pi pi-map"
                                 label="Geolokalizuj"
@@ -45,6 +47,7 @@
                                 @click="onGeolocation"
                             />
                             <Button
+                                v-if="$page.props.admin"
                                 class="p-button-sm p-button-danger ml-1"
                                 icon="pi pi-trash"
                                 label="Usuń"
@@ -73,6 +76,36 @@
                             <p>Blokada zmiany: {{ point.lock_geo ? 'Tak' : 'Nie' }}</p>
                         </template>
                     </Card>
+                    <div v-if="point.routes.length">
+                        <div class="card mt-3">
+                            <DataTable
+                                class="p-datatable-sm"
+                                :value="point.routes"
+                                responsiveLayout="scroll"
+                                striped-rows
+                                data-key="id"
+                            >
+                                <template #header>
+                                    <div class="flex justify-content-between align-content-center">
+                                        <h5>Trasy</h5>
+                                    </div>
+                                </template>
+                                <Column field="route_id" header="Numer trasy"></Column>
+                                <Column field="status" header="Status"></Column>
+                                <Column field="delivered_time" header="Data dostarczenia"></Column>
+                                <Column header="Opcje">
+                                    <template #body="slotProps">
+                                        <Button
+                                            v-if="slotProps.data.photo_uploaded"
+                                            icon="pi pi-image"
+                                            class="p-button-info p-button-sm mr-1"
+                                            @click="showPhoto(slotProps.data.id)"
+                                        />
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -92,6 +125,8 @@ import Card from "primevue/card";
 import Divider from "primevue/divider";
 import Button from "primevue/button";
 import DeleteDialog from "../../Components/DeleteDialog";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
 
 export default {
     name: "Show",
@@ -100,7 +135,9 @@ export default {
         Card,
         Divider,
         Button,
-        DeleteDialog
+        DeleteDialog,
+        DataTable,
+        Column
     },
     props: {
         point: {
@@ -139,7 +176,10 @@ export default {
                     this.$inertia.get(this.route('points.index'));
                 }
             })
-        }
+        },
+        showPhoto(id) {
+            window.open(this.route('waypoints.photo', id), '_blank');
+        },
     }
 }
 </script>

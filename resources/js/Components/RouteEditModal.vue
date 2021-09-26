@@ -16,6 +16,9 @@
                     :manual-input="false"
                     :class="{'p-invalid': form.errors.delivery_date}"
                 />
+                <small v-if="form.errors.delivery_date" class="p-invalid">
+                    {{ form.errors.delivery_date }}
+                </small>
             </div>
             <div class="field col">
                 <label for="driver">Kierowca</label>
@@ -24,6 +27,9 @@
                     class="w-full"
                     v-model="form.driver"
                 />
+                <small v-if="form.errors.driver" class="p-invalid">
+                    {{ form.errors.driver }}
+                </small>
             </div>
         </div>
         <div class="field">
@@ -34,6 +40,9 @@
                 rows="5"
                 v-model="form.note"
             />
+            <small v-if="form.errors.note" class="p-invalid">
+                {{ form.errors.note }}
+            </small>
         </div>
 
         <template #footer>
@@ -61,6 +70,7 @@ import Calendar from "primevue/calendar";
 import DriverDropdown from "./DriverDropdown";
 import Textarea from "primevue/textarea";
 import Button from "primevue/button";
+import FlashMessage from "../Services/FlashMessage";
 
 export default {
     name: 'RouteEditModal',
@@ -82,6 +92,7 @@ export default {
             required: true
         }
     },
+    mixins: [FlashMessage],
     emits: ['update:visible'],
     data() {
         return {
@@ -108,8 +119,9 @@ export default {
         onSubmit() {
             this.form.put(this.route('routes.update', this.model.id), {
                 onSuccess: () => {
+                    this.flashSuccess('Zapisano trasę');
                     this.onClose();
-                    this.$inertia.reload();
+                    this.$inertia.get(this.route('routes.edit', this.model.id));
                 }
             })
         }

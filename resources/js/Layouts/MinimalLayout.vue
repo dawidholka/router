@@ -2,11 +2,11 @@
     <div class="minimal-container">
         <div class="minimal-card p-fluid">
             <div class="login-panel-content">
-                <div class="p-grid">
-                    <div class="p-col-12 logo-container">
+                <div class="grid">
+                    <div class="col-12 logo-container">
                         <h2>{{ title }}</h2>
                     </div>
-                    <div class="p-col-12">
+                    <div class="col-12">
                         <slot name="content"></slot>
                     </div>
                 </div>

@@ -5,13 +5,18 @@
                 <div class="col-12">
                     <div class="card">
                         <h5>Kreator tras</h5>
-                        <FileUpload
-                            mode="basic"
-                            class="mb-3"
-                            :maxFileSize="10000000"
-                            :custom-upload="true"
-                            @select="onUpload"
-                        />
+                        <div class="mb-5">
+                            <FileUpload
+                                mode="basic"
+                                class="mb-3"
+                                :maxFileSize="10000000"
+                                :custom-upload="true"
+                                @select="onUpload"
+                            />
+                            <small v-if="form.errors.file" class="p-invalid">
+                                {{ form.errors.file }}
+                            </small>
+                        </div>
                         <Button
                             label="Stwórz trasy"
                             :loading="form.processing"

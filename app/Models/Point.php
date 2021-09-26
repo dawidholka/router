@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Point extends Model
 {
     protected $guarded = ['id'];
 
     protected $casts = [
-        'lock_geo' => 'bool'
+        'lock_geo' => 'bool',
+        'created_at' => 'date',
+        'updated_at' => 'date',
     ];
 
     public function getGeocodedAttribute(): bool
@@ -25,5 +28,10 @@ class Point extends Model
         }
 
         return $this->street . ' ' . $this->building_number . ' ' . $this->city;
+    }
+
+    public function waypoints(): HasMany
+    {
+        return $this->hasMany(Waypoint::class);
     }
 }

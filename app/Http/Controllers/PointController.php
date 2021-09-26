@@ -7,6 +7,7 @@ use App\Actions\Points\UpdatePoint;
 use App\Datatables\PointDatatable;
 use App\DTOs\PointData;
 use App\Models\Point;
+use App\ViewModels\PointShowViewModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,11 +30,14 @@ class PointController extends Controller
 
     public function create(): Response
     {
+        abort_if(!auth()->user()->admin, 403);
         return Inertia::render('Points/Create');
     }
 
     public function store(Request $request, CreatePoint $createPoint): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $validatedData = $request->validate([
             'name' => 'required',
             'street' => 'required',
@@ -58,16 +62,22 @@ class PointController extends Controller
 
     public function show(Point $point): Response
     {
-        return Inertia::render('Points/Show', compact('point'));
+        $viewModel = new PointShowViewModel($point);
+
+        return Inertia::render('Points/Show', $viewModel->toArray());
     }
 
     public function edit(Point $point): Response
     {
+        abort_if(!auth()->user()->admin, 403);
+
         return Inertia::render('Points/Create', compact('point'));
     }
 
     public function update(Point $point, Request $request, UpdatePoint $updatePoint): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $validatedData = $request->validate([
             'name' => 'required',
             'street' => 'required',
@@ -92,6 +102,8 @@ class PointController extends Controller
 
     public function destroy(Point $point): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $point->delete();
 
         return redirect()->route('points.index');

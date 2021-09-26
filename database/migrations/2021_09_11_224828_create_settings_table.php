@@ -19,4 +19,10 @@ class CreateSettingsTable extends Migration
             $table->timestamps();
         });
     }
+
+    public function down()
+    {
+        Schema::dropIfExists('settings');
+    }
+
 }

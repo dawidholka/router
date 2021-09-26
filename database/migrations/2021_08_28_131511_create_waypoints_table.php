@@ -17,8 +17,10 @@ class CreateWaypointsTable extends Migration
             $table->id();
             $table->foreignId('route_id')->nullable()->constrained('routes')->cascadeOnDelete();
             $table->foreignId('point_id')->nullable()->constrained('points')->cascadeOnDelete();
-            $table->unsignedInteger('status');
             $table->unsignedInteger('stop_number');
+            $table->string('status')->default('undelivered');
+            $table->string('content')->nullable();
+            $table->integer('quantity')->nullable();
             $table->dateTime('delivered_time')->nullable();
             $table->timestamps();
         });

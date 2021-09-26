@@ -1,6 +1,7 @@
 <template>
     <div class="card">
         <Menu
+            class="w-full"
             :model="menuItems"
         />
     </div>

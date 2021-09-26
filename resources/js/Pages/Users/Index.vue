@@ -50,7 +50,19 @@
                             </Column>
                             <Column field="admin" header="Admin" :sortable="true">
                                 <template #body="slotProps">
-                                    {{ slotProps.data.admin }}
+                                    <i class="pi" :class="{'pi-check': slotProps.data.admin, 'pi-times': !slotProps.data.admin}" />
+                                </template>
+                            </Column>
+                            <Column header="Opcje" style="width: 150px;">
+                                <template #body="slotProps">
+                                    <Button
+                                        icon="pi pi-pencil"
+                                        class="p-button-success p-button-sm mr-1"
+                                        @click="edit(slotProps.data.id)"
+                                    />
+                                    <Button icon="pi pi-trash" class="p-button-sm p-button-danger"
+                                            @click="showDeleteDialog(slotProps.data)"
+                                    />
                                 </template>
                             </Column>
                             <template #empty>
@@ -60,6 +72,13 @@
                     </div>
                 </div>
             </div>
+
+            <DeleteDialog
+                ref="deleteDialog"
+                v-model:visible="deleteDialog"
+                :loading="deletingModel"
+                @delete="onDelete"
+            />
         </AppLayout>
     </div>
 </template>
@@ -71,6 +90,8 @@ import {FilterMatchMode} from "primevue/api";
 import DatatableService from "../../Services/DatatableService";
 import Menubar from "primevue/menubar";
 import Column from "primevue/column";
+import Button from "primevue/button";
+import DeleteDialog from "../../Components/DeleteDialog";
 
 export default {
     name: "Index",
@@ -79,6 +100,8 @@ export default {
         Menubar,
         DataTable,
         Column,
+        Button,
+        DeleteDialog
     },
     data() {
         return {
@@ -105,6 +128,9 @@ export default {
             importForm: this.$inertia.form({
                 file: null
             }),
+            selectedModel: null,
+            deleteDialog: false,
+            deletingModel: false,
         }
     },
     datatableService: null,
@@ -138,6 +164,24 @@ export default {
         onSort(event) {
             this.datatable.lazyParams = event;
             this.loadLazyData();
+        },
+        edit(id) {
+            this.$inertia.get(this.route('users.edit', id));
+        },
+        showDeleteDialog(model) {
+            this.selectedModel = model;
+            this.deleteDialog = true;
+        },
+        onDelete() {
+            this.deletingModel = true;
+            this.$inertia.delete(this.route('users.destroy', this.selectedModel.id), {
+                onSuccess: () => {
+                    this.deletingModel = false;
+                    this.deleteDialog = false;
+                    this.loadLazyData();
+                    this.$refs.deleteDialog.onClose();
+                }
+            })
         },
     }
 }

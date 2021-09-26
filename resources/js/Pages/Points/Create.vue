@@ -15,6 +15,9 @@
                                     v-model="form.name"
                                     :class="{'p-invalid': form.errors.name}"
                                 />
+                                <small v-if="form.errors.name" class="p-invalid">
+                                    {{ form.errors.name }}
+                                </small>
                             </div>
                             <div class="field col">
                                 <label for="street">Ulica*</label>
@@ -24,6 +27,9 @@
                                     v-model="form.street"
                                     :class="{'p-invalid': form.errors.street}"
                                 />
+                                <small v-if="form.errors.street" class="p-invalid">
+                                    {{ form.errors.street }}
+                                </small>
                             </div>
                         </div>
                         <div class="formgrid grid">
@@ -35,6 +41,9 @@
                                     v-model="form.building_number"
                                     :class="{'p-invalid': form.errors.building_number}"
                                 />
+                                <small v-if="form.errors.building_number" class="p-invalid">
+                                    {{ form.errors.building_number }}
+                                </small>
                             </div>
                             <div class="field col">
                                 <label for="apartament">Numer mieszkania</label>
@@ -44,6 +53,9 @@
                                     v-model="form.apartament"
                                     :class="{'p-invalid': form.errors.apartament}"
                                 />
+                                <small v-if="form.errors.apartament" class="p-invalid">
+                                    {{ form.errors.apartament }}
+                                </small>
                             </div>
                             <div class="field col">
                                 <label for="city">Miasto*</label>
@@ -53,6 +65,9 @@
                                     v-model="form.city"
                                     :class="{'p-invalid': form.errors.city}"
                                 />
+                                <small v-if="form.errors.city" class="p-invalid">
+                                    {{ form.errors.city }}
+                                </small>
                             </div>
                         </div>
                         <div class="formgrid grid">
@@ -64,6 +79,9 @@
                                     v-model="form.intercom"
                                     :class="{'p-invalid': form.errors.intercom}"
                                 />
+                                <small v-if="form.errors.intercom" class="p-invalid">
+                                    {{ form.errors.intercom }}
+                                </small>
                             </div>
                             <div class="field col">
                                 <label for="delivery_time">Czas dostawy</label>
@@ -73,6 +91,9 @@
                                     v-model="form.delivery_time"
                                     :class="{'p-invalid': form.errors.delivery_time}"
                                 />
+                                <small v-if="form.errors.delivery_time" class="p-invalid">
+                                    {{ form.errors.delivery_time }}
+                                </small>
                             </div>
                             <div class="field col">
                                 <label for="phone">Telefon</label>
@@ -82,6 +103,9 @@
                                     v-model="form.phone"
                                     :class="{'p-invalid': form.errors.phone}"
                                 />
+                                <small v-if="form.errors.phone" class="p-invalid">
+                                    {{ form.errors.phone }}
+                                </small>
                             </div>
                         </div>
                         <div class="field">
@@ -92,6 +116,9 @@
                                 rows="5"
                                 v-model="form.note"
                             />
+                            <small v-if="form.errors.note" class="p-invalid">
+                                {{ form.errors.note }}
+                            </small>
                         </div>
                         <div class="formgrid grid">
                             <div class="field col">
@@ -102,6 +129,9 @@
                                     v-model="form.lat"
                                     :class="{'p-invalid': form.errors.lat}"
                                 />
+                                <small v-if="form.errors.lat" class="p-invalid">
+                                    {{ form.errors.lat }}
+                                </small>
                             </div>
                             <div class="field col">
                                 <label for="long">Długość geograficzna</label>
@@ -111,6 +141,9 @@
                                     v-model="form.long"
                                     :class="{'p-invalid': form.errors.long}"
                                 />
+                                <small v-if="form.errors.long" class="p-invalid">
+                                    {{ form.errors.long }}
+                                </small>
                             </div>
                             <div class="field col">
                                 <label for="lock_geo">Zablokuj zmianę</label>
@@ -123,6 +156,9 @@
                                     option-value="value"
                                     placeholder="Wybierz"
                                 />
+                                <small v-if="form.errors.lock_geo" class="p-invalid">
+                                    {{ form.errors.lock_geo }}
+                                </small>
                             </div>
                         </div>
                     </div>

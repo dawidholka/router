@@ -20,7 +20,7 @@
                                         class="p-button-sm ml-1 p-button-help"
                                         type="button"
                                         label="Optymalizuj trasę"
-                                        @click="show"
+                                        @click="openOptimizeDialog"
                                         aria-haspopup="true"
                                         aria-controls="overlay_tmenu"
                                     />
@@ -37,15 +37,18 @@
                                         class="p-button-sm ml-1 p-button-info"
                                         type="button"
                                         label="Sprawdź status"
-                                        @click="show"
+                                        :loading="checkingStatus"
+                                        @click="checkStatus"
                                         aria-haspopup="true"
                                         aria-controls="overlay_tmenu"
                                     />
                                     <Button
-                                        class="p-button-sm ml-1 p-button-warning"
+                                        class="p-button-sm ml-1"
+                                        :class="viewRoute.status === 'ended' ? 'p-button-success' : 'p-button-warning'"
                                         type="button"
-                                        label="Zakończ"
-                                        @click="show"
+                                        :label="viewRoute.status === 'ended' ? 'Wznów' : 'Zakończ'"
+                                        :loading="endingRoute"
+                                        @click="endOrResume"
                                         aria-haspopup="true"
                                         aria-controls="overlay_tmenu"
                                     />
@@ -102,17 +105,36 @@
                                     <div class="font-bold mb-2">Notatka:</div>
                                     <div>{{ viewRoute.note }}</div>
                                 </div>
+                                <div v-if="viewRoute.driver && viewRoute.driver.route !== viewRoute.id" class="col-12 p-3">
+                                    <Button
+                                        class="p-button-sm"
+                                        type="button"
+                                        label="Ustaw jako aktualną trasę kierowcy"
+                                        :loading="settingCurrentRoute"
+                                        @click="setAsCurrentRoute"
+                                        aria-haspopup="true"
+                                        aria-controls="overlay_tmenu"
+                                    />
+                                </div>
                             </div>
                         </template>
                     </Card>
                 </div>
-                <div class="col-12 lg:col-6">
+                <div v-if="viewRoute.status === 'ok'" class="col-12 lg:col-6">
                     <MapWithMarkers
                         ref="map"
-                        api-key="AIzaSyBtjnD1z7quLk8jedtP6d746tAHNw_vyX0"
+                        :api-key="$page.props.google_maps_api_key"
                         :markers="waypoints"
                     />
                 </div>
+
+                <div v-if="addFromDBCard" class="col-12">
+                    <RouteAddPointsFromDB
+                        :route-id="viewRoute.id"
+                        @pointAdded="reloadWaypoints"
+                    />
+                </div>
+
                 <div class="col-12">
                     <Card>
                         <template #content>
@@ -185,8 +207,16 @@
                                 <Column field="name" header="Nazwa"></Column>
                                 <Column field="address" header="Adres"></Column>
                                 <Column field="city" header="Miasto"></Column>
-                                <Column field="geocoded" header="GEO"></Column>
+                                <Column field="geocoded" header="GEO">
+                                    <template #body="slotProps">
+                                        <i class="pi"
+                                           :class="{'pi-check': slotProps.data.geocoded, 'pi-times': !slotProps.data.geocoded}"/>
+                                    </template>
+                                </Column>
                                 <Column field="quantity" header="Opcje"></Column>
+                                <template #empty>
+                                    Brak dodanych punktów.
+                                </template>
                             </DataTable>
                         </template>
                         <template #footer>
@@ -213,6 +243,9 @@
                     :custom-upload="true"
                     @select="onUpload"
                 />
+                <small v-if="importForm.errors.file" class="p-invalid">
+                    {{ importForm.errors.file }}
+                </small>
 
                 <template #footer>
                     <Button
@@ -239,6 +272,11 @@
                 v-model:visible="editDialog"
                 :model="viewRoute"
             />
+
+            <RouteOptimizeModal
+                v-model:visible="optimizeDialog"
+                :route-id="viewRoute.id"
+            />
         </AppLayout>
     </div>
 </template>
@@ -257,10 +295,15 @@ import FileUpload from "primevue/fileupload";
 import {Inertia} from "@inertiajs/inertia";
 import MapWithMarkers from "../../Components/MapWithMarkers";
 import RouteEditModal from "../../Components/RouteEditModal";
+import RouteOptimizeModal from "../../Components/RouteOptimizeModal";
+import FlashMessage from "../../Services/FlashMessage";
+import RouteAddPointsFromDB from "../../Components/RouteAddPointsFromDB";
 
 export default {
     name: "Edit",
     components: {
+        RouteAddPointsFromDB,
+        RouteOptimizeModal,
         RouteEditModal,
         MapWithMarkers,
         AppLayout,
@@ -284,11 +327,13 @@ export default {
             required: true
         }
     },
+    mixins: [FlashMessage],
     data() {
         return {
             routeWaypoints: this.waypoints,
             loadingWaypoints: false,
             selectedWaypoints: null,
+            addFromDBCard: false,
             reorderForm: this.$inertia.form({
                 waypoints: null
             }),
@@ -312,7 +357,10 @@ export default {
             addMenu: [
                 {
                     label: 'Z bazy danych',
-                    icon: 'pi pi-fw pi-table'
+                    icon: 'pi pi-fw pi-table',
+                    command: () => {
+                        this.addFromDBCard = true;
+                    }
                 },
                 {
                     label: 'Import .xlsx',
@@ -328,6 +376,10 @@ export default {
             deletingModel: false,
             editDialog: false,
             cloningRoute: false,
+            optimizeDialog: false,
+            checkingStatus: false,
+            endingRoute: false,
+            settingCurrentRoute: false,
         }
     },
     methods: {
@@ -345,6 +397,7 @@ export default {
             }, {
                 preserveScroll: true,
                 onSuccess: () => {
+                    this.flashSuccess('Zapisano kolejność.');
                     this.reloadWaypoints();
                 }
             })
@@ -365,6 +418,7 @@ export default {
             }, {
                 onSuccess: () => {
                     this.deselectAll();
+                    this.flashSuccess('Usunięto wybrane punkty z trasy.');
                     this.reloadWaypoints();
                 }
             });
@@ -384,9 +438,10 @@ export default {
             }
         },
         importXlsx() {
-            this.importForm.post(this.route('routes.import-file', 1), {
+            this.importForm.post(this.route('routes.import-file', this.viewRoute.id), {
                 onSuccess: () => {
                     this.closeImportXlsxDialog();
+                    this.flashSuccess('Zaimportowano punkty z pliku.');
                     this.reloadWaypoints();
                 }
             })
@@ -408,6 +463,7 @@ export default {
             this.$inertia.post(this.route('routes.waypoints.geocode', this.viewRoute.id), {}, {
                 onSuccess: () => {
                     this.reloadWaypoints();
+                    this.flashSuccess('Zgeolokalizowano punkty trasy.');
                 }
             })
         },
@@ -421,9 +477,13 @@ export default {
             this.deletingModel = true;
             this.$inertia.delete(this.route('routes.destroy', this.viewRoute.id), {
                 onSuccess: () => {
+                    this.flashSuccess('Usunięto trasę.');
                     this.deletingModel = false;
                 }
             })
+        },
+        openOptimizeDialog() {
+            this.optimizeDialog = true;
         },
         edit() {
             this.editDialog = true;
@@ -432,7 +492,35 @@ export default {
             this.cloningRoute = true;
             this.$inertia.post(this.route('routes.clone', this.viewRoute.id), {}, {
                 onSuccess: () => {
+                    this.flashSuccess('Sklonowano trasę');
                     this.cloningRoute = false;
+                }
+            })
+        },
+        checkStatus() {
+            this.checkingStatus = true;
+            this.$inertia.post(this.route('routes.check-status', this.viewRoute.id), {}, {
+                onSuccess: () => {
+                    this.flashSuccess('Zaktualizowano status.');
+                    this.checkingStatus = false;
+                }
+            })
+        },
+        endOrResume() {
+            this.endingRoute = true;
+            this.$inertia.post(this.route('routes.end-resume', this.viewRoute.id), {}, {
+                onSuccess: () => {
+                    this.flashSuccess('Zakończono/wznowiono trasę.');
+                    this.endingRoute = false;
+                }
+            })
+        },
+        setAsCurrentRoute() {
+            this.settingCurrentRoute = true;
+            this.$inertia.post(this.route('routes.set-as-current', this.viewRoute.id), {}, {
+                onSuccess: () => {
+                    this.flashSuccess('Ustawiono trasę jako aktualną dla danego kierowcy.');
+                    this.settingCurrentRoute = false;
                 }
             })
         }

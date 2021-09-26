@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Route extends Model
 {
-    const STATUS_NO_WAYPOINTS = 0;
-    const STATUS_NO_GEO = 1;
-    const STATUS_OK = 2;
-    const STATUS_END = 3;
-    const OPTIMIZE_NONE = 0;
-    const OPTIMIZE_ROUTEXL = 1;
-
     protected $guarded = ['id'];
 
     protected $casts = [
@@ -32,4 +27,10 @@ class Route extends Model
     {
         return $this->hasMany(Waypoint::class);
     }
+
+    public function driver_locations(): HasMany
+    {
+        return $this->hasMany(DriverLocation::class);
+    }
+
 }

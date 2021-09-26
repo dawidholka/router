@@ -2,7 +2,7 @@
     <div>
         <AppLayout>
             <div class="p-grid">
-                <div class="p-col-12">
+                <div v-if="$page.props.admin" class="p-col-12">
                     <div class="card">
                         <Menubar :model="menuItems"/>
                     </div>
@@ -31,7 +31,7 @@
                             <template #header>
                                 <div class="table-header">
                                     <h5 class="m-0">
-                                        Sprzęt
+                                        Punkty
                                     </h5>
                                     <span class="p-input-icon-left">
                                     <i class="pi pi-search"></i>
@@ -53,7 +53,7 @@
                                     {{ slotProps.data.name }}
                                 </template>
                             </Column>
-                            <Column field="city" header="Address" :sortable="true">
+                            <Column field="city" header="Adres" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.address }}
                                 </template>
@@ -71,11 +71,14 @@
                                         @click="show(slotProps.data.id)"
                                     />
                                     <Button
+                                        v-if="$page.props.admin"
                                         icon="pi pi-pencil"
                                         class="p-button-success p-button-sm mr-1"
                                         @click="edit(slotProps.data.id)"
                                     />
-                                    <Button icon="pi pi-trash" class="p-button-sm p-button-danger"
+                                    <Button
+                                        v-if="$page.props.admin"
+                                        icon="pi pi-trash" class="p-button-sm p-button-danger"
                                             @click="showDeleteDialog(slotProps.data)"
                                     />
                                 </template>
@@ -94,6 +97,54 @@
                 :loading="deletingModel"
                 @delete="onDelete"
             />
+
+            <DeleteDialog
+                ref="bulkGeocodeDialog"
+                v-model:visible="bulkGeocodeModal"
+                :loading="bulkGeocoding"
+                @delete="onBulkGeocode"
+            />
+
+            <Dialog
+                v-model:visible="bulkDeleteModal"
+                :style="{width: '450px'}"
+                header="Czyszczenie punktów"
+                :modal="true"
+                :closable="false"
+            >
+                <div class="field">
+                    <label for="bulk-delete">
+                        Wyczyść dane aplikacji
+                    </label>
+                    <Dropdown
+                        id="bulk-delete"
+                        class="w-full"
+                        :options="bulkDeleteOptions"
+                        option-value="value"
+                        option-label="label"
+                        v-model="bulkDeleteForm.option"
+                        :class="{'p-invalid': bulkDeleteForm.errors.option}"
+                    />
+                    <small v-if="bulkDeleteForm.errors.option" class="p-invalid">
+                        {{ bulkDeleteForm.errors.option }}
+                    </small>
+                </div>
+                <template #footer>
+                    <Button
+                        label="Anuluj"
+                        icon="pi pi-times"
+                        class="p-button-text"
+                        @click="bulkDeleteModal = false"
+                    />
+                    <Button
+                        label="Zapisz"
+                        icon="pi pi-check"
+                        class="p-button-text"
+                        :loading="bulkDeleteForm.processing"
+                        @click="bulkDelete"
+                    />
+                </template>
+            </Dialog>
         </AppLayout>
     </div>
 </template>
@@ -108,6 +159,8 @@ import Column from "primevue/column";
 import Button from "primevue/button";
 import DeleteDialog from "../../Components/DeleteDialog";
 import InputText from "primevue/inputtext";
+import Dialog from "primevue/dialog";
+import Dropdown from "primevue/dropdown";
 
 export default {
     name: "Index",
@@ -118,7 +171,9 @@ export default {
         Column,
         Button,
         DeleteDialog,
-        InputText
+        InputText,
+        Dialog,
+        Dropdown
     },
     data() {
         return {
@@ -140,10 +195,37 @@ export default {
                         this.$inertia.get(this.route('points.create'));
                     },
                 },
+                {
+                    label: 'Geolokalizuj',
+                    icon: 'pi pi-fw pi-map',
+                    command: () => {
+                        this.bulkGeocodeModal = true;
+                        this.bulkGeocoding = false;
+                    },
+                },
+                {
+                    label: 'Wyczyść punkty',
+                    icon: 'pi pi-fw pi-trash',
+                    command: () => {
+                        this.openBulkDeleteModal();
+                    },
+                },
             ],
             selectedModel: null,
             deleteDialog: false,
             deletingModel: false,
+            bulkGeocodeModal: false,
+            bulkGeocoding: false,
+            bulkDeleteModal: false,
+            bulkDeleteForm: this.$inertia.form({
+                option: null
+            }),
+            bulkDeleteOptions: [
+                {value: 'all', label: 'Wszystkie'},
+                {value: 'last-hour', label: 'Z ostatniej godziny'},
+                {value: 'older-then-30-days', label: 'Starsze niż 30 dni'},
+                {value: 'older-then-90-days', label: 'Starsze niż 90 dni'},
+            ],
         }
     },
     datatableService: null,
@@ -195,9 +277,32 @@ export default {
                 }
             })
         },
+        onBulkGeocode()
+        {
+            this.bulkGeocoding = true;
+            this.$inertia.post(this.route('points.bulk-geocode'),{},{
+                onSuccess: () => {
+                    this.bulkGeocoding = false;
+                    this.bulkGeocodeModal = false;
+                    this.loadLazyData();
+                    this.$refs.bulkGeocodeDialog.onClose();
+                }
+            })
+        },
         showDeleteDialog(model) {
             this.selectedModel = model;
             this.deleteDialog = true;
+        },
+        openBulkDeleteModal() {
+            this.bulkDeleteModal = true;
+        },
+        bulkDelete() {
+            this.bulkDeleteForm.post(this.route('points.bulk-destroy'), {
+                onSuccess: () => {
+                    this.loadLazyData();
+                    this.bulkDeleteModal = false;
+                }
+            });
         }
     }
 }

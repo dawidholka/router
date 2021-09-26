@@ -4,7 +4,7 @@ namespace App\Support;
 
 use Illuminate\Support\Arr;
 
-class ColorDictionary
+final class ColorDictionary
 {
     const COLORS = [
         ['name' => 'aqua', 'value' => 'aqua'],

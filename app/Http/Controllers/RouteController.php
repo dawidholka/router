@@ -8,6 +8,7 @@ use App\Actions\Routes\UpdateRoute;
 use App\Datatables\RouteDatatable;
 use App\Models\Driver;
 use App\Models\Route;
+use App\ViewModels\RouteEditViewModel;
 use App\ViewModels\RouteShowViewModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -32,6 +33,8 @@ class RouteController extends Controller
 
     public function create(): Response
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $drivers = Driver::all(['id', 'name']);
 
         return Inertia::render('Routes/Create', compact('drivers'));
@@ -39,6 +42,8 @@ class RouteController extends Controller
 
     public function store(Request $request, CreateRoute $createRoute): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $request->validate([
             'driver' => ['nullable', 'integer', 'exists:drivers,id'],
             'delivery_date' => ['required', 'date'],
@@ -51,7 +56,7 @@ class RouteController extends Controller
             $request['note']
         );
 
-        return redirect()->route('routes.show', $route->id);
+        return redirect()->route('routes.edit', $route->id);
     }
 
     public function show(Route $route): Response
@@ -63,15 +68,20 @@ class RouteController extends Controller
 
     public function edit(Route $route): Response
     {
-        $viewModel = new RouteShowViewModel($route);
+        abort_if(!auth()->user()->admin, 403);
+
+        $viewModel = new RouteEditViewModel($route);
 
         return Inertia::render('Routes/Edit', $viewModel->toArray());
     }
 
     public function update(Request $request, Route $route, UpdateRoute $updateRoute): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $request->validate([
-            'driver' => ['nullable', 'integer', 'exists:drivers,id'],
+            'driver' => ['nullable', 'array'],
+            'driver.*.id' => ['nullable', 'integer', 'exists:drivers,id'],
             'delivery_date' => ['required', 'date'],
             'note' => ['nullable', 'string']
         ]);
@@ -79,7 +89,7 @@ class RouteController extends Controller
         $route = $updateRoute->execute(
             $route,
             Carbon::parse($request['delivery_date']),
-            $request['driver'],
+            $request['driver']['id'] ?? null,
             $request['note']
         );
 
@@ -88,6 +98,8 @@ class RouteController extends Controller
 
     public function destroy(Route $route, DeleteRoute $deleteRoute): RedirectResponse
     {
+        abort_if(!auth()->user()->admin, 403);
+
         $deleteRoute->execute($route);
 
         return redirect()->route('routes.index');

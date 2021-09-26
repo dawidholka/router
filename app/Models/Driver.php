@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -33,5 +34,15 @@ class Driver extends Model
     public function routes(): HasMany
     {
         return $this->hasMany(Route::class);
+    }
+
+    public function route(): BelongsTo
+    {
+        return $this->belongsTo(Route::class);
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $this->id;
     }
 }
