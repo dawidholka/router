@@ -34,8 +34,8 @@ export default {
             const map = new google.maps.Map(this.$el, {
                 zoom: 6,
                 center: {
-                    lat: this.markers[0].lat,
-                    lng: this.markers[0].lng
+                    lat: parseFloat(this.markers[0].lat),
+                    lng: parseFloat(this.markers[0].lng)
                 },
                 mapTypeControl: false,
                 streetViewControl: false
@@ -96,8 +96,8 @@ export default {
 
             const driverPin = new google.maps.Marker({
                 position: {
-                    lat: this.driverLocations[0].lat,
-                    lng: this.driverLocations[0].lng,
+                    lat: parseFloat(this.driverLocations[0].lat),
+                    lng: parseFloat(this.driverLocations[0].lng),
                 },
                 icon: {
                     url: '/images/driver.svg',

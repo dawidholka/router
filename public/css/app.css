@@ -40,6 +40,7 @@
   --surface-overlay:#ffffff;
   --surface-border:#dee2e6;
   --surface-hover: #e9ecef;
+  --focus-ring: 0 0 0 0.2rem #b7e0b8;
 }
 
 * {
@@ -759,6 +760,7 @@
 }
 .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
   padding-right: 1.5rem;
+  margin-right: -1.5rem;
 }
 .p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon {
   right: 0.5rem;
@@ -3517,6 +3519,9 @@
   outline-offset: 0;
   box-shadow: 0 0 0 0.2rem #b7e0b8;
 }
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a:hover {
+  color: #495057;
+}
 .p-fieldset.p-fieldset-toggleable .p-fieldset-legend:hover {
   background: #e9ecef;
   border-color: #dee2e6;
@@ -5676,6 +5681,7 @@ button {
         -ms-user-select: none;
             user-select: none;
     vertical-align: bottom;
+    position: relative;
 }
 
 .p-checkbox-box {
@@ -5683,6 +5689,7 @@ button {
     justify-content: center;
     align-items: center;
 }
+
 .p-colorpicker-panel .p-colorpicker-color {
      background: transparent url(/images/vendor/primevue/resources/color.png?6441e63a57ccc5105bad045142bc31eb) no-repeat left top; 
 }
@@ -5860,6 +5867,7 @@ button {
 
 .p-tooltip .p-tooltip-text {
    white-space: pre-line;
+   word-break: break-word;
 }
 
 .p-tooltip-arrow {
@@ -22197,8 +22205,8 @@ p:last-child {
 
 @media screen and (max-width: 40em) {
   .login-body .login-image {
-    height: calc(100%);
-    width: calc(100%);
+    height: 100%;
+    width: 100%;
     transform: scale(1.5);
     background-position-x: -290px;
     background-position-y: -160px;
