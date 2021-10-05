@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class RouteController extends Controller
@@ -36,7 +37,12 @@ class RouteController extends Controller
 
     public function show(Route $route): JsonResponse
     {
-        abort_if($route->driver_id !== Auth::id(), 403);
+        /** @var Driver $driver */
+        $driver = Auth::user();
+
+        Log::info('Driver ' . $driver->id . 'downloading route');
+
+        abort_if($route->driver_id !== $driver->id, 403);
 
         $route->load([
             'waypoints' => function ($query){

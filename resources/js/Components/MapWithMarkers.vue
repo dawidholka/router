@@ -63,7 +63,7 @@ export default {
                     map: map,
                     label: mapWaypoint.stop_number.toString(),
                     title: mapWaypoint.id.toString(),
-                    zIndex: mapWaypoint.stop_number,
+                    zIndex: parseInt(mapWaypoint.stop_number, 10),
                     icon: {
                         url: this.route('map-pin', mapWaypoint.color),
                         labelOrigin: new google.maps.Point(12, 14)
