@@ -29,7 +29,7 @@ export default {
     },
     async mounted() {
         try {
-            const google = await GoogleMapsService();
+            const google = await GoogleMapsService(this.apiKey);
             const geocoder = new google.maps.Geocoder();
             const map = new google.maps.Map(this.$el, {
                 zoom: 6,

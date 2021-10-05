@@ -2,7 +2,6 @@
 
 // Your personal API key.
 // Get it here: https://console.cloud.google.com/google/maps-apis
-const API_KEY = 'AIzaSyBw4Uu9vk6g98EWxke4l9IIR_-AD1DHNrQ';
 const CALLBACK_NAME = 'gmapsCallback';
 
 let initialized = !!window.google;
@@ -15,7 +14,7 @@ const initPromise = new Promise((resolve, reject) => {
     rejectInitPromise = reject;
 });
 
-export default function init() {
+export default function init(API_KEY) {
     // If Google Maps already is initialized
     // the `initPromise` should get resolved
     // eventually.

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTOs\GeocodeData;
+use App\Settings\GeneralSettings;
 use Exception;
 use Illuminate\Support\Facades\Http;
 
@@ -12,9 +13,9 @@ class GoogleMaps
 
     protected string $apiKey;
 
-    public function __construct()
+    public function __construct(GeneralSettings $settings)
     {
-        $this->apiKey = 'AIzaSyBw4Uu9vk6g98EWxke4l9IIR_-AD1DHNrQ';
+        $this->apiKey = $settings->google_maps_api_key;
     }
 
     protected function buildUrl(string $url, array $query): string
@@ -41,7 +42,7 @@ class GoogleMaps
         $data = $response->json();
 
         if ($data['status'] !== 'OK') {
-            throw new Exception('Error');
+            throw new Exception($data['error_message'] ?? 'Błąd');
         }
 
         if (!isset(
