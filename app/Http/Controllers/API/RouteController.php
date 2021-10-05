@@ -70,6 +70,10 @@ class RouteController extends Controller
             ];
         })->toArray();
 
-        return response()->json(['waypoints' => $waypoints]);
+        return response()->json([
+            'id' => $route->id,
+            'note' => $route->note,
+            'waypoints' => $waypoints
+        ]);
     }
 }
