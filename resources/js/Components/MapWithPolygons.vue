@@ -24,7 +24,7 @@ export default {
     },
     async mounted() {
         try {
-            const google = await GoogleMapsService();
+            const google = await GoogleMapsService(this.apiKey);
             const polygons = this.getPolygons();
             const map = new google.maps.Map(this.$el, {
                 zoom: 8,
