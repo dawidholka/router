@@ -16,6 +16,10 @@ class GeneralSettings extends Settings
 
     public ?string $open_route_service_api_key;
 
+    public ?float $company_lat;
+
+    public ?float $company_lng;
+
     public static function group(): string
     {
         return 'general';

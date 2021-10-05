@@ -16,6 +16,8 @@ class CreateDriver
         $driver->name = $data->name;
         $driver->password = Hash::make($data->password);
         $driver->color = $data->color;
+        $driver->lat = $data->lat;
+        $driver->long = $data->long;
 
         $driver->save();
 

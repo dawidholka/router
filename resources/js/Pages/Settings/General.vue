@@ -60,6 +60,34 @@
                 </small>
             </div>
             <div class="field">
+                <label for="company_lat">
+                    Szerokość geograficzna siedziby
+                </label>
+                <InputText
+                    id="company_lat"
+                    class="w-full"
+                    v-model="form.company_lat"
+                    :class="{'p-invalid': form.errors.company_lat}"
+                />
+                <small v-if="form.errors.company_lat" class="p-invalid">
+                    {{ form.errors.company_lat }}
+                </small>
+            </div>
+            <div class="field">
+                <label for="company_lng">
+                    Długość geograficzna siedziby
+                </label>
+                <InputText
+                    id="company_lng"
+                    class="w-full"
+                    v-model="form.company_lng"
+                    :class="{'p-invalid': form.errors.company_lng}"
+                />
+                <small v-if="form.errors.company_lng" class="p-invalid">
+                    {{ form.errors.company_lng }}
+                </small>
+            </div>
+            <div class="field">
                 <label for="bulk-delete">
                     Wyczyść dane aplikacji
                 </label>
@@ -124,6 +152,8 @@ export default {
                 force_photo_upload: this.settings.force_photo_upload,
                 routexl_username: this.settings.routexl_username,
                 routexl_password: this.settings.routexl_password,
+                company_lat: this.settings.company_lat,
+                company_lng: this.settings.company_lng,
             }),
             bulkDeleteForm: this.$inertia.form({
                 option: null

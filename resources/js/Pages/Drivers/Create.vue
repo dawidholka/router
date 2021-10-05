@@ -65,6 +65,30 @@
                                 {{ form.errors.color }}
                             </small>
                         </div>
+                        <div class="field">
+                            <label for="lat">Szerokość geograficzna punktu końcowego</label>
+                            <InputText
+                                id="lat"
+                                class="w-full"
+                                v-model="form.lat"
+                                :class="{'p-invalid': form.errors.lat}"
+                            />
+                            <small v-if="form.errors.lat" class="p-invalid">
+                                {{ form.errors.lat }}
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="long">Długość geograficzna punktu końcowego</label>
+                            <InputText
+                                id="long"
+                                class="w-full"
+                                v-model="form.long"
+                                :class="{'p-invalid': form.errors.long}"
+                            />
+                            <small v-if="form.errors.long" class="p-invalid">
+                                {{ form.errors.long }}
+                            </small>
+                        </div>
 
                     </div>
                     <div class="flex justify-content-end mt-3">
@@ -119,6 +143,8 @@ export default {
                 'password': null,
                 'name': this.driver?.name ?? null,
                 'color': this.driver?.color ?? null,
+                'lat': this.driver?.lat ?? null,
+                'long': this.driver?.long ?? null,
             })
         }
     },

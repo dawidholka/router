@@ -12,6 +12,8 @@ class UpdateDriver
         $driver->name = $data->name;
         $driver->login = $data->login;
         $driver->color = $data->color;
+        $driver->lat = $data->lat;
+        $driver->long =  $data->long;
 
         $driver->save();
 
