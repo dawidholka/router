@@ -34,7 +34,7 @@ class RouteEditViewModel extends ViewModel
     public function viewRoute(): array
     {
         return [
-            'id' => $this->route->id,
+            'id' => (int)$this->route->id,
             'delivery_time' => $this->route->delivery_time?->format('Y-m-d'),
             'status' => $this->route->status,
             'optimize_status' => $this->route->optimize_status,
@@ -47,7 +47,7 @@ class RouteEditViewModel extends ViewModel
             'driver' => $this->route->driver ? [
                 'id' => $this->route->driver->id,
                 'name' => $this->route->driver->name,
-                'route' => $this->route->driver->route_id,
+                'route' => (int)$this->route->driver->route_id,
             ] : null,
         ];
     }

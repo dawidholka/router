@@ -37,6 +37,8 @@ class RouteXLOptimize implements RouteOptimizeMethod
             ];
         }
 
+        //TODO LAST WAYPOINT CHOOSE
+
         $data = $this->routeXL->optimize($locations);
         $optimizedLocations = collect($data['route']);
         $totalDistance = 0;
@@ -44,7 +46,7 @@ class RouteXLOptimize implements RouteOptimizeMethod
 
         foreach ($optimizedLocations as $key => $location) {
             $currentWaypoint = $waypoints->where('id', $location['name'])->first();
-            $waypoint->update([
+            $currentWaypoint->update([
                 'stop_number' => ($key + 1)
             ]);
             $totalDistance = $location['distance'];

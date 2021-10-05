@@ -45,9 +45,11 @@ class DriverController extends Controller
             'password' => ['required', 'string'],
             'name' => ['required', 'string'],
             'color' => ['required', 'string'],
+            'lat' => ['nullable', 'numeric'],
+            'long' => ['nullable', 'numeric'],
         ]);
 
-        $data = new DriverData($request->only(['login', 'password', 'name', 'color']));
+        $data = new DriverData($request->only(['login', 'password', 'name', 'color', 'lat', 'long']));
 
         $createDriver->execute($data);
 
@@ -82,9 +84,11 @@ class DriverController extends Controller
             'password' => ['nullable', 'string'],
             'name' => ['required', 'string'],
             'color' => ['required', 'string'],
+            'lat' => ['nullable', 'numeric'],
+            'long' => ['nullable', 'numeric'],
         ]);
 
-        $data = new DriverData($request->only(['login', 'password', 'name', 'color']));
+        $data = new DriverData($request->only(['login', 'password', 'name', 'color', 'lat', 'long']));
 
         $updateDriver->execute($driver, $data);
 

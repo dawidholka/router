@@ -105,7 +105,7 @@
                                     <div class="font-bold mb-2">Notatka:</div>
                                     <div>{{ viewRoute.note }}</div>
                                 </div>
-                                <div v-if="viewRoute.driver && viewRoute.driver.route !== viewRoute.id" class="col-12 p-3">
+                                <div v-if="viewRoute?.driver?.route !== viewRoute.id" class="col-12 p-3">
                                     <Button
                                         class="p-button-sm"
                                         type="button"

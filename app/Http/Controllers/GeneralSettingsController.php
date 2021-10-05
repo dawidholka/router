@@ -19,7 +19,10 @@ class GeneralSettingsController extends Controller
                 'force_photo_upload' => $settings->force_photo_upload,
                 'google_maps_api_key' => $settings->google_maps_api_key,
                 'routexl_username' => $settings->routexl_username,
-                'routexl_password' => $settings->routexl_password
+                'routexl_password' => $settings->routexl_password,
+                'company_lat' => $settings->company_lat,
+                'company_lng' => $settings->company_lng,
+
             ]
         ]);
     }
@@ -38,6 +41,8 @@ class GeneralSettingsController extends Controller
 
         $settings->google_maps_api_key = $request['google_maps_api_key'];
         $settings->force_photo_upload = $request['force_photo_upload'];
+        $settings->company_lat = $request['company_lat'];
+        $settings->company_lng = $request['company_lng'];
         $settings->save();
 
         return redirect()->back();

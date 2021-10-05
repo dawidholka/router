@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Routes\Optimize\RouteXLManualOptimize;
 use App\Models\Route;
+use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
 
 class RouteXLTXTController extends Controller
@@ -27,9 +28,28 @@ class RouteXLTXTController extends Controller
             'waypoints.point'
         ]);
 
+        $end = $this->getLastLocation($route, $request['last_location']);
 
-        $content = view('routexl-txt', compact('route'));
+        $content = view('routexl-txt', compact('route', 'end'));
 
         return response($content)->header('Content-Type', 'text/plain');
+    }
+
+    private function getLastLocation(Route $route, ?string $last_location): ?string
+    {
+        if ($last_location === 'driver' && $route->driver_id) {
+            return "@END@ " . $route->driver->lat . ',' . $route->driver->long;
+        }
+        if ($last_location === 'last_waypoint') {
+            $waypoint = $route->waypoints->last();
+            return "@END@ " . $waypoint->point->lat . ',' . $waypoint->point->long;
+        }
+        if ($last_location === 'company') {
+            /** @var GeneralSettings $config */
+            $config = app()->make(GeneralSettings::class);
+            return "@END@ " . $config->company_lat . ',' . $config->company_lng;
+        }
+
+        return null;
     }
 }
