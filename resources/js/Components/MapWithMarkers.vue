@@ -59,7 +59,7 @@ export default {
             for (let i = 0; i < this.markers.length; i++) {
                 const mapWaypoint = this.markers[i];
                 this.createdMarkers.push(new google.maps.Marker({
-                    position: {lat: mapWaypoint.lat, lng: mapWaypoint.lng},
+                    position: {lat: parseFloat(mapWaypoint.lat), lng: parseFloat(mapWaypoint.lng)},
                     map: map,
                     label: mapWaypoint.stop_number.toString(),
                     title: mapWaypoint.id.toString(),
