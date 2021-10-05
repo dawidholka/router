@@ -40,9 +40,7 @@ class RouteController extends Controller
         /** @var Driver $driver */
         $driver = Auth::user();
 
-        Log::info('Driver ' . $driver->id . 'downloading route');
-
-        abort_if($route->driver_id !== $driver->id, 403);
+        abort_if((int)$route->driver_id !== (int)$driver->id, 403);
 
         $route->load([
             'waypoints' => function ($query){
