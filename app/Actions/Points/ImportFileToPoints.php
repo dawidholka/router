@@ -4,10 +4,9 @@ namespace App\Actions\Points;
 
 use App\DTOs\ImportedPointData;
 use App\DTOs\PointData;
-use App\Imports\PointsImport;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class ImportFileToPoints
 {
@@ -41,8 +40,10 @@ class ImportFileToPoints
         return $importedPoints;
     }
 
-    private function mapRowToPointData(Collection $row): PointData
+    private function mapRowToPointData(array $row): PointData
     {
+        $row = collect($row);
+
         return new PointData([
             'name' => $row[1],
             'street' => $row[2],
@@ -55,8 +56,12 @@ class ImportFileToPoints
     private function getRowsCollection(UploadedFile $file): Collection
     {
         $path = $file->getRealPath();
-        $import = Excel::toCollection(new PointsImport, $path, null, \Maatwebsite\Excel\Excel::XLSX);
-        /** @var Collection $collection */
-        return $import[0];
+        $reader = new Xlsx();
+        $reader->setReadDataOnly(true);
+        $reader->setReadEmptyCells(false);
+        $spreadsheet = $reader->load($path);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $import = collect($worksheet->toArray());
+        return $import->slice(2);
     }
 }

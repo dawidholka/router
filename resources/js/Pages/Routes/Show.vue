@@ -66,6 +66,9 @@
                                         />
                                     </template>
                                 </Column>
+                                <template #empty>
+                                    Brak dodanych punktów.
+                                </template>
                             </DataTable>
                         </template>
                     </Card>
