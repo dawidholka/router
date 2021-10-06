@@ -15,7 +15,9 @@ class Route extends Model
     protected $casts = [
         'delivery_time' => 'date',
         'created_at' => 'date',
-        'updated_at' => 'date'
+        'updated_at' => 'date',
+        'id' => 'int',
+        'driver_id' => 'int'
     ];
 
     public function driver(): BelongsTo

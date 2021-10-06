@@ -20,7 +20,13 @@ class Waypoint extends Model implements HasMedia
     protected $guarded = ['id'];
 
     protected $casts = [
-        'delivered_time' => 'date'
+        'delivered_time' => 'date',
+        'quantity' => 'int',
+        'lat' => 'double',
+        'long' => 'double',
+        'id' => 'int',
+        'point_id' => 'int',
+        'stop_number' => 'int'
     ];
 
     public function point(): BelongsTo
