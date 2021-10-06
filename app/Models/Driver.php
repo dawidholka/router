@@ -31,6 +31,11 @@ class Driver extends Model
 
     protected $hidden = ['password'];
 
+    protected $casts = [
+        'id' => 'int',
+        'route_id' => 'int'
+    ];
+
     public function routes(): HasMany
     {
         return $this->hasMany(Route::class);

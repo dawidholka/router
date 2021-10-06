@@ -55,13 +55,13 @@ class RouteController extends Controller
 
         $waypoints = $route->waypoints->map(function (Waypoint $waypoint) {
             return [
-                'id' => $waypoint->id,
-                'stop_number' => $waypoint->stop_number,
+                'id' => (int)$waypoint->id,
+                'stop_number' => (int)$waypoint->stop_number,
                 'name' => $waypoint->point->name,
                 'address' => $waypoint->point->address,
                 'city' => $waypoint->point->city,
-                'lat' => $waypoint->point->lat,
-                'lng' => $waypoint->point->long,
+                'lat' => (float)$waypoint->point->lat,
+                'lng' => (float)$waypoint->point->long,
                 'phone' => $waypoint->point->phone,
                 'intercom' => $waypoint->point->intercom,
                 'note' => $waypoint->point->note,
@@ -75,7 +75,7 @@ class RouteController extends Controller
         })->toArray();
 
         return response()->json([
-            'id' => $route->id,
+            'id' => (int)$route->id,
             'note' => $route->note,
             'waypoints' => $waypoints
         ]);
