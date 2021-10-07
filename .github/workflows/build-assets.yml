@@ -16,6 +16,11 @@ jobs:
           node-version: '12.x'
       - run: npm install
       - run: npx mix --production
+      - name: Git setup
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -B dist
       - name: Copy .gitignore
         uses: canastro/copy-file-action@master
         with:
@@ -30,9 +35,6 @@ jobs:
           args: --profile --ignore-platform-reqs
       - name: Commit built assets
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git checkout -B dist
           git add -f public/
           git commit -m "Build front-end assets"
           git push -f origin dist
