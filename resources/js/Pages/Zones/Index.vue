@@ -11,7 +11,7 @@
                     <div class="card">
                         <MapWithPolygons
                             ref="map"
-                            api-key="AIzaSyBtjnD1z7quLk8jedtP6d746tAHNw_vyX0"
+                            :api-key="$page.props.google_maps_api_key"
                             :polygons="zones"
                         />
                     </div>
@@ -59,11 +59,6 @@
                             </Column>
                             <Column header="Opcje" style="width: 150px;">
                                 <template #body="slotProps">
-                                    <Button
-                                        icon="pi pi-eye"
-                                        class="p-button-info p-button-sm mr-1"
-                                        @click="show(slotProps.data.id)"
-                                    />
                                     <Button
                                         icon="pi pi-pencil"
                                         class="p-button-success p-button-sm mr-1"
@@ -198,9 +193,10 @@ export default {
                     onSuccess: () => {
                         this.deletingModel = false;
                         this.deleteDialog = false;
+                        this.selectedModel = null;
+                        this.$refs.deleteDialog.onClose();
                         this.flashSuccess('Usunięto strefę.');
                         this.loadLazyData();
-                        this.$refs.deleteDialog.onClose();
                     }
                 })
             }

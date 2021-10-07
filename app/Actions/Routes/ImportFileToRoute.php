@@ -8,13 +8,15 @@ use App\DTOs\PointData;
 use App\DTOs\WaypointData;
 use App\Models\Point;
 use App\Models\Route;
+use App\Settings\ImportSettings;
 use Illuminate\Http\UploadedFile;
 
 class ImportFileToRoute
 {
     public function __construct(
         private ImportFileToPoints $importFileToPoints,
-        private CreateWaypoint     $createWaypoint
+        private CreateBulkWaypoint $createWaypoint,
+        private ImportSettings     $importSettings,
     )
     {
     }
@@ -26,26 +28,31 @@ class ImportFileToRoute
     {
         $importedPoints = $this->importFileToPoints->execute($file);
 
+        $waypointsData = collect();
+
+        $stops = $route->waypoints()->count();
+
         foreach ($importedPoints as $importedPoint) {
-            $waypointData = $this->mapRowToWaypointData(
+            $waypointsData->push($this->mapRowToWaypointData(
                 $route,
                 $importedPoint->point,
-                $importedPoint->data
-            );
-            $this->createWaypoint->execute($waypointData);
+                $importedPoint->data,
+                ++$stops
+            ));
         }
+
+        $this->createWaypoint->execute($waypointsData);
     }
 
-    private function mapRowToWaypointData(Route $route, Point $point, PointData $data): WaypointData
+    private function mapRowToWaypointData(Route $route, Point $point, PointData $data, int $stopNumber): WaypointData
     {
-        //TODO Custom mappings from settings
-
         return new WaypointData([
             'route' => $route,
             'point' => $point,
-            'quantity' => (string)$data->rawData[17],
-            'content' => $data->rawData[12] . ' ' . $data->rawData[14],
+            'quantity' => $this->importSettings->getColumnData('waypoint_quantity', $data->rawData),
+            'content' => $this->importSettings->getColumnData('waypoint_content', $data->rawData),
             'rawData' => $data->rawData,
+            'stopNumber' => $stopNumber
         ]);
     }
 }

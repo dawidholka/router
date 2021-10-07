@@ -4,15 +4,16 @@ namespace App\Actions\Points;
 
 use App\DTOs\ImportedPointData;
 use App\DTOs\PointData;
-use App\Imports\PointsImport;
+use App\Settings\ImportSettings;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class ImportFileToPoints
 {
     public function __construct(
         private FirstOrCreatePoint $firstOrCreatePoint,
+        private ImportSettings     $importSettings,
     )
     {
     }
@@ -41,22 +42,31 @@ class ImportFileToPoints
         return $importedPoints;
     }
 
-    private function mapRowToPointData(Collection $row): PointData
+    private function mapRowToPointData(array $row): PointData
     {
         return new PointData([
-            'name' => $row[1],
-            'street' => $row[2],
-            'building_number' => (string)$row[3],
-            'city' => $row[6],
-            'rawData' => $row->toArray()
+            'name' => $this->importSettings->getColumnData('point_name', $row),
+            'street' => $this->importSettings->getColumnData('point_street', $row),
+            'building_number' => $this->importSettings->getColumnData('point_building_number', $row),
+            'apartment' => $this->importSettings->getColumnData('point_apartment', $row),
+            'city' => $this->importSettings->getColumnData('point_city', $row),
+            'postcode' => $this->importSettings->getColumnData('point_postcode', $row),
+            'intercom' => $this->importSettings->getColumnData('point_intercom', $row),
+            'phone' => $this->importSettings->getColumnData('point_phone', $row),
+            'note' => $this->importSettings->getColumnData('point_note', $row),
+            'rawData' => $row
         ]);
     }
 
     private function getRowsCollection(UploadedFile $file): Collection
     {
         $path = $file->getRealPath();
-        $import = Excel::toCollection(new PointsImport, $path, null, \Maatwebsite\Excel\Excel::XLSX);
-        /** @var Collection $collection */
-        return $import[0];
+        $reader = new Xlsx();
+        $reader->setReadDataOnly(true);
+        $reader->setReadEmptyCells(false);
+        $spreadsheet = $reader->load($path);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $import = collect($worksheet->toArray());
+        return $import->slice($this->importSettings->start_row - 1);
     }
 }

@@ -13,4 +13,5 @@ class WaypointData extends DataTransferObject
     public ?string $content;
     public ?string $quantity;
     public ?array $rawData;
+    public ?int $stopNumber;
 }

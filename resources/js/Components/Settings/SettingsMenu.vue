@@ -21,6 +21,16 @@ export default {
                 {
                     label: 'Ustawienia Główne',
                     icon: 'pi pi-cog',
+                    command: () => {
+                        this.$inertia.get(this.route('settings.general'))
+                    }
+                },
+                {
+                    label: 'Ustawienia Importu',
+                    icon: 'pi pi-file-excel',
+                    command: () => {
+                        this.$inertia.get(this.route('settings.import'))
+                    }
                 },
             ]
         };
