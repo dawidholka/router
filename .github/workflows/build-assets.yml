@@ -3,6 +3,7 @@ name: Build assets
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -21,7 +22,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git checkout -B deploy
+        git checkout -B dist
         git add -f public/
         git commit -m "Build front-end assets"
-        git push -f origin deploy
+        git push -f origin dist
