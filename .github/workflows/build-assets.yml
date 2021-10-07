@@ -30,7 +30,7 @@ jobs:
           dev: no
           php_version: 8.0
           version: 2
-          args: --profile --ignore-platform-reqs
+          args:  --ignore-platform-reqs --optimize-autoloader
       - name: Commit built assets
         run: |
           git add -f public/
