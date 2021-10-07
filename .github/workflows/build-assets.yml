@@ -1,28 +1,38 @@
-name: Build assets
+name: Release
 
 on:
-  push:
-    branches: [ master ]
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Set up Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - run: npm install
-    - run: npx mix --production
-    - name: Commit built assets
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git checkout -B dist
-        git add -f public/
-        git commit -m "Build front-end assets"
-        git push -f origin dist
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npx mix --production
+      - name: Copy .gitignore
+        uses: canastro/copy-file-action@master
+        with:
+          source: ".gitignore.dist"
+          target: ".gitignore"
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          dev: no
+          php_version: 8.0
+          version: 2
+          args: --profile --ignore-platform-reqs
+      - name: Commit built assets
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -B dist
+          git add -f public/
+          git commit -m "Build front-end assets"
+          git push -f origin dist
