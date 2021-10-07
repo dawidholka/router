@@ -32,6 +32,13 @@ export default {
                         this.$inertia.get(this.route('settings.import'))
                     }
                 },
+                {
+                    label: 'Aktualizacje',
+                    icon: 'pi pi-file-excel',
+                    command: () => {
+                        this.$inertia.get(this.route('settings.update'))
+                    }
+                },
             ]
         };
     }

@@ -27,6 +27,7 @@ use App\Http\Controllers\RouteSetCurrentController;
 use App\Http\Controllers\RouteWaypointsDestroyController;
 use App\Http\Controllers\RouteWaypointsOrderController;
 use App\Http\Controllers\RouteXLTXTController;
+use App\Http\Controllers\UpdateSettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WaypointPhotoController;
 use App\Http\Controllers\ZoneBulkDeleteController;
@@ -91,5 +92,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
         Route::get('import', [ImportSettingsController::class, 'show'])->name('settings.import');
         Route::put('import', [ImportSettingsController::class, 'update']);
+        Route::get('update', [UpdateSettingsController::class, 'show'])->name('settings.update');
+        Route::post('update-check', [UpdateSettingsController::class, 'updateCheck'])->name('settings.update.check');
+        Route::post('update-install', [UpdateSettingsController::class, 'installUpdate'])->name('settings.update.install');
     });
 });

@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Router'),
 
+    'version' => '0.8.0',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

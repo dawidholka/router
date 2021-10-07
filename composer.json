@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0",
         "ext-dom": "*",
+        "codedge/laravel-selfupdater": "^3.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.4.3",
