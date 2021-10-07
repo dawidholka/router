@@ -8,13 +8,15 @@ use App\DTOs\PointData;
 use App\DTOs\WaypointData;
 use App\Models\Point;
 use App\Models\Route;
+use App\Settings\ImportSettings;
 use Illuminate\Http\UploadedFile;
 
 class ImportFileToRoute
 {
     public function __construct(
         private ImportFileToPoints $importFileToPoints,
-        private CreateBulkWaypoint     $createWaypoint
+        private CreateBulkWaypoint $createWaypoint,
+        private ImportSettings     $importSettings,
     )
     {
     }
@@ -44,13 +46,11 @@ class ImportFileToRoute
 
     private function mapRowToWaypointData(Route $route, Point $point, PointData $data, int $stopNumber): WaypointData
     {
-        //TODO Custom mappings from settings
-
         return new WaypointData([
             'route' => $route,
             'point' => $point,
-            'quantity' => (string)$data->rawData[17],
-            'content' => $data->rawData[12] . ' ' . $data->rawData[14],
+            'quantity' => $this->importSettings->getColumnData('waypoint_quantity', $data->rawData),
+            'content' => $this->importSettings->getColumnData('waypoint_content', $data->rawData),
             'rawData' => $data->rawData,
             'stopNumber' => $stopNumber
         ]);

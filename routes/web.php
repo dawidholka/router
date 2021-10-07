@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\DriverSearchController;
 use App\Http\Controllers\GeneralSettingsController;
+use App\Http\Controllers\ImportSettingsController;
 use App\Http\Controllers\MapPinSvgController;
 use App\Http\Controllers\PointBulkDeleteController;
 use App\Http\Controllers\PointBulkGeolocationController;
@@ -88,5 +89,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('settings')->group(function () {
         Route::get('general', [GeneralSettingsController::class, 'show'])->name('settings.general');
         Route::put('general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
+        Route::get('import', [ImportSettingsController::class, 'show'])->name('settings.import');
+        Route::put('import', [ImportSettingsController::class, 'update']);
     });
 });

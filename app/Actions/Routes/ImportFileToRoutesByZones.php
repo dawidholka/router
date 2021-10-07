@@ -10,6 +10,8 @@ use App\DTOs\PointData;
 use App\DTOs\WaypointData;
 use App\Models\Point;
 use App\Models\Route;
+use App\Models\Zone;
+use App\Settings\ImportSettings;
 use Illuminate\Http\UploadedFile;
 
 class ImportFileToRoutesByZones
@@ -19,7 +21,8 @@ class ImportFileToRoutesByZones
         private GeocodePoint       $geocodePoint,
         private GetZoneByCoords    $getZoneByCoords,
         private CreateRoute        $createRoute,
-        private CreateWaypoint     $createWaypoint
+        private CreateWaypoint     $createWaypoint,
+        private ImportSettings     $importSettings,
     )
     {
     }
@@ -53,8 +56,11 @@ class ImportFileToRoutesByZones
 
         $routes = [];
 
-        foreach ($pointsByZones as $importedPoints) {
-            $route = $this->createRoute->execute(now(), null, null);
+        foreach ($pointsByZones as $zoneId => $importedPoints) {
+
+            $name = ($zoneId > 0 ? Zone::whereId($zoneId)->firstOrFail()->name : 'Poza strefami');
+
+            $route = $this->createRoute->execute(now(), null, $name);
 
             /** @var ImportedPointData $importedPoint */
             foreach ($importedPoints as $importedPoint) {
@@ -72,6 +78,9 @@ class ImportFileToRoutesByZones
         return new WaypointData([
             'route' => $route,
             'point' => $point,
+            'quantity' => $this->importSettings->getColumnData('waypoint_quantity', $data->rawData),
+            'content' => $this->importSettings->getColumnData('waypoint_content', $data->rawData),
+            'rawData' => $data->rawData,
         ]);
     }
 
