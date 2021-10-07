@@ -22,10 +22,8 @@ jobs:
           git config --local user.name "GitHub Action"
           git checkout -B dist
       - name: Copy .gitignore
-        uses: canastro/copy-file-action@master
-        with:
-          source: ".gitignore.dist"
-          target: ".gitignore"
+        run: |
+          cp .gitignore.dist .gitignore
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
@@ -36,5 +34,6 @@ jobs:
       - name: Commit built assets
         run: |
           git add -f public/
+          git add vendor/*
           git commit -m "Build front-end assets"
           git push -f origin dist
