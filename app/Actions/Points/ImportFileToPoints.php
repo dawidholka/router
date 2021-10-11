@@ -47,8 +47,8 @@ class ImportFileToPoints
         return new PointData([
             'name' => $this->importSettings->getColumnData('point_name', $row),
             'street' => $this->importSettings->getColumnData('point_street', $row),
-            'building_number' => $this->importSettings->getColumnData('point_building_number', $row),
-            'apartment' => $this->importSettings->getColumnData('point_apartment', $row),
+            'building_number' => (string)$this->importSettings->getColumnData('point_building_number', $row),
+            'apartament' => (string)$this->importSettings->getColumnData('point_apartment', $row),
             'city' => $this->importSettings->getColumnData('point_city', $row),
             'postcode' => $this->importSettings->getColumnData('point_postcode', $row),
             'intercom' => $this->importSettings->getColumnData('point_intercom', $row),
