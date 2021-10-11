@@ -22,7 +22,7 @@ class CreateWaypoint
         $waypoint->route_id = $data->route->id;
         $waypoint->point_id = $data->point->id;
         $waypoint->content = $data->content;
-        $waypoint->quantity = $data->quantity;
+        $waypoint->quantity = (int)$data->quantity;
         $waypoint->status = 'undelivered';
         $waypoint->stop_number = $stopNumber;
 

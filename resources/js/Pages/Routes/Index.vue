@@ -20,7 +20,7 @@
                             :total-records="datatable.totalRecords"
                             paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                             :rows-per-page-options="[5,10,25]"
-                            current-page-report-template="Wyświetlanie od {first} do {last} z {totalRecords} wniosków"
+                            current-page-report-template="Wyświetlanie od {first} do {last} z {totalRecords} elementów"
                             @page="onPage($event)"
                             @sort="onSort($event)"
                             @filter="onSort($event)"
