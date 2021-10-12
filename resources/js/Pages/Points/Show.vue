@@ -64,6 +64,14 @@
                             {{ point.note }}
                         </template>
                     </Card>
+                    <Card v-if="point.driver_note" class="mt-3">
+                        <template #title>
+                            Notatka kierowcy
+                        </template>
+                        <template #content>
+                            {{ point.driver_note }}
+                        </template>
+                    </Card>
                     <Card class="mt-3">
                         <template #title>
                             Geolokalizacja

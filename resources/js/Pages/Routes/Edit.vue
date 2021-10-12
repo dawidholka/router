@@ -164,6 +164,14 @@
                                                 aria-controls="overlay_tmenu"
                                             />
                                             <Button
+                                                class="p-button-sm ml-1 p-button-info"
+                                                type="button"
+                                                label="Export"
+                                                @click="exportXlsx"
+                                                aria-haspopup="true"
+                                                aria-controls="overlay_tmenu"
+                                            />
+                                            <Button
                                                 class="p-button-sm ml-1 p-button-help"
                                                 type="button"
                                                 label="Geolokalizuj"
@@ -213,7 +221,15 @@
                                            :class="{'pi-check': slotProps.data.geocoded, 'pi-times': !slotProps.data.geocoded}"/>
                                     </template>
                                 </Column>
-                                <Column field="quantity" header="Opcje"></Column>
+                                <Column field="quantity" header="Opcje">
+                                    <template #body="slotProps">
+                                        <Button
+                                            icon="pi pi-eye"
+                                            class="p-button-info p-button-sm mr-1"
+                                            @click="showPoint(slotProps.data.point_id)"
+                                        />
+                                    </template>
+                                </Column>
                                 <template #empty>
                                     Brak dodanych punktów.
                                 </template>
@@ -523,6 +539,12 @@ export default {
                     this.settingCurrentRoute = false;
                 }
             })
+        },
+        showPoint(id) {
+            this.$inertia.get(this.route('points.show', id));
+        },
+        exportXlsx(){
+            window.open(this.route('routes.export-xlsx', this.viewRoute.id),'_blank');
         }
     }
 }

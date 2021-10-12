@@ -64,7 +64,8 @@ class RouteEditViewModel extends ViewModel
                 'geocoded' => $waypoint->point->geocoded,
                 'color' => $this->route->driver->color ?? ColorDictionary::getRandomColor(),
                 'lat' => $waypoint->point->lat,
-                'lng' => $waypoint->point->long
+                'lng' => $waypoint->point->long,
+                'point_id' => $waypoint->point_id
             ];
         })->toArray();
     }

@@ -3,6 +3,8 @@
 namespace App\Datatables;
 
 use App\Models\Route;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class RouteDatatable extends Datatable
 {
@@ -20,5 +22,16 @@ class RouteDatatable extends Datatable
                 'note' => $route->note,
             ];
         };
+    }
+
+    protected function sortAndOrder(Request $request): Builder
+    {
+        if (!$request->has('sortField') || !$request->has('sortOrder')) {
+            return $this->builder->orderBy('id', 'desc');
+        }
+
+        $direction = ($request['sortOrder'] == 1) ? 'asc' : 'desc';
+
+        return $this->builder->orderBy($request['sortField'], $direction);
     }
 }

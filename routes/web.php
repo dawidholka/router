@@ -19,6 +19,7 @@ use App\Http\Controllers\RouteBulkDeleteController;
 use App\Http\Controllers\RouteCheckStatusController;
 use App\Http\Controllers\RouteCloneController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\RouteExportXLSXController;
 use App\Http\Controllers\RouteFileImportController;
 use App\Http\Controllers\RouteGeocodeController;
 use App\Http\Controllers\RouteOptimizeController;
@@ -67,6 +68,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/drivers/search', DriverSearchController::class)->name('drivers.search');
     Route::get('/drivers/datatable', [DriverController::class, 'datatable'])->name('drivers.datatable');
     Route::resource('drivers', DriverController::class);
+    Route::get('/routes/{route}/export-xlsx', RouteExportXLSXController::class)->name('routes.export-xlsx');
     Route::post('/routes/{route}/set-as-current', RouteSetCurrentController::class)->name('routes.set-as-current');
     Route::post('/routes/{route}/add-point', RouteAddPointController::class)->name('routes.add-point');
     Route::get('/routes/{route}/routexl-txt', RouteXLTXTController::class)->name('routes.generate-txt');

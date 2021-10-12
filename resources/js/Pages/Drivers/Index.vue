@@ -45,11 +45,6 @@
                             <Column header="Opcje" style="width: 150px;">
                                 <template #body="slotProps">
                                     <Button
-                                        icon="pi pi-eye"
-                                        class="p-button-info p-button-sm mr-1"
-                                        @click="show(slotProps.data.id)"
-                                    />
-                                    <Button
                                         icon="pi pi-pencil"
                                         class="p-button-success p-button-sm mr-1"
                                         @click="edit(slotProps.data.id)"

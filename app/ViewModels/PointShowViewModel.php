@@ -30,6 +30,7 @@ class PointShowViewModel extends ViewModel
             'intercom' => $this->point->intercom,
             'delivery_time' => $this->point->delivery_time,
             'phone' => $this->point->phone,
+            'driver_note' => $this->point->driver_note,
             'note' => $this->point->note,
             'lat' => $this->point->lat,
             'long' => $this->point->long,

@@ -91,7 +91,7 @@ class RouteShowViewModel extends ViewModel
         /** @var Collection $waypoints */
         $waypoints = $this->route->waypoints;
         $groupedByContent = $waypoints->groupBy('content');
-
+        $groupedByContent->sortKeys();
         /**
          * @var String $content
          * @var Collection $items
@@ -104,6 +104,10 @@ class RouteShowViewModel extends ViewModel
                 'count' => $count
             ];
         }
+
+        $names = array_column($contentArray, 'name');
+        array_multisort($contentArray, SORT_ASC, $names);
+
 
         return $contentArray;
     }

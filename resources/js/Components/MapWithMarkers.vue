@@ -58,7 +58,7 @@ export default {
 
             for (let i = 0; i < this.markers.length; i++) {
                 const mapWaypoint = this.markers[i];
-                this.createdMarkers.push(new google.maps.Marker({
+                const marker = new google.maps.Marker({
                     position: {lat: parseFloat(mapWaypoint.lat), lng: parseFloat(mapWaypoint.lng)},
                     map: map,
                     label: mapWaypoint.stop_number.toString(),
@@ -68,7 +68,19 @@ export default {
                         url: this.route('map-pin', mapWaypoint.color),
                         labelOrigin: new google.maps.Point(12, 14)
                     }
-                }));
+                });
+                const infoWindow = new google.maps.InfoWindow({
+                    content: mapWaypoint.address,
+                });
+                marker.addListener('click', () => {
+                    infoWindow.open({
+                        anchor: marker,
+                        map,
+                        shouldFocus: false,
+                    })
+                })
+
+                this.createdMarkers.push(marker);
             }
         },
         clearMarkers() {
