@@ -19,6 +19,8 @@
                             <p v-if="point.apartament">Numer mieszkania: {{ point.apartament }}</p>
                             <Divider/>
                             <p>Miasto: {{ point.city }}</p>
+                            <Divider/>
+                            <p>Kod pocztowy: {{ point.postcode }}</p>
                             <Divider v-if="point.delivery_time"/>
                             <p v-if="point.delivery_time">Czas dostawy: {{ point.delivery_time }}</p>
                             <Divider v-if="point.intercom"/>

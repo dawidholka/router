@@ -26,6 +26,7 @@ class PointShowViewModel extends ViewModel
             'street' => $this->point->street,
             'building_number' => $this->point->building_number,
             'city' => $this->point->city,
+            'postcode' => $this->point->postcode ?? '-',
             'apartament' => $this->point->apartament,
             'intercom' => $this->point->intercom,
             'delivery_time' => $this->point->delivery_time,
@@ -41,7 +42,7 @@ class PointShowViewModel extends ViewModel
                 return [
                     'id' => $waypoint->id,
                     'route_id' => $waypoint->route_id,
-                    'status' => $waypoint->status,
+                    'status' => __('waypoints.status.'.$waypoint->status),
                     'content' => $waypoint->content,
                     'quantity' => $waypoint->quantity,
                     'delivered_time' => $waypoint->delivered_time?->format('Y-m-d'),

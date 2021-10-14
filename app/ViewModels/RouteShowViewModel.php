@@ -39,7 +39,7 @@ class RouteShowViewModel extends ViewModel
         return [
             'id' => $this->route->id,
             'delivery_time' => $this->route->delivery_time?->format('Y-m-d'),
-            'status' => $this->route->status,
+            'status' => __('routes.status.' . $this->route->status),
             'optimize_status' => $this->route->optimize_status,
             'distance' => $this->route->distance,
             'time' => $this->route->time,
@@ -68,6 +68,7 @@ class RouteShowViewModel extends ViewModel
                 'photo_uploaded' => $waypoint->photo_uploaded,
                 'driver_note' => $waypoint->point->driver_note ?? '-',
                 'geocoded' => $waypoint->point->geocoded,
+                'postcode' => $waypoint->point->postcode,
                 'quantity' => $waypoint->quantity,
                 'content' => $waypoint->content,
                 'color' => $waypoint->status_color,
@@ -102,7 +103,7 @@ class RouteShowViewModel extends ViewModel
         foreach ($groupedByContent as $content => $items) {
             $count = $items->sum('quantity');
             $name = $content;
-            if($count < 1){
+            if ($count < 1) {
                 continue;
             }
             $contentArray[] = [

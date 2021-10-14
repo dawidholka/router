@@ -217,6 +217,7 @@ export default {
             {field: 'driver_note', header: 'Notatka kierowcy'},
             {field: 'content', header: 'Zawartość'},
             {field: 'quantity', header: 'Ilość paczek'},
+            {field: 'postcode', header: 'Kod pocztowy'},
         ];
         this.selectedColumns = [
             this.columns[0],

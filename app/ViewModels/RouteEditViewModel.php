@@ -36,8 +36,8 @@ class RouteEditViewModel extends ViewModel
         return [
             'id' => (int)$this->route->id,
             'delivery_time' => $this->route->delivery_time?->format('Y-m-d'),
-            'status' => $this->route->status,
-            'optimize_status' => $this->route->optimize_status,
+            'status' => __('routes.status.' . $this->route->status),
+            'optimize_status' => __('routes.optimize_status.'.$this->route->optimize_status),
             'distance' => $this->route->distance,
             'time' => $this->route->time,
             'driver_downloaded_at' => $this->route->driver_downloaded_at,
