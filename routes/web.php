@@ -22,8 +22,10 @@ use App\Http\Controllers\RouteController;
 use App\Http\Controllers\RouteExportXLSXController;
 use App\Http\Controllers\RouteFileImportController;
 use App\Http\Controllers\RouteGeocodeController;
+use App\Http\Controllers\RouteMoveWaypointsController;
 use App\Http\Controllers\RouteOptimizeController;
 use App\Http\Controllers\RouteResumeEndController;
+use App\Http\Controllers\RouteSearchController;
 use App\Http\Controllers\RouteSetCurrentController;
 use App\Http\Controllers\RouteWaypointsDestroyController;
 use App\Http\Controllers\RouteWaypointsOrderController;
@@ -35,17 +37,6 @@ use App\Http\Controllers\ZoneBulkDeleteController;
 use App\Http\Controllers\ZoneController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -68,6 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/drivers/search', DriverSearchController::class)->name('drivers.search');
     Route::get('/drivers/datatable', [DriverController::class, 'datatable'])->name('drivers.datatable');
     Route::resource('drivers', DriverController::class);
+    Route::post('/routes/move-waypoints', RouteMoveWaypointsController::class)->name('routes.move-waypoints');
     Route::get('/routes/{route}/export-xlsx', RouteExportXLSXController::class)->name('routes.export-xlsx');
     Route::post('/routes/{route}/set-as-current', RouteSetCurrentController::class)->name('routes.set-as-current');
     Route::post('/routes/{route}/add-point', RouteAddPointController::class)->name('routes.add-point');
@@ -82,6 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/routes/{route}/import-file', RouteFileImportController::class)->name('routes.import-file');
     Route::get('/routes/datatable', [RouteController::class, 'datatable'])->name('routes.datatable');
     Route::post('/routes/bulk-destroy', RouteBulkDeleteController::class)->name('routes.bulk-destroy');
+    Route::get('/routes/search', RouteSearchController::class)->name('routes.search');
     Route::resource('routes', RouteController::class);
     Route::get('/users/datatable', [UserController::class, 'datatable'])->name('users.datatable');
     Route::resource('users', UserController::class);

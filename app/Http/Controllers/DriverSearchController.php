@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Driver;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class DriverSearchController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $request->validate([
             'params' => ['nullable', 'string']

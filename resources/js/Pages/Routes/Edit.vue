@@ -105,7 +105,8 @@
                                     <div class="font-bold mb-2">Notatka:</div>
                                     <div>{{ viewRoute.note }}</div>
                                 </div>
-                                <div v-if="viewRoute?.driver && viewRoute?.driver?.route !== viewRoute.id" class="col-12 p-3">
+                                <div v-if="viewRoute?.driver && viewRoute?.driver?.route !== viewRoute.id"
+                                     class="col-12 p-3">
                                     <Button
                                         class="p-button-sm"
                                         type="button"
@@ -247,6 +248,19 @@
                 </div>
             </div>
 
+            <div class="speeddial-circle-demo">
+                <SpeedDial
+                    :model="selectedMenu"
+                    :radius="120"
+                    direction="up-left"
+                    type="quarter-circle"
+                    buttonClass="p-button-success"
+                    :tooltipOptions="{position: 'left'}"
+                    showIcon="pi pi-ellipsis-h" hideIcon="pi pi-times"
+                />
+            </div>
+
+
             <Dialog
                 header="Import pliku .xlsx"
                 v-model:visible="importXlsxDialog"
@@ -273,6 +287,37 @@
                         label="Importuj"
                         :loading="importForm.processing"
                         @click="importXlsx"
+                    />
+                </template>
+            </Dialog>
+
+            <Dialog
+                header="Przenieś punkty do innej trasy"
+                v-model:visible="moveWaypointsDialog"
+                :closable="false"
+                modal
+            >
+                <div class="field">
+                    <label>Nowa trasa</label>
+                    <RouteAutoComplete
+                        id="move_points_route_id"
+                        class="w-full"
+                        v-model="moveWaypointsForm.route"
+                    />
+                    <small v-if="moveWaypointsForm.errors.route" class="p-invalid">
+                        {{ moveWaypointsForm.errors.route }}
+                    </small>
+                </div>
+                <template #footer>
+                    <Button
+                        label="Anuluj"
+                        @click="closeMoveWaypointsDialog"
+                        class="p-button-text"
+                    />
+                    <Button
+                        label="Przenieś"
+                        :loading="moveWaypointsForm.processing"
+                        @click="moveWaypoints"
                     />
                 </template>
             </Dialog>
@@ -308,16 +353,18 @@ import DeleteDialog from "../../Components/DeleteDialog";
 import TieredMenu from "primevue/tieredmenu";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
-import {Inertia} from "@inertiajs/inertia";
 import MapWithMarkers from "../../Components/MapWithMarkers";
 import RouteEditModal from "../../Components/RouteEditModal";
 import RouteOptimizeModal from "../../Components/RouteOptimizeModal";
 import FlashMessage from "../../Services/FlashMessage";
 import RouteAddPointsFromDB from "../../Components/RouteAddPointsFromDB";
+import SpeedDial from 'primevue/speeddial';
+import RouteAutoComplete from "../../Components/RouteAutoComplete";
 
 export default {
     name: "Edit",
     components: {
+        RouteAutoComplete,
         RouteAddPointsFromDB,
         RouteOptimizeModal,
         RouteEditModal,
@@ -331,7 +378,8 @@ export default {
         Column,
         TieredMenu,
         Dialog,
-        FileUpload
+        FileUpload,
+        SpeedDial
     },
     props: {
         viewRoute: {
@@ -356,13 +404,20 @@ export default {
             selectedMenu: [
                 {
                     label: 'Zaznacz wszystko',
-                    icon: 'pi pi-fw pi-check',
+                    icon: 'pi pi-fw pi-check-circle',
                     command: () => this.selectAll()
                 },
                 {
-                    label: 'Odzaznacz wszystko',
-                    icon: 'pi pi-fw pi-ban',
+                    label: 'Odznacz wszystko',
+                    icon: 'pi pi-fw pi-circle-off',
                     command: () => this.deselectAll()
+                },
+                {
+                    label: 'Przenieś punkty',
+                    icon: 'pi pi-fw pi-reply',
+                    command: () => {
+                        this.moveWaypointsDialog = true;
+                    }
                 },
                 {
                     label: 'Usuń zaznaczone',
@@ -396,6 +451,11 @@ export default {
             checkingStatus: false,
             endingRoute: false,
             settingCurrentRoute: false,
+            moveWaypointsDialog: false,
+            moveWaypointsForm: this.$inertia.form({
+                route: null,
+                waypoints: null
+            }),
         }
     },
     methods: {
@@ -543,13 +603,79 @@ export default {
         showPoint(id) {
             this.$inertia.get(this.route('points.show', id));
         },
-        exportXlsx(){
-            window.open(this.route('routes.export-xlsx', this.viewRoute.id),'_blank');
+        exportXlsx() {
+            window.open(this.route('routes.export-xlsx', this.viewRoute.id), '_blank');
+        },
+        moveWaypoints() {
+            this.moveWaypointsForm.waypoints = this.selectedWaypoints;
+            this.moveWaypointsForm.post(this.route('routes.move-waypoints'), {
+                onSuccess: () => {
+                    this.deselectAll();
+                    this.flashSuccess('Przeniesiono punkty.');
+                    this.closeMoveWaypointsDialog();
+                    this.reloadWaypoints();
+                }
+            })
+        },
+        closeMoveWaypointsDialog() {
+            this.moveWaypointsForm.clearErrors();
+            this.moveWaypointsForm.reset();
+            this.moveWaypointsDialog = false;
         }
     }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+::v-deep(.speeddial-circle-demo) {
+    .p-speeddial-circle {
+        top: calc(50% - 2rem);
+        left: calc(50% - 2rem);
+    }
 
+    .p-speeddial-semi-circle {
+        &.p-speeddial-direction-up {
+            left: calc(50% - 2rem);
+            bottom: 0;
+        }
+
+        &.p-speeddial-direction-down {
+            left: calc(50% - 2rem);
+            top: 0;
+        }
+
+        &.p-speeddial-direction-left {
+            right: 0;
+            top: calc(50% - 2rem);
+        }
+
+        &.p-speeddial-direction-right {
+            left: 0;
+            top: calc(50% - 2rem);
+        }
+    }
+
+    .p-speeddial-quarter-circle {
+        &.p-speeddial-direction-up-left {
+            position: fixed;
+            right: 50px;
+            bottom: 50px;
+        }
+
+        &.p-speeddial-direction-up-right {
+            left: 0;
+            bottom: 0;
+        }
+
+        &.p-speeddial-direction-down-left {
+            right: 0;
+            top: 0;
+        }
+
+        &.p-speeddial-direction-down-right {
+            left: 0;
+            top: 0;
+        }
+    }
+}
 </style>

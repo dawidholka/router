@@ -15,6 +15,11 @@ class UpdateSettingsController extends Controller
         $currentVersion = $updaterManager->source()->getVersionInstalled();
         $newVersion = Cache::get('new-version');
 
+        if(version_compare($currentVersion, $newVersion) >= 0){
+            Cache::forget('new-version');
+            $newVersion = null;
+        }
+
         return Inertia::render('Settings/Update', [
             'currentVersion' => $currentVersion,
             'newVersion' => $newVersion
