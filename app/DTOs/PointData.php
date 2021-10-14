@@ -10,6 +10,7 @@ class PointData extends DataTransferObject
     public string $street;
     public string $building_number;
     public string $city;
+    public ?string $postcode;
     public ?string $apartament;
     public ?string $intercom;
     public ?string $delivery_time;
