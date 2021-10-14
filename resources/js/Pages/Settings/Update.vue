@@ -12,7 +12,7 @@
 
             <Button
                 v-if="newVersion !== null && currentVersion !== newVersion"
-                class="p-button-sm"
+                class="p-button-sm mt-3"
                 label="Wykonaj aktualizację"
                 :loading="installingUpdate"
                 @click="installUpdate"

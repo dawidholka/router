@@ -64,7 +64,7 @@ class RouteShowViewModel extends ViewModel
                 'city' => $waypoint->point->city,
                 'stop_number' => $waypoint->stop_number,
                 'status' => $waypoint->status,
-                'delivered_time' => $waypoint->delivered_time?->format('Y-m-d H:m:s'),
+                'delivered_time' => $waypoint->delivered_time?->format('Y-m-d H:i:s'),
                 'photo_uploaded' => $waypoint->photo_uploaded,
                 'geocoded' => $waypoint->point->geocoded,
                 'color' => $waypoint->status_color,

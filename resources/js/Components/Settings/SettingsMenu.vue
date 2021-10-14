@@ -34,7 +34,7 @@ export default {
                 },
                 {
                     label: 'Aktualizacje',
-                    icon: 'pi pi-file-excel',
+                    icon: 'pi pi-download',
                     command: () => {
                         this.$inertia.get(this.route('settings.update'))
                     }

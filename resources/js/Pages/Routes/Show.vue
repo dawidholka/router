@@ -62,6 +62,7 @@
                                             v-if="slotProps.data.photo_uploaded"
                                             icon="pi pi-image"
                                             class="p-button-info p-button-sm mr-1"
+                                            v-tooltip.top="'Pobierz zdjęcie'"
                                             @click="showPhoto(slotProps.data.id)"
                                         />
                                     </template>
