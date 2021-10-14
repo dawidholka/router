@@ -68,6 +68,8 @@ class RouteShowViewModel extends ViewModel
                 'photo_uploaded' => $waypoint->photo_uploaded,
                 'driver_note' => $waypoint->point->driver_note ?? '-',
                 'geocoded' => $waypoint->point->geocoded,
+                'quantity' => $waypoint->quantity,
+                'content' => $waypoint->content,
                 'color' => $waypoint->status_color,
                 'lat' => $waypoint->point->lat,
                 'lng' => $waypoint->point->long
@@ -100,6 +102,9 @@ class RouteShowViewModel extends ViewModel
         foreach ($groupedByContent as $content => $items) {
             $count = $items->sum('quantity');
             $name = $content;
+            if($count < 1){
+                continue;
+            }
             $contentArray[] = [
                 'name' => $name,
                 'count' => $count
@@ -108,7 +113,6 @@ class RouteShowViewModel extends ViewModel
 
         $names = array_column($contentArray, 'name');
         array_multisort($contentArray, SORT_ASC, $names);
-
 
         return $contentArray;
     }
