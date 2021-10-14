@@ -26,10 +26,11 @@ class RouteExport implements FromCollection
             return [
                 'stop_number' => $waypoint->stop_number,
                 'name' => $waypoint->point->name,
-                'city' => $waypoint->point->city,
                 'street' => $waypoint->point->street,
                 'building_number' => $waypoint->point->building_number,
                 'apartament' => $waypoint->point->apartament,
+                'postcode' => $waypoint->point->postcode,
+                'city' => $waypoint->point->city,
                 'intercom' => $waypoint->point->intercom,
                 'phone' => $waypoint->point->phone,
                 'note' => $waypoint->point->note,

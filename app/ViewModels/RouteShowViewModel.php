@@ -39,7 +39,8 @@ class RouteShowViewModel extends ViewModel
         return [
             'id' => $this->route->id,
             'delivery_time' => $this->route->delivery_time?->format('Y-m-d'),
-            'status' => __('routes.status.' . $this->route->status),
+            'status_translated' => __('routes.status.' . $this->route->status),
+            'status' => $this->route->status,
             'optimize_status' => $this->route->optimize_status,
             'distance' => $this->route->distance,
             'time' => $this->route->time,

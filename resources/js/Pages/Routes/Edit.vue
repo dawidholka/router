@@ -83,11 +83,11 @@
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
                                     <div class="font-bold mb-2">Status:</div>
-                                    <div>{{ viewRoute.status }}</div>
+                                    <div>{{ viewRoute.status_translated }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
                                     <div class="font-bold mb-2">Optymalizacja:</div>
-                                    <div>{{ viewRoute.optimize_status }}</div>
+                                    <div>{{ viewRoute.optimize_status_translated }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
                                     <div class="font-bold mb-2">Szacowany dystans:</div>
