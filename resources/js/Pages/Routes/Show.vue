@@ -18,7 +18,7 @@
                     <div class="card">
                         <h5>Zawartość</h5>
                         <ul>
-                            <li v-for="item in deliveryContent" :key="item.name">{{ item.name }} - {{item.count}}</li>
+                            <li v-for="item in deliveryContent" :key="item.name">{{ item.name }} - {{ item.count }}</li>
                         </ul>
                     </div>
                 </div>
@@ -49,13 +49,13 @@
                                             />
                                         </div>
                                     </div>
+                                    <div style="text-align:left">
+                                        <MultiSelect :modelValue="selectedColumns" :options="columns" optionLabel="header" @update:modelValue="onToggle"
+                                                     placeholder="Select Columns" style="width: 20em"/>
+                                    </div>
                                 </template>
                                 <Column field="stop_number" header="Przystanek"></Column>
-                                <Column field="name" header="Nazwa"></Column>
-                                <Column field="address" header="Adres"></Column>
-                                <Column field="city" header="Miasto"></Column>
-                                <Column field="status" header="Status"></Column>
-                                <Column field="delivered_time" header="Data dostarczenia"></Column>
+                                <Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="col.field + '_' + index"></Column>
                                 <Column header="Opcje">
                                     <template #body="slotProps">
                                         <Button
@@ -125,7 +125,7 @@ import TieredMenu from "primevue/tieredmenu";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
 import MapWithMarkers from "../../Components/MapWithMarkers";
-import {Inertia} from "@inertiajs/inertia";
+import MultiSelect from 'primevue/multiselect';
 
 export default {
     name: "Show",
@@ -140,7 +140,8 @@ export default {
         TieredMenu,
         Dialog,
         FileUpload,
-        MapWithMarkers
+        MapWithMarkers,
+        MultiSelect
     },
     props: {
         viewRoute: {
@@ -162,6 +163,8 @@ export default {
     },
     data() {
         return {
+            columns: null,
+            selectedColumns: null,
             routeWaypoints: this.waypoints,
             loadingWaypoints: false,
             selectedWaypoints: null,
@@ -204,7 +207,21 @@ export default {
             deletingModel: false,
         }
     },
+    created() {
+        this.columns = [
+            {field: 'name', header: 'Nazwa'},
+            {field: 'address', header: 'Adres'},
+            {field: 'city', header: 'Miasto'},
+            {field: 'status', header: 'Status'},
+            {field: 'delivered_time', header: 'Czas dostarczenia'},
+            {field: 'driver_note', header: 'Notatka kierowcy'}
+        ];
+        this.selectedColumns = this.columns;
+    },
     methods: {
+        onToggle(value) {
+            this.selectedColumns = this.columns.filter(col => value.includes(col));
+        },
         onRowReorder(event) {
             this.routeWaypoints = event.value;
             // this.$toast.add({severity:'success', summary: 'Rows Reordered', life: 3000});

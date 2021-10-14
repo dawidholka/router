@@ -12,6 +12,12 @@ class DriverLocation extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'id' => 'integer',
+        'lat' => 'float',
+        'lng' => 'float'
+    ];
+
     public function route(): BelongsTo
     {
         return $this->belongsTo(Route::class);
