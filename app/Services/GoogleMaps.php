@@ -3,8 +3,12 @@
 namespace App\Services;
 
 use App\DTOs\GeocodeData;
+use App\Models\Point;
 use App\Settings\GeneralSettings;
 use Exception;
+use Illuminate\Http\Client\Pool;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class GoogleMaps
@@ -35,6 +39,39 @@ class GoogleMaps
 
         $response = Http::get($url);
 
+        return $this->parseGecodeResponse($response);
+    }
+
+    public function bulkGeocode(Collection $points): array
+    {
+        $urls = $points->map(function (Point $point) {
+            return $this->buildUrl(self::GEOCODE_URL, [
+                'address' => $point->address,
+                'key' => $this->apiKey
+            ]);
+        });
+
+        $responses = Http::pool(function (Pool $pool) use ($urls) {
+            return $urls->map(function (string $url) use ($pool) {
+                return $pool->get($url);
+            });
+        });
+
+        $geocodedData = [];
+
+        foreach ($responses as $response) {
+            try {
+                $geocodedData[] = $this->parseGecodeResponse($response);
+            } catch (Exception) {
+                $geocodedData[] = null;
+            }
+        }
+
+        return $geocodedData;
+    }
+
+    private function parseGecodeResponse(Response $response): GeocodeData
+    {
         if ($response->failed()) {
             throw new Exception('Error');
         }
