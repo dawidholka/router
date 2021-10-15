@@ -31,11 +31,22 @@ class WaypointStatusUpdateController extends Controller
             'status' => ['required', Rule::in(['delivered', 'undelivered', 'problem'])]
         ]);
 
-        abort_if(
-            $settings->force_photo_upload && !$waypoint->photo_uploaded && $request['status'] === 'delivered',
-            422,
-            'Wymagane jest zrobienie zdjęcia do zmiany statusu dostarczenia.'
-        );
+        // check if any of similar waypoints has uploaded photo
+        if($settings->force_photo_upload && $request['status'] === 'delivered'){
+            $route = $waypoint->route;
+            $samePointWaypoints = $route->waypoints()->where('point_id', '=', $waypoint->point_id)->get();
+            $atLeastOnePhotoUploaded = false;
+            foreach($samePointWaypoints as $samePointWaypoint){
+                if($samePointWaypoint->photo_uploaded){
+                    $atLeastOnePhotoUploaded = true;
+                }
+            }
+            abort_if(
+                !$atLeastOnePhotoUploaded,
+                422,
+                'Wymagane jest zrobienie zdjęcia do zmiany statusu dostarczenia.'
+            );
+        }
 
         $waypoint->status = $request['status'];
         $waypoint->delivered_time = now();
