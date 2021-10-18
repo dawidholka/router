@@ -1,7 +1,7 @@
 <template>
     <SettingsLayout>
         <div class="card">
-            <h5>Ustawienia główne</h5>
+            <h5>{{ $t('settings.general') }}</h5>
             <div class="field">
                 <label for="force_photo_upload">
                     Wymuszanie wgrania zdjęcia przed zmianą statusu dostarczenia

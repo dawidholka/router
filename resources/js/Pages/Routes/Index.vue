@@ -28,7 +28,7 @@
                             <template #header>
                                 <div class="table-header">
                                     <h5 class="m-0">
-                                        Trasy
+                                        {{ $t('common.routes') }}
                                     </h5>
                                 </div>
                             </template>
@@ -37,22 +37,22 @@
                                     {{ slotProps.data.id }}
                                 </template>
                             </Column>
-                            <Column field="delivery_time" header="Data" :sortable="true">
+                            <Column field="delivery_time" :header="$t('common.date')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.date }}
                                 </template>
                             </Column>
-                            <Column field="driver_id" header="Kierowca" :sortable="true">
+                            <Column field="driver_id" :header="$t('common.driver')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.driver ?? 'Brak' }}
                                 </template>
                             </Column>
-                            <Column field="note" header="Notatka" :sortable="false">
+                            <Column field="note" :header="$t('common.note')" :sortable="false">
                                 <template #body="slotProps">
                                     {{ slotProps.data.note }}
                                 </template>
                             </Column>
-                            <Column header="Opcje" style="width: 150px;">
+                            <Column :header="$t('common.options')" style="width: 150px;">
                                 <template #body="slotProps">
                                     <Button
                                         icon="pi pi-eye"
@@ -68,12 +68,12 @@
                                     <Button
                                         v-if="$page.props.admin"
                                         icon="pi pi-trash" class="p-button-sm p-button-danger"
-                                            @click="showDeleteDialog(slotProps.data)"
+                                        @click="showDeleteDialog(slotProps.data)"
                                     />
                                 </template>
                             </Column>
                             <template #empty>
-                                Brak dodanych tras.
+                                {{ $t('routes.empty') }}
                             </template>
                         </DataTable>
                     </div>
@@ -96,7 +96,7 @@
             >
                 <div class="field">
                     <label for="bulk-delete">
-                        Wyczyść dane aplikacji
+                        {{ $t('common.option') }}
                     </label>
                     <Dropdown
                         id="bulk-delete"
@@ -113,13 +113,13 @@
                 </div>
                 <template #footer>
                     <Button
-                        label="Anuluj"
+                        :label="$t('common.cancel')"
                         icon="pi pi-times"
                         class="p-button-text"
                         @click="bulkDeleteModal = false"
                     />
                     <Button
-                        label="Zapisz"
+                        :label="$t('common.save')"
                         icon="pi pi-check"
                         class="p-button-text"
                         :loading="bulkDeleteForm.processing"
@@ -171,14 +171,14 @@ export default {
             },
             menuItems: [
                 {
-                    label: 'Utwórz trasę',
+                    label: this.$t('routes.createRoute'),
                     icon: 'pi pi-fw pi-plus',
                     command: () => {
                         this.$inertia.get(this.route('routes.create'));
                     },
                 },
                 {
-                    label: 'Wyczyść trasy',
+                    label: this.$t('routes.bulkDelete'),
                     icon: 'pi pi-fw pi-trash',
                     command: () => {
                         this.openBulkDeleteModal();
@@ -244,7 +244,7 @@ export default {
                 onSuccess: () => {
                     this.deletingModel = false;
                     this.deleteDialog = false;
-                    this.flashSuccess('Usunięto trasę.');
+                    this.flashSuccess(this.$t('routes.routeDeleted'));
                     this.loadLazyData();
                     this.$refs.deleteDialog.onClose();
                 }
@@ -261,7 +261,7 @@ export default {
             this.bulkDeleteForm.post(this.route('routes.bulk-destroy'), {
                 onSuccess: () => {
                     this.loadLazyData();
-                    this.flashSuccess('Wyczyszczono trasy.');
+                    this.flashSuccess(this.$t('routes.routesDeleted'));
                     this.bulkDeleteModal = false;
                 }
             });

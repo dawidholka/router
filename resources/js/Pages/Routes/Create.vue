@@ -4,10 +4,10 @@
             <div class="grid">
                 <div class="col-6 col-offset-3">
                     <div class="card">
-                        <h5>Utwórz trasę</h5>
+                        <h5>{{ $t('routes.createRoute') }}</h5>
                         <div class="formgrid grid">
                             <div class="field col">
-                                <label for="delivery_date">Data</label>
+                                <label for="delivery_date">{{ $t('common.date') }}</label>
                                 <Calendar
                                     id="delivery_date"
                                     class="w-full"
@@ -21,7 +21,7 @@
                                 </small>
                             </div>
                             <div class="field col">
-                                <label for="driver">Kierowca</label>
+                                <label for="driver">{{ $t('common.driver') }}</label>
                                 <Dropdown
                                     id="driver"
                                     class="w-full"
@@ -29,7 +29,7 @@
                                     :options="drivers"
                                     option-label="name"
                                     option-value="id"
-                                    placeholder="Wybierz kierowcę"
+                                    :placeholder="$t('routes.selectDriver')"
                                 />
                                 <small v-if="form.errors.driver" class="p-invalid">
                                     {{ form.errors.driver }}
@@ -37,7 +37,7 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label for="note">Notatka</label>
+                            <label for="note">{{ $t('common.note') }}</label>
                             <Textarea
                                 id="note"
                                 class="w-full"
@@ -51,12 +51,12 @@
                     </div>
                     <div class="flex justify-content-end mt-3">
                         <Button
-                            label="Anuluj"
+                            :label="$t('common.cancel')"
                             class="p-button-secondary p-button-outlined p-button-lg mr-3"
                             @click="cancel"
                         />
                         <Button
-                            label="Zapisz"
+                            :label="$t('common.save')"
                             class="p-button-lg"
                             :loading="form.processing"
                             @click="submit"

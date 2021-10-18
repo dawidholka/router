@@ -44,61 +44,61 @@ export default {
             menu: [
                 {label: 'Start', icon: 'pi pi-fw pi-home', route: this.route('dashboard'), prefix: 'dashboard'},
                 {
-                    label: 'Trasy',
+                    label: this.$t('common.routes'),
                     icon: 'pi pi-fw pi-directions',
                     route: this.route('routes.index'),
                     prefix: 'routes',
                     visible: true,
                 },
                 {
-                    label: 'Kalendarz',
+                    label: this.$t('common.calendar'),
                     icon: 'pi pi-fw pi-calendar',
                     route: this.route('calendar.index'),
                     prefix: 'calendar'
                 },
                 {
-                    label: 'Kierowcy',
+                    label: this.$t('common.drivers'),
                     icon: 'pi pi-fw pi-users',
                     route: this.route('drivers.index'),
                     prefix: 'drivers',
                     visible: this.$page.props.admin
                 },
                 {
-                    label: 'Punkty',
+                    label: this.$t('common.points'),
                     icon: 'pi pi-fw pi-tag',
                     route: this.route('points.index'),
                     prefix: 'points',
                 },
                 {
-                    label: 'Strefy',
+                    label: this.$t('common.zones'),
                     icon: 'pi pi-fw pi-table',
                     route: this.route('zones.index'),
                     prefix: 'zones',
                     visible: this.$page.props.admin
                 },
                 {
-                    label: 'Użytkownicy',
+                    label: this.$t('common.users'),
                     icon: 'pi pi-fw pi-user',
                     route: this.route('users.index'),
                     prefix: 'users',
                     visible: this.$page.props.admin
                 },
                 {
-                    label: 'Kreator',
+                    label: this.$t('common.creator'),
                     icon: 'pi pi-fw pi-star',
                     route: this.route('creator'),
                     prefix: 'creator',
                     visible: this.$page.props.admin
                 },
                 {
-                    label: 'Ustawienia',
+                    label: this.$t('common.settings'),
                     icon: 'pi pi-fw pi-cog',
                     route: this.route('settings.general'),
                     prefix: 'settings',
                     visible: this.$page.props.admin
                 },
                 {
-                    label: 'Wyloguj',
+                    label: this.$t('auth.signOut'),
                     icon: 'pi pi-fw pi-sign-out',
                     command: () => this.logout(),
                 }

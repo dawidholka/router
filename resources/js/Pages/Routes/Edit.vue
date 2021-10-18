@@ -6,7 +6,7 @@
                     <Card>
                         <template #header>
                             <div class="flex justify-content-between align-content-center p-3">
-                                <h5>Trasa #{{ viewRoute.id }}</h5>
+                                <h5>{{$t('common.route')}} #{{ viewRoute.id }}</h5>
                                 <div>
                                     <Button
                                         class="p-button-sm ml-1 p-button-success"
@@ -66,27 +66,27 @@
                         <template #content>
                             <div class="grid">
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Data dostawy:</div>
+                                    <div class="font-bold mb-2">{{ $t('common.deliveryTime') }}:</div>
                                     <div>{{ viewRoute.delivery_time }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Kierowca:</div>
+                                    <div class="font-bold mb-2">{{ $t('common.driver') }}:</div>
                                     <div>{{ viewRoute.driver?.name ?? 'Brak przypisania' }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Data utworzenia:</div>
+                                    <div class="font-bold mb-2">{{ $t('common.createdAt') }}:</div>
                                     <div>{{ viewRoute.created_at }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Data modyfikacji:</div>
+                                    <div class="font-bold mb-2">{{ $t('common.updatedAt') }}:</div>
                                     <div>{{ viewRoute.updated_at }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Status:</div>
+                                    <div class="font-bold mb-2">{{ $t('common.status') }}:</div>
                                     <div>{{ viewRoute.status_translated }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Optymalizacja:</div>
+                                    <div class="font-bold mb-2">{{ $t('common.optimization') }}:</div>
                                     <div>{{ viewRoute.optimize_status_translated }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
@@ -154,7 +154,7 @@
                             >
                                 <template #header>
                                     <div class="flex justify-content-between align-content-center">
-                                        <h5>Punkty</h5>
+                                        <h5>{{ $t('common.waypoints') }}</h5>
                                         <div>
                                             <Button
                                                 class="p-button-sm ml-1 p-button-info"
@@ -212,17 +212,17 @@
                                     </div>
                                 </template>
                                 <Column :rowReorder="true" headerStyle="width: 3rem" :reorderableColumn="false"/>
-                                <Column field="stop_number" header="Przystanek"></Column>
-                                <Column field="name" header="Nazwa"></Column>
-                                <Column field="address" header="Adres"></Column>
-                                <Column field="city" header="Miasto"></Column>
+                                <Column field="stop_number" :header="$t('common.stopNumber')"></Column>
+                                <Column field="name" :header="$t('common.name')"></Column>
+                                <Column field="address" :header="$t('common.address')"></Column>
+                                <Column field="city" :header="$t('common.city')"></Column>
                                 <Column field="geocoded" header="GEO">
                                     <template #body="slotProps">
                                         <i class="pi"
                                            :class="{'pi-check': slotProps.data.geocoded, 'pi-times': !slotProps.data.geocoded}"/>
                                     </template>
                                 </Column>
-                                <Column field="quantity" header="Opcje">
+                                <Column field="quantity" :header="$t('common.options')">
                                     <template #body="slotProps">
                                         <Button
                                             icon="pi pi-eye"
@@ -232,13 +232,13 @@
                                     </template>
                                 </Column>
                                 <template #empty>
-                                    Brak dodanych punktów.
+                                    {{ $t('routes.emptyWaypoints') }}
                                 </template>
                             </DataTable>
                         </template>
                         <template #footer>
                             <Button
-                                label="Zapisz kolejność"
+                                :label="$t('routes.saveOrder')"
                                 class="p-button-sm"
                                 :loading="reorderForm.processing"
                                 @click="saveOrder"
@@ -279,12 +279,12 @@
 
                 <template #footer>
                     <Button
-                        label="Anuluj"
+                        :label="$t('common.cancel')"
                         @click="closeImportXlsxDialog"
                         class="p-button-text"
                     />
                     <Button
-                        label="Importuj"
+                        :label="$t('common.import')"
                         :loading="importForm.processing"
                         @click="importXlsx"
                     />
@@ -553,7 +553,7 @@ export default {
             this.deletingModel = true;
             this.$inertia.delete(this.route('routes.destroy', this.viewRoute.id), {
                 onSuccess: () => {
-                    this.flashSuccess('Usunięto trasę.');
+                    this.flashSuccess(this.$t('routes.routeDeleted'));
                     this.deletingModel = false;
                 }
             })

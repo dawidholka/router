@@ -22,7 +22,7 @@ class CreateBulkWaypoint
                 'route_id' => $waypointData->route->id,
                 'point_id' => $waypointData->point->id,
                 'content' => $waypointData->content,
-                'quantity' => $waypointData->quantity,
+                'quantity' => (int)$waypointData->quantity ?? 1,
                 'status' => 'undelivered',
                 'stop_number' => $waypointData->stopNumber,
                 'created_at' => $now,
