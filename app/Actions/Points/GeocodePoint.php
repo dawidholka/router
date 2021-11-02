@@ -4,6 +4,7 @@ namespace App\Actions\Points;
 
 use App\Models\Point;
 use App\Services\GoogleMaps;
+use Illuminate\Http\RedirectResponse;
 
 class GeocodePoint
 {
@@ -18,7 +19,8 @@ class GeocodePoint
             throw new \Exception('Point geocode locked.');
         }
 
-        $geocodeData = $this->googleMaps->geocode($point->address);
+        $geocodeData = $this->googleMaps->geocode($point->full_address);
+
 
         $point->update([
             'lat' => $geocodeData->lat,

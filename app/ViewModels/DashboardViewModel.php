@@ -31,7 +31,7 @@ class DashboardViewModel extends ViewModel
             return [
                 'name' => $driver->name,
                 'color' => $driver->color,
-                'percent' => ($delivered / $waypoints) * 100,
+                'percent' => ($waypoints > 0) ? ($delivered / $waypoints) * 100 : 0,
                 'waypoints' => $waypoints,
                 'delivered' => $delivered,
                 'undelivered' => $undelivered,
