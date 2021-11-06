@@ -9,6 +9,7 @@ use App\Http\Controllers\DriverSearchController;
 use App\Http\Controllers\GeneralSettingsController;
 use App\Http\Controllers\ImportSettingsController;
 use App\Http\Controllers\MapPinSvgController;
+use App\Http\Controllers\OSRMSettingsController;
 use App\Http\Controllers\PointBulkDeleteController;
 use App\Http\Controllers\PointBulkGeolocationController;
 use App\Http\Controllers\PointController;
@@ -88,6 +89,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('import', [ImportSettingsController::class, 'show'])->name('settings.import');
         Route::put('import', [ImportSettingsController::class, 'update']);
         Route::get('update', [UpdateSettingsController::class, 'show'])->name('settings.update');
+        Route::get('osrm', [OSRMSettingsController::class, 'show'])->name('settings.osrm');
+        Route::put('osrm', [OSRMSettingsController::class, 'update'])->name('settings.osrm.update');
         Route::post('update-check', [UpdateSettingsController::class, 'updateCheck'])->name('settings.update.check');
         Route::post('update-install', [UpdateSettingsController::class, 'installUpdate'])->name('settings.update.install');
     });

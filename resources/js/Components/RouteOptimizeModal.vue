@@ -112,6 +112,7 @@ export default {
                 {value: 'routexl', label: 'RouteXL'},
                 {value: 'routexl_manual', label: 'RouteXL Ręczna'},
                 {value: 'open_route_service', label: 'OpenRouteService'},
+                {value: 'osrm', label: 'OSRM'},
             ],
             lastLocationOptions: [
                 {value: 'driver', label: 'Punkt końcowy kierowcy'},
@@ -145,7 +146,7 @@ export default {
                 last_location: this.form.last_location
             };
             const paramsString = (new URLSearchParams(data)).toString();
-            const url = this.route('routes.generate-txt',this.routeId);
+            const url = this.route('routes.generate-txt', this.routeId);
 
             window.open(`${url}?${paramsString}`, '_blank');
         },

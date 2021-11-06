@@ -9,6 +9,7 @@
         "ext-dom": "*",
         "codedge/laravel-selfupdater": "^3.2",
         "fruitcake/laravel-cors": "^2.0",
+        "google/auth": "^1.18",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.4.3",
         "laravel/framework": "^8.54",

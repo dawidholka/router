@@ -39,6 +39,13 @@ export default {
                         this.$inertia.get(this.route('settings.update'))
                     }
                 },
+                {
+                    label: 'OSRM',
+                    icon: 'pi pi-globe',
+                    command: () => {
+                        this.$inertia.get(this.route('settings.osrm'));
+                    }
+                }
             ]
         };
     }
