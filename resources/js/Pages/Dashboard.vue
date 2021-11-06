@@ -5,19 +5,19 @@
                 <div class="card text-center">
                     <h5>{{ driver.name }}</h5>
                     <ProgressBar :value="driver.percent">
-                        Ukończono: {{ parseInt(driver.percent).toString(10) }}%
+                        {{ $t('dashboard.completed') }}: {{ parseInt(driver.percent).toString(10) }}%
                     </ProgressBar>
                     <p class="mt-3">
-                        Ukończone: {{ driver.delivered }}
+                        {{ $t('dashboard.delivered') }}: {{ driver.delivered }}
                     </p>
                     <p>
-                        Problemy z dostarczeniem: {{ driver.problem }}
+                        {{ $t('dashboard.problem') }}: {{ driver.problem }}
                     </p>
                     <p>
-                        Nieukończone: {{ driver.undelivered }}
+                        {{ $t('dashboard.undelivered') }}: {{ driver.undelivered }}
                     </p>
                     <Link :href="route('routes.show', driver.route_id)">
-                        Przejdź do trasy
+                        {{ $t('dashboard.viewRoute') }}
                     </Link>
                 </div>
             </div>

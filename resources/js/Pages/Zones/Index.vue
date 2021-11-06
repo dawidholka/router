@@ -31,7 +31,7 @@
                             <template #header>
                                 <div class="table-header">
                                     <h5 class="m-0">
-                                        Strefy
+                                        {{ $t('common.zones') }}
                                     </h5>
                                 </div>
                             </template>
@@ -40,24 +40,24 @@
                                     {{ slotProps.data.id }}
                                 </template>
                             </Column>
-                            <Column field="delivery_time" header="Nazwa" :sortable="true">
+                            <Column field="delivery_time" :header="$t('common.name')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.name }}
                                 </template>
                             </Column>
-                            <Column field="driver_id" header="Kolor" :sortable="true">
+                            <Column field="driver_id" :header="$t('common.color')" :sortable="true">
                                 <template #body="slotProps">
                                     <span :style="{color: slotProps.data.color}">
                                     {{ slotProps.data.color }}
                                     </span>
                                 </template>
                             </Column>
-                            <Column field="note" header="Data utworzenia" :sortable="false">
+                            <Column field="note" :header="$t('common.createdAt')" :sortable="false">
                                 <template #body="slotProps">
                                     {{ slotProps.data.created_at }}
                                 </template>
                             </Column>
-                            <Column header="Opcje" style="width: 150px;">
+                            <Column :header="$t('common.options')" style="width: 150px;">
                                 <template #body="slotProps">
                                     <Button
                                         icon="pi pi-pencil"
@@ -70,7 +70,7 @@
                                 </template>
                             </Column>
                             <template #empty>
-                                Brak dodanych stref.
+                                {{ $t('zones.empty') }}
                             </template>
                         </DataTable>
                     </div>
@@ -85,7 +85,7 @@
             />
 
             <Dialog
-                header="Import pliku .kml"
+                :header="$t('zones.importKmlFile')"
                 v-model:visible="importDialog"
                 :closable="false"
                 modal
@@ -102,12 +102,12 @@
 
                 <template #footer>
                     <Button
-                        label="Anuluj"
+                        :label="$t('common.cancel')"
                         @click="closeImportDialog"
                         class="p-button-text"
                     />
                     <Button
-                        label="Importuj"
+                        :label="$t('common.import')"
                         :loading="importForm.processing"
                         @click="importKML"
                     />
@@ -153,14 +153,14 @@ export default {
         return {
             menuItems: [
                 {
-                    label: 'Wgraj strefy',
+                    label: this.$t('zones.uploadZones'),
                     icon: 'pi pi-fw pi-file',
                     command: () => {
                         this.openImportDialog();
                     },
                 },
                 {
-                    label: 'Wyczyść strefy',
+                    label: this.$t('zones.clearZones'),
                     icon: 'pi pi-fw pi-trash',
                     command: () => {
                         this.showDeleteDialog();
@@ -179,23 +179,23 @@ export default {
     methods: {
         onDelete() {
             this.deletingModel = true;
-            if(!this.selectedModel){
+            if (!this.selectedModel) {
                 this.$inertia.delete(this.route('zones.bulk-destroy'), {
                     onSuccess: () => {
                         this.deletingModel = false;
                         this.deleteDialog = false;
-                        this.flashSuccess('Usunięto strefy.');
+                        this.flashSuccess(this.$t('zones.zonesDeleted'));
                         this.$refs.deleteDialog.onClose();
                     }
                 })
-            }else{
+            } else {
                 this.$inertia.delete(this.route('zones.destroy', this.selectedModel.id), {
                     onSuccess: () => {
                         this.deletingModel = false;
                         this.deleteDialog = false;
                         this.selectedModel = null;
                         this.$refs.deleteDialog.onClose();
-                        this.flashSuccess('Usunięto strefę.');
+                        this.flashSuccess(this.$t('zones.zoneDeleted'));
                         this.loadLazyData();
                     }
                 })
@@ -217,7 +217,7 @@ export default {
             this.importForm.post(this.route('zones.store'), {
                 onSuccess: () => {
                     this.importDialog = false;
-                    this.flashSuccess('Dodano strefy.');
+                    this.flashSuccess(this.$t('zones.zonesAdded'));
                     this.closeImportDialog();
                 }
             })

@@ -45,7 +45,20 @@
         "optimize": "Optimize",
         "import": "Import",
         "geocode": "Geocode",
-        "route": "Route"
+        "route": "Route",
+        "color": "Color",
+        "admin": "Admin",
+        "chooseOption": "Choose option",
+        "all": "All",
+        "lastHour": "Last hour",
+        "olderThenXDays": "Older then {0} days"
+    },
+    "dashboard": {
+        "completed": "Completed",
+        "delivered": "Delivered",
+        "undelivered": "Undelivered",
+        "problem": "Problem with delivery",
+        "viewRoute": "View Route"
     },
     "routes": {
         "bulkDelete": "Clear routes",
@@ -68,9 +81,35 @@
         "createPoint": "Create point",
         "empty": "No points added."
     },
+    "zones": {
+        "uploadZones": "Upload zones",
+        "clearZones": "Clear zones",
+        "empty": "No zones added.",
+        "zonesDeleted": "Zones deleted.",
+        "zoneDeleted": "Zone deleted.",
+        "zonesAdded": "Zones added.",
+        "importKmlFile": "Import .kml file"
+    },
+    "users": {
+        "addUser": "Add user",
+        "editUser": "Edit user",
+        "userSaved": "User saved.",
+        "userAdded": "User added."
+    },
     "settings": {
         "general": "General Settings",
         "import": "Import Settings",
-        "updates": "Updates"
+        "updates": "Updates",
+        "forcePhotoUpload": "Wymuszanie wgrania zdjęcia przed zmianą statusu dostarczenia",
+        "googleMapsApiKey": "Google Maps Klucz API",
+        "routexlLogin": "RouteXL Login",
+        "routexlPassword": "RouteXL Hasło",
+        "companyLat": "Szerokość geograficzna siedziby",
+        "companyLng": "Długość geograficzna siedziby",
+        "clearAppData": "Wyczyść dane aplikacji",
+        "settingsSaved": "Settings saved.",
+        "appDataCleared": "App data cleared.",
+        "startRowIndex": "Numer pierwszego wiersza",
+        "column": "Column"
     }
 }

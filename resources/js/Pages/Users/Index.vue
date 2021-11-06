@@ -29,7 +29,7 @@
                             <template #header>
                                 <div class="table-header">
                                     <h5 class="p-m-0">
-                                        Użytkownicy
+                                        {{ $t('common.users') }}
                                     </h5>
                                 </div>
                             </template>
@@ -38,22 +38,22 @@
                                     {{ slotProps.data.id }}
                                 </template>
                             </Column>
-                            <Column field="name" header="Nazwa" :sortable="true">
+                            <Column field="name" :header="$t('common.name')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.name }}
                                 </template>
                             </Column>
-                            <Column field="email" header="E-mail" :sortable="true">
+                            <Column field="email" :header="$t('common.email')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.email }}
                                 </template>
                             </Column>
-                            <Column field="admin" header="Admin" :sortable="true">
+                            <Column field="admin" :header="$t('common.admin')" :sortable="true">
                                 <template #body="slotProps">
                                     <i class="pi" :class="{'pi-check': slotProps.data.admin, 'pi-times': !slotProps.data.admin}" />
                                 </template>
                             </Column>
-                            <Column header="Opcje" style="width: 150px;">
+                            <Column :header="$t('common.options')" style="width: 150px;">
                                 <template #body="slotProps">
                                     <Button
                                         icon="pi pi-pencil"
@@ -117,7 +117,7 @@ export default {
             },
             menuItems: [
                 {
-                    label: 'Dodaj użytkownika',
+                    label: this.$t('users.addUser'),
                     icon: 'pi pi-fw pi-plus',
                     command: () => {
                         this.$inertia.get(this.route('users.create'));

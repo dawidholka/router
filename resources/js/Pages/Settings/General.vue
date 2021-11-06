@@ -4,7 +4,7 @@
             <h5>{{ $t('settings.general') }}</h5>
             <div class="field">
                 <label for="force_photo_upload">
-                    Wymuszanie wgrania zdjęcia przed zmianą statusu dostarczenia
+                    {{ $t('settings.forcePhotoUpload') }}
                 </label>
                 <SelectButton
                     id="force_photo_upload"
@@ -19,7 +19,7 @@
             </div>
             <div class="field">
                 <label for="google_maps_api_key">
-                    Google Maps Klucz API
+                    {{ $t('settings.googleMapsApiKey' )}}
                 </label>
                 <InputText
                     id="google_maps_api_key"
@@ -33,7 +33,7 @@
             </div>
             <div class="field">
                 <label for="routexl_username">
-                    RouteXL Login
+                    {{ $t('settings.routexlLogin') }}
                 </label>
                 <InputText
                     id="routexl_username"
@@ -47,7 +47,7 @@
             </div>
             <div class="field">
                 <label for="routexl_password">
-                    RouteXL Password
+                    {{ $t('settings.routexlPassword') }}
                 </label>
                 <InputText
                     id="routexl_password"
@@ -61,7 +61,7 @@
             </div>
             <div class="field">
                 <label for="company_lat">
-                    Szerokość geograficzna siedziby
+                    {{ $t('settings.companyLat') }}
                 </label>
                 <InputText
                     id="company_lat"
@@ -75,7 +75,7 @@
             </div>
             <div class="field">
                 <label for="company_lng">
-                    Długość geograficzna siedziby
+                    {{ $t('settings.companyLng') }}
                 </label>
                 <InputText
                     id="company_lng"
@@ -89,7 +89,7 @@
             </div>
             <div class="field">
                 <label for="bulk-delete">
-                    Wyczyść dane aplikacji
+                    {{ $t('settings.clearAppData') }}
                 </label>
                 <div class="flex flex-row">
                     <Dropdown
@@ -102,7 +102,7 @@
                         :class="{'p-invalid': bulkDeleteForm.errors.option}"
                     />
                     <Button
-                        label="Wyczyść"
+                        :label="$t('common.clear')"
                         class="ml-2"
                         :loading="bulkDeleteForm.processing"
                         @click="bulkDelete"
@@ -112,7 +112,7 @@
         </div>
         <div class="flex justify-content-end mt-3">
             <Button
-                label="Zapisz"
+                :label="$t('common.save')"
                 class="p-button-lg"
                 :loading="form.processing"
                 @click="submit"
@@ -159,14 +159,14 @@ export default {
                 option: null
             }),
             bulkDeleteOptions: [
-                {value: 'all', label: 'Wszystkie'},
-                {value: 'last-hour', label: 'Z ostatniej godziny'},
-                {value: 'older-then-30-days', label: 'Starsze niż 30 dni'},
-                {value: 'older-then-90-days', label: 'Starsze niż 90 dni'},
+                {value: 'all', label: this.$t('common.all')},
+                {value: 'last-hour', label: this.$t('common.lastHour')},
+                {value: 'older-then-30-days', label: this.$t('common.olderThenXDays', [30])},
+                {value: 'older-then-90-days', label: this.$t('common.olderThenXDays', [90])},
             ],
             options: [
-                {value: true, label: 'Tak'},
-                {value: false, label: 'Nie'},
+                {value: true, label: this.$t('common.yes')},
+                {value: false, label: this.$t('common.no')},
             ]
         }
     },
@@ -174,14 +174,14 @@ export default {
         submit() {
             this.form.put(this.route('settings.general.update'), {
                 onSuccess: () => {
-                    this.flashSuccess('Zapisano ustawienia.');
+                    this.flashSuccess(this.$t('settings.settingsSaved'));
                 }
             })
         },
         bulkDelete() {
             this.bulkDeleteForm.post(this.route('bulk-destroy'), {
                 onSuccess: () => {
-                    this.flashSuccess('Wyczyszczono aplikacje.');
+                    this.flashSuccess(this.$t('settings.appDataCleared'));
                 }
             })
 

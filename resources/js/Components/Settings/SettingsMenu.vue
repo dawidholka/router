@@ -19,21 +19,21 @@ export default {
         return {
             menuItems: [
                 {
-                    label: 'Ustawienia Główne',
+                    label: this.$t('settings.general'),
                     icon: 'pi pi-cog',
                     command: () => {
                         this.$inertia.get(this.route('settings.general'))
                     }
                 },
                 {
-                    label: 'Ustawienia Importu',
+                    label: this.$t('settings.import'),
                     icon: 'pi pi-file-excel',
                     command: () => {
                         this.$inertia.get(this.route('settings.import'))
                     }
                 },
                 {
-                    label: 'Aktualizacje',
+                    label: this.$t('settings.updates'),
                     icon: 'pi pi-download',
                     command: () => {
                         this.$inertia.get(this.route('settings.update'))

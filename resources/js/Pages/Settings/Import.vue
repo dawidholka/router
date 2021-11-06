@@ -1,17 +1,17 @@
 <template>
     <SettingsLayout>
         <div class="card">
-            <h5>Ustawienia importu</h5>
+            <h5>{{ $t('settings.import') }}</h5>
             <div class="field">
                 <label for="start_row">
-                    Numer pierwszego wiersza
+                    {{ $t('settings.startRowIndex') }}
                 </label>
                 <InputNumber
                     id="start_row"
                     class="w-full"
                     v-model="form.start_row"
                     :class="{'p-invalid': form.errors.start_row}"
-                    />
+                />
                 <small v-if="form.errors.start_row" class="p-invalid">
                     {{ form.errors.start_row }}
                 </small>
@@ -19,7 +19,7 @@
             <p>Podaj nazwy kolumny np. litery A, B, C takie jak w pliku .xlsx.</p>
             <div class="field">
                 <label for="point_name">
-                    Kolumna - Nazwa punktu
+                    {{ $t('settings.column') }} - {{ $t('common.pointName') }}
                 </label>
                 <InputText
                     id="point_name"
@@ -241,8 +241,8 @@ export default {
                 waypoint_quantity: this.settings.waypoint_quantity,
             }),
             options: [
-                {value: true, label: 'Tak'},
-                {value: false, label: 'Nie'},
+                {value: true, label: this.$t('common.yes')},
+                {value: false, label: this.$t('common.no')},
             ]
         }
     },
@@ -250,7 +250,7 @@ export default {
         submit() {
             this.form.put(this.route('settings.import'), {
                 onSuccess: () => {
-                    this.flashSuccess('Zapisano ustawienia.');
+                    this.flashSuccess(this.$t('settings.settingsSaved'));
                 }
             })
         }
