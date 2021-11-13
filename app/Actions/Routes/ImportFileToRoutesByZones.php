@@ -62,9 +62,9 @@ class ImportFileToRoutesByZones
 
         foreach ($pointsByZones as $zoneId => $importedPoints) {
 
-            $zone = Zone::whereId($zoneId)->firstOrFail();
+            $zone = $zoneId ? Zone::whereId($zoneId)->firstOrFail() : null;
 
-            $name = ($zoneId > 0 ? Zone::whereId($zoneId)->firstOrFail()->name : 'Poza strefami');
+            $name = ($zone ? $zone->name : 'Poza strefami');
 
             $route = $this->createRoute->execute($date, null, $name);
 
