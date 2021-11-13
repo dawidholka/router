@@ -4,7 +4,6 @@ namespace App\Actions\Points;
 
 use App\DTOs\ImportedPointData;
 use App\DTOs\PointData;
-use App\Models\Point;
 use App\Settings\ImportSettings;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -29,77 +28,18 @@ class ImportFileToPoints
     {
         $rows = $this->getRowsCollection($file);
         $importedPoints = [];
-        $pointsDataBulk = [];
 
         foreach ($rows as $row) {
             $pointData = $this->mapRowToPointData($row);
-            $pointsDataBulk[] = $pointData;
+            $point = $this->firstOrCreatePoint->execute($pointData);
 
-//            $point = $this->firstOrCreatePoint->execute($pointData);
-//
-//            $importedPoints[] = new ImportedPointData([
-//                'point' => $point,
-//                'data' => $pointData
-//            ]);
+            $importedPoints[] = new ImportedPointData([
+                'point' => $point,
+                'data' => $pointData
+            ]);
         }
 
-        $points = Point::query();
-        $i = 1;
-        /** @var PointData $item */
-        foreach ($pointsDataBulk as $item) {
-            if ($i++ == 1) {
-                $points->where(function ($query) use ($item) {
-                    $query->whereName($item->name)
-                        ->whereStreet($item->street)
-                        ->whereBuildingNumber($item->building_number)
-                        ->whereCity($item->city);
-                });
-            } else {
-                $points->orWhere(function ($query) use ($item) {
-                    $query->whereName($item->name)
-                        ->whereStreet($item->street)
-                        ->whereBuildingNumber($item->building_number)
-                        ->whereCity($item->city);
-                });
-            }
-        }
-
-        $points = $points->get()->keyBy('id');
-        /** @var Collection $points */
-
-        $toBeCreated = [];
-        $completed = [];
-        $toBeUpdated = [];
-
-        /** @var PointData $item */
-        foreach ($pointsDataBulk as $pointData) {
-            $currentPoint = $points->where('name', $pointData->name)
-                ->where('street', $pointData->street);
-            if($currentPoint->isNotEmpty()){
-                /** @var Point $currentPoint */
-                $currentPoint = $currentPoint->first();
-                if($this->isDataEqual($pointData, $currentPoint)){
-                    $completed[] = new ImportedPointData([
-                        'point' => $currentPoint,
-                        'data' => $pointData
-                    ]);
-                }else{
-                    $point = $this->firstOrCreatePoint->execute($pointData);
-                    $completed[] = new ImportedPointData([
-                        'point' => $point,
-                        'data' => $pointData
-                    ]);
-                }
-            }else{
-                $point = $this->firstOrCreatePoint->execute($pointData);
-                $completed[] = new ImportedPointData([
-                    'point' => $point,
-                    'data' => $pointData
-                ]);
-            }
-        }
-
-        return $completed;
+        return $importedPoints;
     }
 
     private function mapRowToPointData(array $row): PointData
@@ -128,20 +68,5 @@ class ImportFileToPoints
         $worksheet = $spreadsheet->getActiveSheet();
         $import = collect($worksheet->toArray());
         return $import->slice($this->importSettings->start_row - 1);
-    }
-
-    private function isDataEqual(PointData $pointData, Point $point): bool
-    {
-        $point->apartament = $pointData->apartament;
-        $point->intercom = $pointData->intercom;
-        $point->phone = $pointData->phone;
-        $point->delivery_time = $pointData->delivery_time;
-        $point->note = $pointData->note;
-        $point->postcode = $pointData->postcode;
-        $point->lat = $pointData->lat ?? $point->lat;
-        $point->long = $pointData->long ?? $point->long;
-        $point->lock_geo = $pointData->lock_geo ?? $point->lock_geo;
-
-        return !$point->isDirty();
     }
 }
