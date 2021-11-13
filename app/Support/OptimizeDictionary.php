@@ -21,7 +21,7 @@ class OptimizeDictionary
             'last_location' => ['required', 'string', 'in:driver,last_waypoint,company']
         ],
         self::ROUTEXL_MANUAL => [
-            'file' => ['required', 'file', 'mimes:csv']
+            'file' => ['required', 'file', 'mimes:csv,txt']
         ],
         self::OPEN_ROUTE_SERVICE => [
 
