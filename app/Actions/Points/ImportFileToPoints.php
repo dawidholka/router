@@ -8,6 +8,7 @@ use App\Settings\ImportSettings;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class ImportFileToPoints
 {
@@ -21,6 +22,7 @@ class ImportFileToPoints
     /**
      * @param UploadedFile $file
      * @return ImportedPointData[]
+     * @throws UnknownProperties
      */
     public function execute(
         UploadedFile $file

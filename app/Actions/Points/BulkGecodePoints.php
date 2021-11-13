@@ -17,7 +17,7 @@ class BulkGecodePoints
     public function execute(Collection $points)
     {
         $points = $points->reject(function (Point $point) {
-            return $point->lock_geo;
+            return $point->geocoded;
         });
 
         $chunks = $points->chunk(5);

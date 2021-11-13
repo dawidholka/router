@@ -26,7 +26,6 @@ class ImportFileToRoutesByZones
         private GeocodePoint       $geocodePoint,
         private GetZoneByCoords    $getZoneByCoords,
         private CreateRoute        $createRoute,
-        private CreateWaypoint     $createWaypoint,
         private ImportSettings     $importSettings,
         private CreateBulkWaypoint $createBulkWaypoint
     )
@@ -50,6 +49,7 @@ class ImportFileToRoutesByZones
 
         foreach ($importedPoints as $importedPoint) {
             $point = $importedPoint->point;
+            //TODO Bulk geocoding
             if (!$point->geocoded) {
                 $point = $this->geocodePoint->execute($importedPoint->point);
             }
