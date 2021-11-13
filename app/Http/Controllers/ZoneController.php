@@ -36,7 +36,7 @@ class ZoneController extends Controller
         abort_if(!auth()->user()->admin, 403);
 
         $request->validate([
-            'file' => ['required', 'file', 'mimes:kml']
+            'file' => ['required', 'file', 'mimetypes:application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz,application/xml,text/xml']
         ]);
 
         $createZonesFromKMLFile->execute($request->file);
