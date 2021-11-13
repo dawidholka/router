@@ -13,8 +13,11 @@ use App\Models\Route;
 use App\Models\Zone;
 use App\Settings\ImportSettings;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ImportFileToRoutesByZones
 {
@@ -25,6 +28,7 @@ class ImportFileToRoutesByZones
         private CreateRoute        $createRoute,
         private CreateWaypoint     $createWaypoint,
         private ImportSettings     $importSettings,
+        private CreateBulkWaypoint $createBulkWaypoint
     )
     {
     }
@@ -58,23 +62,41 @@ class ImportFileToRoutesByZones
             $pointsByZones[0][] = $importedPoint;
         }
 
-        $routes = [];
+        /** @var Collection $zones */
+        $zones = Cache::rememberForever('zones', function () {
+            return Zone::all();
+        });
+        $zones = $zones->keyBy('id');
 
-        foreach ($pointsByZones as $zoneId => $importedPoints) {
 
-            $zone = $zoneId ? Zone::whereId($zoneId)->firstOrFail() : null;
+        $routes = DB::transaction(function () use ($zones, $date, $pointsByZones) {
+            $routes = [];
 
-            $name = ($zone ? $zone->name : 'Poza strefami');
+            foreach ($pointsByZones as $zoneId => $importedPoints) {
 
-            $route = $this->createRoute->execute($date, null, $name);
+                $zone = $zones[$zoneId] ?? null;
 
-            /** @var ImportedPointData $importedPoint */
-            foreach ($importedPoints as $importedPoint) {
-                $waypointData = $this->mapRowToWaypointData($route, $importedPoint->point, $importedPoint->data);
-                $this->createWaypoint->execute($waypointData);
+                $name = ($zone ? $zone->name : 'Poza strefami');
+
+                $route = $this->createRoute->execute($date, null, $name);
+
+                $waypointDataBulk = collect();
+                /** @var ImportedPointData $importedPoint */
+                $i = 0;
+                foreach ($importedPoints as $importedPoint) {
+                    $waypointData = $this->mapRowToWaypointData($route, $importedPoint->point, $importedPoint->data);
+                    $waypointData->stopNumber = ++$i;
+                    $waypointDataBulk->push($waypointData);
+                }
+
+                $this->createBulkWaypoint->execute($waypointDataBulk);
+
+                $routes[] = $route;
             }
-            $routes[] = $route;
-        }
+
+            return $routes;
+        });
+
 
         return $routes;
     }

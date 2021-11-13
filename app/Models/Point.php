@@ -11,7 +11,7 @@ class Point extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'lock_geo' => 'bool',
+        'lock_geo' => 'boolean',
         'created_at' => 'date',
         'updated_at' => 'date',
     ];

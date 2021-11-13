@@ -15,9 +15,9 @@ class FirstOrCreatePoint
             ->whereCity($pointData->city)
             ->whereApartament($pointData->apartament)
             ->whereIntercom($pointData->intercom)
-            ->first();
+            ->first(['id', 'phone', 'delivery_time', 'note', 'postcode', 'lat', 'long', 'lock_geo']);
 
-        if(!$point){
+        if (!$point) {
             $point = Point::create([
                 'name' => $pointData->name,
                 'street' => $pointData->street,
