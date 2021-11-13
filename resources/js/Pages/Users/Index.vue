@@ -21,7 +21,7 @@
                             v-model:filters="datatable.filters"
                             paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                             :rows-per-page-options="[5,10,25]"
-                            current-page-report-template="Wyświetlanie od {first} do {last} z {totalRecords} wniosków"
+                            :current-page-report-template="$tm('common.currentPageReportTemplate')"
                             @page="onPage($event)"
                             @sort="onSort($event)"
                             @filter="onSort($event)"

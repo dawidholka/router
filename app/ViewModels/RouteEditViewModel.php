@@ -13,7 +13,7 @@ class RouteEditViewModel extends ViewModel
     public function __construct(private Route $route)
     {
         $route->load([
-            'waypoints' => function ($query){
+            'waypoints' => function ($query) {
                 $query->orderBy('stop_number');
             },
             'waypoints.point',
@@ -38,7 +38,7 @@ class RouteEditViewModel extends ViewModel
             'delivery_time' => $this->route->delivery_time?->format('Y-m-d'),
             'status_translated' => __('routes.status.' . $this->route->status),
             'status' => $this->route->status,
-            'optimize_status_translated' => __('routes.optimize_status.'.$this->route->optimize_status),
+            'optimize_status_translated' => __('routes.optimize_status.' . $this->route->optimize_status),
             'optimize_status' => $this->route->optimize_status,
             'distance' => $this->route->distance,
             'time' => $this->route->time,
@@ -64,7 +64,7 @@ class RouteEditViewModel extends ViewModel
                 'city' => $waypoint->point->city,
                 'stop_number' => $waypoint->stop_number,
                 'geocoded' => $waypoint->point->geocoded,
-                'color' => $this->route->driver->color ?? ColorDictionary::getRandomColor(),
+                'color' => ColorDictionary::getColorForStop($waypoint->stop_number),
                 'lat' => $waypoint->point->lat,
                 'lng' => $waypoint->point->long,
                 'point_id' => $waypoint->point_id

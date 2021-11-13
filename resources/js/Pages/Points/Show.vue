@@ -5,46 +5,48 @@
                 <div class="col-12 md:col-8 md:col-offset-2 lg:col-6 lg:col-offset-3">
                     <Card>
                         <template #title>
-                            Dane
+                            {{ $t('common.data') }}
                         </template>
                         <template #content>
-                            <p>Nazwa: {{ point.name }}</p>
+                            <p>{{ $t('common.name') }}: {{ point.name }}</p>
                             <Divider v-if="point.phone"/>
-                            <p v-if="point.phone">Telefon: {{ point.phone }}</p>
+                            <p v-if="point.phone">{{ $t('common.phone') }}: {{ point.phone }}</p>
                             <Divider/>
-                            <p>Ulica: {{ point.street }}</p>
+                            <p>{{ $t('common.street') }}: {{ point.street }}</p>
                             <Divider/>
-                            <p>Numer budynku: {{ point.building_number }}</p>
+                            <p>{{ $t('common.buildingNumber') }}: {{ point.building_number }}</p>
                             <Divider v-if="point.apartament"/>
-                            <p v-if="point.apartament">Numer mieszkania: {{ point.apartament }}</p>
+                            <p v-if="point.apartament">{{ $t('common.apartment') }}: {{ point.apartament }}</p>
                             <Divider/>
-                            <p>Miasto: {{ point.city }}</p>
+                            <p>{{ $t('common.city') }}: {{ point.city }}</p>
                             <Divider/>
-                            <p>Kod pocztowy: {{ point.postcode }}</p>
+                            <p>{{ $t('common.postcode') }}: {{ point.postcode }}</p>
                             <Divider v-if="point.delivery_time"/>
-                            <p v-if="point.delivery_time">Czas dostawy: {{ point.delivery_time }}</p>
+                            <p v-if="point.delivery_time">{{ $t('common.delivery_time') }}: {{
+                                    point.delivery_time
+                                }}</p>
                             <Divider v-if="point.intercom"/>
-                            <p v-if="point.intercom">Kod do domofonu: {{ point.intercom }}</p>
+                            <p v-if="point.intercom">{{ $t('common.intercom') }}: {{ point.intercom }}</p>
                             <Divider v-if="point.last_used_at"/>
-                            <p v-if="point.last_used_at">Ostatnie użycie: {{ point.last_used_at }}</p>
+                            <p v-if="point.last_used_at">{{ $t('common.lastUsedAt') }}: {{ point.last_used_at }}</p>
                             <Divider/>
-                            <p>Data modyfikacji: {{ point.updated_at }}</p>
+                            <p>{{ $t('common.updatedAt') }}: {{ point.updated_at }}</p>
                             <Divider/>
-                            <p>Data utworzenia: {{ point.created_at }}</p>
+                            <p>{{ $t('common.createdAt') }}: {{ point.created_at }}</p>
                         </template>
                         <template #footer>
                             <Button
                                 v-if="$page.props.admin"
                                 class="p-button-sm"
                                 icon="pi pi-pencil"
-                                label="Edytuj"
+                                :label="$t('common.edit')"
                                 @click="edit"
                             />
                             <Button
                                 v-if="$page.props.admin"
                                 class="p-button-sm p-button-info ml-1"
                                 icon="pi pi-map"
-                                label="Geolokalizuj"
+                                :label="$t('common.geocode')"
                                 :loading="geolocationInProgress"
                                 @click="onGeolocation"
                             />
@@ -52,7 +54,7 @@
                                 v-if="$page.props.admin"
                                 class="p-button-sm p-button-danger ml-1"
                                 icon="pi pi-trash"
-                                label="Usuń"
+                                :label="$t('common.delete')"
                                 :loading="deletingModel"
                                 @click="deletePoint"
                             />
@@ -60,7 +62,7 @@
                     </Card>
                     <Card v-if="point.note" class="mt-3">
                         <template #title>
-                            Notatka
+                            {{ $t('common.note') }}
                         </template>
                         <template #content>
                             {{ point.note }}
@@ -68,7 +70,7 @@
                     </Card>
                     <Card v-if="point.driver_note" class="mt-3">
                         <template #title>
-                            Notatka kierowcy
+                            {{ $t('common.driverNote') }}
                         </template>
                         <template #content>
                             {{ point.driver_note }}
@@ -76,14 +78,14 @@
                     </Card>
                     <Card class="mt-3">
                         <template #title>
-                            Geolokalizacja
+                            {{ $t('common.geocoding') }}
                         </template>
                         <template #content>
-                            <p>Szerokość geograficzna: {{ point.lat ?? 'Brak' }}</p>
+                            <p>{{ $t('common.lat') }}: {{ point.lat ?? '-' }}</p>
                             <Divider/>
-                            <p>Długość geograficzna: {{ point.long ?? 'Brak' }}</p>
+                            <p>{{ $t('common.lng') }}: {{ point.long ?? '-' }}</p>
                             <Divider/>
-                            <p>Blokada zmiany: {{ point.lock_geo ? 'Tak' : 'Nie' }}</p>
+                            <p>{{ $t('common.lockGeo') }}: {{ point.lock_geo ? $t('common.yes') : $t('common.no') }}</p>
                         </template>
                     </Card>
                     <div v-if="point.routes.length">
@@ -97,13 +99,13 @@
                             >
                                 <template #header>
                                     <div class="flex justify-content-between align-content-center">
-                                        <h5>Trasy</h5>
+                                        <h5>{{ $t('common.routes') }}</h5>
                                     </div>
                                 </template>
-                                <Column field="route_id" header="Numer trasy"></Column>
-                                <Column field="status" header="Status"></Column>
-                                <Column field="delivered_time" header="Data dostarczenia"></Column>
-                                <Column header="Opcje">
+                                <Column field="route_id" :header="$t('common.route')"></Column>
+                                <Column field="status" :header="$t('common.status')"></Column>
+                                <Column field="delivered_time" :header="$t('common.deliveredTime')"></Column>
+                                <Column :header="$t('common.options')">
                                     <template #body="slotProps">
                                         <Button
                                             v-if="slotProps.data.photo_uploaded"

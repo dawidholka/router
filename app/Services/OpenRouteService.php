@@ -25,13 +25,8 @@ class OpenRouteService
             'vehicles' => $vehicles
         ]);
 
-        dd(json_encode(['jobs' => $jobs,
-            'vehicles' => $vehicles]));
-
-        dd($response->json());
-
         if ($response->failed()) {
-            throw new \Exception('Optimize Error');
+            throw new \Exception('Api returned: ' . $response->json()['error'] ?? $response->status());
         }
 
         return $response->json();

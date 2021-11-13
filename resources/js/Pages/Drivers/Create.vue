@@ -4,10 +4,10 @@
             <div class="grid">
                 <div class="col-6 col-offset-3">
                     <div class="card">
-                        <h5 v-if="!driver">Dodaj kierowcę</h5>
-                        <h5 v-else>Edytuj kierowcę</h5>
+                        <h5 v-if="!driver">{{ $t('drivers.addDriver') }}</h5>
+                        <h5 v-else>{{ $t('drivers.editDriver') }}</h5>
                         <div class="field">
-                            <label for="name">Nazwa</label>
+                            <label for="name">{{ $t('common.name') }}</label>
                             <InputText
                                 id="name"
                                 class="w-full"
@@ -19,7 +19,7 @@
                             </small>
                         </div>
                         <div class="field">
-                            <label for="login">Login</label>
+                            <label for="login">{{ $t('common.login' )}}</label>
                             <InputText
                                 id="login"
                                 class="w-full"
@@ -31,7 +31,7 @@
                             </small>
                         </div>
                         <div class="field">
-                            <label for="password">Hasło</label>
+                            <label for="password">{{ $t('common.password') }}</label>
                             <InputText
                                 id="password"
                                 class="w-full"
@@ -44,14 +44,14 @@
                             </small>
                         </div>
                         <div class="field">
-                            <label for="color">Kolor</label>
+                            <label for="color">{{ $t('common.color') }}</label>
                             <Dropdown
                                 id="color"
                                 class="w-full"
                                 :options="colors"
                                 option-value="value"
                                 option-label="name"
-                                placeholder="Wybierz kolor"
+                                :placeholder="$t('common.chooseOption')"
                                 v-model="form.color"
                                 :class="{'p-invalid': form.errors.color}"
                             >
@@ -66,7 +66,7 @@
                             </small>
                         </div>
                         <div class="field">
-                            <label for="lat">Szerokość geograficzna punktu końcowego</label>
+                            <label for="lat">{{ $t('drivers.driverLat') }}</label>
                             <InputText
                                 id="lat"
                                 class="w-full"
@@ -78,7 +78,7 @@
                             </small>
                         </div>
                         <div class="field">
-                            <label for="long">Długość geograficzna punktu końcowego</label>
+                            <label for="long">{{ $t('drivers.driverLng') }}</label>
                             <InputText
                                 id="long"
                                 class="w-full"
@@ -93,12 +93,12 @@
                     </div>
                     <div class="flex justify-content-end mt-3">
                         <Button
-                            label="Anuluj"
+                            :label="$t('common.cancel')"
                             class="p-button-secondary p-button-outlined p-button-lg mr-3"
                             @click="cancel"
                         />
                         <Button
-                            label="Zapisz"
+                            :label="$t('common.save')"
                             class="p-button-lg"
                             :loading="form.processing"
                             @click="submit"
@@ -156,13 +156,13 @@ export default {
             if (this.driver) {
                 this.form.put(this.route('drivers.update', this.driver.id), {
                     onSuccess: () => {
-                        this.flashSuccess('Zapisano kierowcę.');
+                        this.flashSuccess(this.$t('drivers.driverSaved'));
                     }
                 })
             } else {
                 this.form.post(this.route('drivers.store'), {
                     onSuccess: () => {
-                        this.flashSuccess('Dodano kierowcę.');
+                        this.flashSuccess(this.$t('drivers.driverAdded'));
                     }
                 })
             }

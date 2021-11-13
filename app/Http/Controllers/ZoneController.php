@@ -36,7 +36,7 @@ class ZoneController extends Controller
         abort_if(!auth()->user()->admin, 403);
 
         $request->validate([
-            'file' => ['required', 'file']
+            'file' => ['required', 'file', 'mimes:kml']
         ]);
 
         $createZonesFromKMLFile->execute($request->file);

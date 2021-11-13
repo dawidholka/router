@@ -20,7 +20,7 @@
                             :total-records="datatable.totalRecords"
                             paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                             :rows-per-page-options="[5,10,25]"
-                            current-page-report-template="Wyświetlanie od {first} do {last} z {totalRecords} elementów"
+                            :current-page-report-template="$tm('common.currentPageReportTemplate')"
                             @page="onPage($event)"
                             @sort="onSort($event)"
                             @filter="onSort($event)"
@@ -193,10 +193,10 @@ export default {
                 option: null
             }),
             bulkDeleteOptions: [
-                {value: 'all', label: 'Wszystkie'},
-                {value: 'last-hour', label: 'Z ostatniej godziny'},
-                {value: 'older-then-30-days', label: 'Starsze niż 30 dni'},
-                {value: 'older-then-90-days', label: 'Starsze niż 90 dni'},
+                {value: 'all', label: this.$t('common.all')},
+                {value: 'last-hour', label: this.$t('common.lastHour')},
+                {value: 'older-then-30-days', label: this.$t('common.olderThenXDays', [30])},
+                {value: 'older-then-90-days', label: this.$t('common.olderThenXDays', [90])},
             ],
         }
     },

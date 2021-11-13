@@ -4,11 +4,11 @@
             <div class="grid">
                 <div class="col-6 col-offset-3">
                     <div class="card">
-                        <h5 v-if="!point">Dodawanie nowego punktu</h5>
-                        <h5 v-else>Edycja punktu</h5>
+                        <h5 v-if="!point">{{ $t('common.addPoint') }}</h5>
+                        <h5 v-else>{{ $t('common.editPoint') }}</h5>
                         <div class="formgrid grid">
                             <div class="field col">
-                                <label for="name">Nazwa*</label>
+                                <label for="name">{{ $t('common.name') }}*</label>
                                 <InputText
                                     id="name"
                                     class="w-full"
@@ -20,7 +20,7 @@
                                 </small>
                             </div>
                             <div class="field col">
-                                <label for="street">Ulica*</label>
+                                <label for="street">{{ $t('common.street') }}*</label>
                                 <InputText
                                     id="street"
                                     class="w-full"
@@ -34,7 +34,7 @@
                         </div>
                         <div class="formgrid grid">
                             <div class="field col">
-                                <label for="building_number">Nr domu*</label>
+                                <label for="building_number">{{ $t('common.buildingNumber') }}*</label>
                                 <InputText
                                     id="building_number"
                                     class="w-full"
@@ -46,7 +46,7 @@
                                 </small>
                             </div>
                             <div class="field col">
-                                <label for="apartament">Numer mieszkania</label>
+                                <label for="apartament">{{ $t('common.apartament') }}</label>
                                 <InputText
                                     id="apartament"
                                     class="w-full"
@@ -58,7 +58,7 @@
                                 </small>
                             </div>
                             <div class="field col">
-                                <label for="city">Miasto*</label>
+                                <label for="city">{{ $t('common.city') }}*</label>
                                 <InputText
                                     id="city"
                                     class="w-full"
@@ -72,7 +72,7 @@
                         </div>
                         <div class="formgrid grid">
                             <div class="field col">
-                                <label for="intercom">Kod do domofonu</label>
+                                <label for="intercom">{{ $t('common.intercom') }}</label>
                                 <InputText
                                     id="intercom"
                                     class="w-full"
@@ -84,7 +84,7 @@
                                 </small>
                             </div>
                             <div class="field col">
-                                <label for="delivery_time">Czas dostawy</label>
+                                <label for="delivery_time">{{ $t('common.delivery_time') }}</label>
                                 <InputText
                                     id="apartament"
                                     class="w-full"
@@ -96,7 +96,7 @@
                                 </small>
                             </div>
                             <div class="field col">
-                                <label for="phone">Telefon</label>
+                                <label for="phone">{{ $t('common.phone') }}</label>
                                 <InputText
                                     id="city"
                                     class="w-full"
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label for="note">Notatka</label>
+                            <label for="note">{{ $t('common.note') }}</label>
                             <Textarea
                                 id="note"
                                 class="w-full"
@@ -122,7 +122,7 @@
                         </div>
                         <div class="formgrid grid">
                             <div class="field col">
-                                <label for="lat">Szerokość geograficzna</label>
+                                <label for="lat">{{ $t('common.lat') }}</label>
                                 <InputText
                                     id="lat"
                                     class="w-full"
@@ -134,7 +134,7 @@
                                 </small>
                             </div>
                             <div class="field col">
-                                <label for="long">Długość geograficzna</label>
+                                <label for="long">{{ $t('common.lng') }}</label>
                                 <InputText
                                     id="long"
                                     class="w-full"
@@ -146,7 +146,7 @@
                                 </small>
                             </div>
                             <div class="field col">
-                                <label for="lock_geo">Zablokuj zmianę</label>
+                                <label for="lock_geo">{{ $t('common.lockGeo') }}</label>
                                 <Dropdown
                                     id="lock_geo"
                                     class="w-full"
@@ -164,12 +164,12 @@
                     </div>
                     <div class="flex justify-content-end mt-3">
                         <Button
-                            label="Anuluj"
+                            :label="$t('common.cancel')"
                             class="p-button-secondary p-button-outlined p-button-lg mr-3"
                             @click="cancel"
                         />
                         <Button
-                            label="Zapisz"
+                            :label="$t('common.save')"
                             class="p-button-lg"
                             :loading="form.processing"
                             @click="submit"

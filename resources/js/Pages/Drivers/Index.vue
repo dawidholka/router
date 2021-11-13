@@ -20,7 +20,7 @@
                             :total-records="datatable.totalRecords"
                             paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                             :rows-per-page-options="[5,10,25]"
-                            current-page-report-template="Wyświetlanie od {first} do {last} z {totalRecords} elementów"
+                            :current-page-report-template="$tm('common.currentPageReportTemplate')"
                             @page="onPage($event)"
                             @sort="onSort($event)"
                             @filter="onSort($event)"
@@ -28,7 +28,7 @@
                             <template #header>
                                 <div class="table-header">
                                     <h5 class="p-m-0">
-                                        Kierowcy
+                                        {{ $t('common.drivers') }}
                                     </h5>
                                 </div>
                             </template>
@@ -37,12 +37,12 @@
                                     {{ slotProps.data.id }}
                                 </template>
                             </Column>
-                            <Column field="name" header="Nazwa" :sortable="true">
+                            <Column field="name" :header="$t('common.name')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.name }}
                                 </template>
                             </Column>
-                            <Column header="Opcje" style="width: 150px;">
+                            <Column :header="$t('common.options')" style="width: 150px;">
                                 <template #body="slotProps">
                                     <Button
                                         icon="pi pi-pencil"
@@ -55,7 +55,7 @@
                                 </template>
                             </Column>
                             <template #empty>
-                                Brak dodanych kierowców.
+                                {{ $t('drivers.empty') }}
                             </template>
                         </DataTable>
                     </div>
@@ -107,7 +107,7 @@ export default {
             },
             menuItems: [
                 {
-                    label: 'Dodaj kierowcę',
+                    label: this.$t('drivers.addDriver'),
                     icon: 'pi pi-fw pi-plus',
                     command: () => {
                         this.$inertia.get(this.route('drivers.create'));

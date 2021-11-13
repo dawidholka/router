@@ -28,7 +28,7 @@ class GeneralSettingsController extends Controller
     }
 
     public function update(
-        Request $request,
+        Request         $request,
         GeneralSettings $settings
     ): RedirectResponse
     {
@@ -39,6 +39,8 @@ class GeneralSettingsController extends Controller
             'google_maps_api_key' => ['required', 'string']
         ]);
 
+        $settings->routexl_username = $request['routexl_username'];
+        $settings->routexl_password = $request['routexl_password'];
         $settings->google_maps_api_key = $request['google_maps_api_key'];
         $settings->force_photo_upload = $request['force_photo_upload'];
         $settings->company_lat = $request['company_lat'];

@@ -35,7 +35,10 @@ class PointSearchDatatable extends Datatable
 
         return function (Builder $query) use ($filterValue) {
             if ($filterValue) {
-                $query->where('name', 'LIKE', '%' . $filterValue . '%');
+                $query->where('name', 'LIKE', '%' . $filterValue . '%')
+                    ->orWhere('street', 'LIKE', '%' . $filterValue . '%')
+                    ->orWhere('postcode', 'LIKE', '%' . $filterValue . '%')
+                    ->orWhere('city', 'LIKE', '%' . $filterValue . '%');
             }
         };
     }

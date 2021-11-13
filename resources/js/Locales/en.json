@@ -25,16 +25,30 @@
         "stopNumber": "Stop",
         "name": "Name",
         "address": "Address",
+        "quantity": "Quantity",
+        "buildingNumber": "Building number",
         "city": "City",
         "status": "Status",
+        "driverNote": "Driver note",
         "deliveredTime": "Delivered Time",
+        "apartment": "Apartment",
+        "intercom": "Intercom",
         "createdAt": "Created At",
+        "lat": "Latitude",
+        "lng": "Longitude",
+        "lockGeo": "Lock geo",
         "updatedAt": "Updated At",
+        "postcode": "Postcode",
+        "edit": "Edytuj",
+        "phone": "Phone",
+        "street": "Street",
+        "file": "File",
         "option": "Option",
         "error": "Error",
         "success": "Success",
         "pointName": "Point name",
         "clear": "Clear",
+        "geocoding": "Geocoding",
         "deliveryTime": "Delivery time",
         "optimization": "Optimization",
         "export": "Export",
@@ -49,9 +63,20 @@
         "color": "Color",
         "admin": "Admin",
         "chooseOption": "Choose option",
+        "search": "Search...",
         "all": "All",
+        "data": "Data",
+        "lastUsedAt": "Last used at",
         "lastHour": "Last hour",
-        "olderThenXDays": "Older then {0} days"
+        "olderThenXDays": "Older then {0} days",
+        "currentPageReportTemplate": "Showing from {first} to {last} of {totalRecords} elements",
+        "selectAll": "Select all",
+        "deselectAll": "Deselect all",
+        "moveWaypoints": "Move waypoints",
+        "deleteSelected": "Delete selected",
+        "fromDatabase": "From database",
+        "importXlsx": "Import .xlsx",
+        "downloadPhoto": "Download photo"
     },
     "dashboard": {
         "completed": "Completed",
@@ -59,6 +84,15 @@
         "undelivered": "Undelivered",
         "problem": "Problem with delivery",
         "viewRoute": "View Route"
+    },
+    "drivers": {
+        "addDriver": "Add driver",
+        "editDriver": "Edit driver",
+        "empty": "No drivers added.",
+        "driverLat": "Szerokość geograficzna punktu końcowego",
+        "driverLng": "Długość geograficzna punktu końcowego",
+        "driverSaved": "Zapisano kierowcę.",
+        "driverAdded": "Dodano kierowcę"
     },
     "routes": {
         "bulkDelete": "Clear routes",
@@ -69,7 +103,30 @@
         "saveOrder": "Save order",
         "routeDeleted": "Route deleted.",
         "routesDeleted": "Routes deleted.",
-        "selectDriver": "Select driver"
+        "selectDriver": "Select driver",
+        "routeCreated": "Route created",
+        "editData": "Edit data",
+        "optimizeRoute": "Optimize route",
+        "cloneRoute": "Clone route",
+        "checkStatus": "Check status",
+        "endRoute": "End route",
+        "resumeRoute": "Resume route",
+        "estimatedDistance": "Estimated distance",
+        "estimatedTime": "Estimated time",
+        "lastDownloadByDriver": "Last download by driver",
+        "setAsDriverCurrentRoute": "Set as driver current route",
+        "importXlsxFile": "Import xlsx file",
+        "moveWaypointsToAnotherRoute": "Move waypoints to another route",
+        "targetRoute": "Target route",
+        "orderSaved": "Order saved",
+        "waypointsDeleted": "Waypoints deleted",
+        "waypointsImported": "Waypoints imported",
+        "waypointsGeocoded": "Waypoints geocoded",
+        "routeCloned": "Route cloned",
+        "statusUpdated": "Status updated",
+        "routeEndedOrResumed": "Route ended/resumed",
+        "routeSetAsCurrent": "Route set as current",
+        "waypointsMoved": "Waypoints moved"
     },
     "auth": {
         "login": "Login",
@@ -79,7 +136,9 @@
     "points": {
         "bulkDelete": "Clear points",
         "createPoint": "Create point",
-        "empty": "No points added."
+        "empty": "No points added.",
+        "addPoint": "Add point",
+        "editPoint": "Edit point"
     },
     "zones": {
         "uploadZones": "Upload zones",
@@ -95,6 +154,11 @@
         "editUser": "Edit user",
         "userSaved": "User saved.",
         "userAdded": "User added."
+    },
+    "creator": {
+        "title": "Routes creator",
+        "createRoutes": "Create routes",
+        "createdRoutes": "Created routes"
     },
     "settings": {
         "general": "General Settings",

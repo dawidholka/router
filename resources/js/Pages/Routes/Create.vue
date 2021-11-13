@@ -108,7 +108,7 @@ export default {
         submit() {
             this.form.post(this.route('routes.store'), {
                 onSuccess: () => {
-                    this.flashSuccess('Utworzono trasę.');
+                    this.flashSuccess(this.$t('routes.routeCreated'));
                 }
             })
         }

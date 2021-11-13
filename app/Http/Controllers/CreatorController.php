@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Routes\ImportFileToRoutesByZones;
 use App\Models\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,10 +23,13 @@ class CreatorController extends Controller
         abort_if(!auth()->user()->admin, 403);
 
         $request->validate([
-            'file' => ['required', 'file']
+            'file' => ['required', 'file', 'mimes:xlsx'],
+            'date' => ['required', 'date'],
         ]);
 
-        $routes = $importFileToRoutesByZones->execute($request['file']);
+        $date = Carbon::parse($request['date']);
+
+        $routes = $importFileToRoutesByZones->execute($request['file'], $date);
 
         $routes = collect($routes)->map(function (Route $route) {
             return [

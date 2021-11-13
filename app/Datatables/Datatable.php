@@ -62,7 +62,7 @@ abstract class Datatable
     protected function sortAndOrder(Request $request): Builder
     {
         if (!$request->has('sortField') || !$request->has('sortOrder')) {
-            return $this->builder;
+            return $this->builder->orderBy('id', 'desc');
         }
 
         $direction = ($request['sortOrder'] == 1) ? 'asc' : 'desc';

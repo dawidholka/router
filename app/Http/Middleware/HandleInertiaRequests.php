@@ -40,6 +40,9 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'google_maps_api_key' => app(GeneralSettings::class)->google_maps_api_key,
             'admin' => $request->user()?->admin,
+            'flash' => [
+                'error' => fn () => $request->session()->get('error')
+            ],
         ]);
     }
 }

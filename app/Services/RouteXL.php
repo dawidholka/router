@@ -27,7 +27,7 @@ class RouteXL
             ]);
 
         if($response->failed()){
-            throw new \Exception('Optimize Error');
+            throw new \Exception('Api returned code: '.$response->status());
         }
 
         return $response->json();

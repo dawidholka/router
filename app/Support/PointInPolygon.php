@@ -74,7 +74,10 @@ class PointInPolygon
 
     function pointToCoordinates($point): array
     {
-        return array("x" => $point[0], "y" => $point[1]);
+        return [
+            'x' => $point[0],
+            'y' => $point[1]
+        ];
     }
 
 }

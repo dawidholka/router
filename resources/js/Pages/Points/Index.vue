@@ -21,7 +21,7 @@
                             v-model:filters="datatable.filters"
                             paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                             :rows-per-page-options="[5,10,25]"
-                            current-page-report-template="Wyświetlanie od {first} do {last} z {totalRecords} elementów"
+                            :current-page-report-template="$tm('common.currentPageReportTemplate')"
                             @page="onPage($event)"
                             @sort="onSort($event)"
                             @filter="onSort($event)"
@@ -29,13 +29,13 @@
                             <template #header>
                                 <div class="table-header">
                                     <h5 class="m-0">
-                                        Punkty
+                                        {{ $t('common.points') }}
                                     </h5>
                                     <span class="p-input-icon-left">
                                     <i class="pi pi-search"></i>
                                     <InputText
                                         v-model="datatable.filters['global'].value"
-                                        placeholder="Szukaj..."
+                                        :placeholder="$t('common.search')"
                                         @keydown.enter="loadLazyData"
                                     />
                                 </span>
@@ -46,22 +46,22 @@
                                     {{ slotProps.data.id }}
                                 </template>
                             </Column>
-                            <Column field="name" header="Nazwa" :sortable="true">
+                            <Column field="name" :header="$t('common.name')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.name }}
                                 </template>
                             </Column>
-                            <Column field="city" header="Adres" :sortable="true">
+                            <Column field="city" :header="$t('common.address')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.address }}
                                 </template>
                             </Column>
                             <Column field="lat" header="Geo" :sortable="true" style="width: 100px;">
                                 <template #body="slotProps">
-                                    {{ slotProps.data.geocoded ? 'Tak' : 'Nie' }}
+                                    {{ slotProps.data.geocoded ? $t('common.yes') : $t('common.no') }}
                                 </template>
                             </Column>
-                            <Column header="Opcje" style="width: 150px;">
+                            <Column :header="$t('common.options')" style="width: 150px;">
                                 <template #body="slotProps">
                                     <Button
                                         icon="pi pi-eye"
@@ -77,12 +77,12 @@
                                     <Button
                                         v-if="$page.props.admin"
                                         icon="pi pi-trash" class="p-button-sm p-button-danger"
-                                            @click="showDeleteDialog(slotProps.data)"
+                                        @click="showDeleteDialog(slotProps.data)"
                                     />
                                 </template>
                             </Column>
                             <template #empty>
-                                Brak dodanych punktów.
+                                {{ $t('points.empty') }}
                             </template>
                         </DataTable>
                     </div>
@@ -106,13 +106,13 @@
             <Dialog
                 v-model:visible="bulkDeleteModal"
                 :style="{width: '450px'}"
-                header="Czyszczenie punktów"
+                :header="$t('points.bulkDelete')"
                 :modal="true"
                 :closable="false"
             >
                 <div class="field">
                     <label for="bulk-delete">
-                        Wyczyść dane aplikacji
+                        {{ $t('common.chooseOption') }}
                     </label>
                     <Dropdown
                         id="bulk-delete"
@@ -129,13 +129,13 @@
                 </div>
                 <template #footer>
                     <Button
-                        label="Anuluj"
+                        :label="$t('common.cancel')"
                         icon="pi pi-times"
                         class="p-button-text"
                         @click="bulkDeleteModal = false"
                     />
                     <Button
-                        label="Zapisz"
+                        :label="$t('common.submit')"
                         icon="pi pi-check"
                         class="p-button-text"
                         :loading="bulkDeleteForm.processing"
@@ -187,14 +187,14 @@ export default {
             },
             menuItems: [
                 {
-                    label: 'Dodaj punkt',
+                    label: this.$t('points.addPoint'),
                     icon: 'pi pi-fw pi-plus',
                     command: () => {
                         this.$inertia.get(this.route('points.create'));
                     },
                 },
                 {
-                    label: 'Geolokalizuj',
+                    label: this.$t('common.geocode'),
                     icon: 'pi pi-fw pi-map',
                     command: () => {
                         this.bulkGeocodeModal = true;
@@ -202,7 +202,7 @@ export default {
                     },
                 },
                 {
-                    label: 'Wyczyść punkty',
+                    label: this.$t('points.bulkDelete'),
                     icon: 'pi pi-fw pi-trash',
                     command: () => {
                         this.openBulkDeleteModal();
@@ -219,10 +219,10 @@ export default {
                 option: null
             }),
             bulkDeleteOptions: [
-                {value: 'all', label: 'Wszystkie'},
-                {value: 'last-hour', label: 'Z ostatniej godziny'},
-                {value: 'older-then-30-days', label: 'Starsze niż 30 dni'},
-                {value: 'older-then-90-days', label: 'Starsze niż 90 dni'},
+                {value: 'all', label: this.$t('common.all')},
+                {value: 'last-hour', label: this.$t('common.lastHour')},
+                {value: 'older-then-30-days', label: this.$t('common.olderThenXDays', [30])},
+                {value: 'older-then-90-days', label: this.$t('common.olderThenXDays', [90])},
             ],
         }
     },
@@ -275,10 +275,9 @@ export default {
                 }
             })
         },
-        onBulkGeocode()
-        {
+        onBulkGeocode() {
             this.bulkGeocoding = true;
-            this.$inertia.post(this.route('points.bulk-geocode'),{},{
+            this.$inertia.post(this.route('points.bulk-geocode'), {}, {
                 onSuccess: () => {
                     this.bulkGeocoding = false;
                     this.bulkGeocodeModal = false;

@@ -19,7 +19,7 @@
                 {{ form.errors.method }}
             </small>
         </div>
-        <div v-if="form.method === 'routexl' || form.method === 'routexl_manual'" class="field">
+        <div v-if="form.method === 'routexl' || form.method === 'routexl_manual' || form.method === 'osrm'" class="field">
             <label for="optimize_methods">Punkt końcowy trasy*</label>
             <Dropdown
                 id="optimize_methods"
@@ -99,7 +99,7 @@ export default {
             required: true
         }
     },
-    emits: ['update:visible'],
+    emits: ['update:visible', 'optimized'],
     data() {
         return {
             dialogVisible: this.visible,
@@ -137,7 +137,7 @@ export default {
             this.form.post(this.route('routes.optimize', this.routeId), {
                 onSuccess: () => {
                     this.onClose();
-                    this.$inertia.get(this.route('routes.edit', this.routeId));
+                    this.$emit('optimized');
                 }
             })
         },

@@ -3,6 +3,8 @@
 namespace App\Datatables;
 
 use App\Models\Driver;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class DriverDatatable extends Datatable
 {

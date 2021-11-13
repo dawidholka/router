@@ -2,10 +2,10 @@
     <div>
         <AppLayout>
             <div class="card">
-                <h5>Utworzone trasy</h5>
+                <h5>{{ $t('creator.createdRoutes') }}</h5>
                 <div v-for="element in routes" :key="element.id">
                     <Link :href="route('routes.edit', element.id)">
-                        Trasa #{{ element.id }} - {{ element.note }}
+                        {{ $t('common.route') }} #{{ element.id }} - {{ element.note }}
                     </Link>
                 </div>
             </div>

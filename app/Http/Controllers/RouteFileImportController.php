@@ -14,7 +14,7 @@ class RouteFileImportController extends Controller
         abort_if(!auth()->user()->admin, 403);
 
         $request->validate([
-            'file' => ['required', 'file']
+            'file' => ['required', 'file', 'mimes:xlsx']
         ]);
 
         $importFileToRoute->execute($route, $request->file);

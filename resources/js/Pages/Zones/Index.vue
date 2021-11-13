@@ -26,7 +26,7 @@
                             :rows="10"
                             paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                             :rows-per-page-options="[5,10,25]"
-                            current-page-report-template="Wyświetlanie od {first} do {last} z {totalRecords} elementów"
+                            :current-page-report-template="$tm('common.currentPageReportTemplate')"
                         >
                             <template #header>
                                 <div class="table-header">

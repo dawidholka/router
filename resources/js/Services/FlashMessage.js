@@ -3,7 +3,7 @@ const FlashMessage = {
         flashSuccess(message) {
             this.$toast.add({
                 severity: 'success',
-                summary: 'Sukces',
+                summary: 'Success',
                 detail: message,
                 life: 3000
             });
@@ -11,7 +11,7 @@ const FlashMessage = {
         flashError(message) {
             this.$toast.add({
                 severity: 'error',
-                summary: 'Błąd',
+                summary: 'Error',
                 detail: message,
                 life: 3000
             });

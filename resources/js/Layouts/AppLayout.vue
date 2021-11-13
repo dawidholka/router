@@ -25,6 +25,7 @@ import AppTopBar from '../Components/AppTopBar';
 import AppProfile from '../Components/AppProfile';
 import AppMenu from '../Components/AppMenu';
 import Toast from 'primevue/toast';
+import FlashMessage from "../Services/FlashMessage";
 
 export default {
     name: 'AppLayout',
@@ -34,6 +35,7 @@ export default {
         AppMenu,
         Toast
     },
+    mixins: [FlashMessage],
     data() {
         return {
             layoutMode: 'static',
@@ -130,6 +132,19 @@ export default {
             this.menuActive = false;
             // this.$toast.removeAllGroups();
         },
+        '$page.props.flash': {
+            handler(flashData) {
+                if (flashData?.error) {
+                    this.flashError(flashData.error);
+                    this.$page.props.flash.error = null;
+                }
+                if (this.$page.props.flash.success) {
+                    this.flashSuccess(this.$page.props.flash.success);
+                    this.$page.props.flash.success = null;
+                }
+            },
+            deep: true,
+        }
         // '$page.props.flash': {
         //     handler() {
         //         if (this.$page.props.flash.success) {

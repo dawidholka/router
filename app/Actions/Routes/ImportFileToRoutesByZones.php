@@ -12,7 +12,9 @@ use App\Models\Point;
 use App\Models\Route;
 use App\Models\Zone;
 use App\Settings\ImportSettings;
+use Exception;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 
 class ImportFileToRoutesByZones
 {
@@ -30,11 +32,13 @@ class ImportFileToRoutesByZones
 
     /**
      * @param UploadedFile $file
+     * @param Carbon $date
      * @return Route[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(
-        UploadedFile $file
+        UploadedFile $file,
+        Carbon       $date
     ): array
     {
         $importedPoints = $this->importFileToPoints->execute($file);
@@ -58,9 +62,11 @@ class ImportFileToRoutesByZones
 
         foreach ($pointsByZones as $zoneId => $importedPoints) {
 
+            $zone = Zone::whereId($zoneId)->firstOrFail();
+
             $name = ($zoneId > 0 ? Zone::whereId($zoneId)->firstOrFail()->name : 'Poza strefami');
 
-            $route = $this->createRoute->execute(now(), null, $name);
+            $route = $this->createRoute->execute($date, null, $name);
 
             /** @var ImportedPointData $importedPoint */
             foreach ($importedPoints as $importedPoint) {

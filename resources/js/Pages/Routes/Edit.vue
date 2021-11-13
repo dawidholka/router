@@ -6,20 +6,21 @@
                     <Card>
                         <template #header>
                             <div class="flex justify-content-between align-content-center p-3">
-                                <h5>{{$t('common.route')}} #{{ viewRoute.id }}</h5>
+                                <h5>{{ $t('common.route') }} #{{ viewRoute.id }}</h5>
                                 <div>
                                     <Button
                                         class="p-button-sm ml-1 p-button-success"
                                         type="button"
-                                        label="Edytuj dane"
+                                        :label="$t('routes.editData')"
                                         @click="edit"
                                         aria-haspopup="true"
                                         aria-controls="overlay_tmenu"
                                     />
                                     <Button
+                                        v-if="waypoints.length > 2 && viewRoute.status === 'ok'"
                                         class="p-button-sm ml-1 p-button-help"
                                         type="button"
-                                        label="Optymalizuj trasę"
+                                        :label="$t('routes.optimizeRoute')"
                                         @click="openOptimizeDialog"
                                         aria-haspopup="true"
                                         aria-controls="overlay_tmenu"
@@ -27,16 +28,17 @@
                                     <Button
                                         class="p-button-sm ml-1 p-button-info"
                                         type="button"
-                                        label="Klonuj trasę"
+                                        :label="$t('routes.cloneRoute')"
                                         :loading="cloningRoute"
                                         @click="clone"
                                         aria-haspopup="true"
                                         aria-controls="overlay_tmenu"
                                     />
                                     <Button
+                                        v-if="viewRoute.status !== 'ended'"
                                         class="p-button-sm ml-1 p-button-info"
                                         type="button"
-                                        label="Sprawdź status"
+                                        :label="$t('routes.checkStatus')"
                                         :loading="checkingStatus"
                                         @click="checkStatus"
                                         aria-haspopup="true"
@@ -46,7 +48,7 @@
                                         class="p-button-sm ml-1"
                                         :class="viewRoute.status === 'ended' ? 'p-button-success' : 'p-button-warning'"
                                         type="button"
-                                        :label="viewRoute.status === 'ended' ? 'Wznów' : 'Zakończ'"
+                                        :label="viewRoute.status === 'ended' ? $t('routes.resumeRoute') : $t('routes.endRoute')"
                                         :loading="endingRoute"
                                         @click="endOrResume"
                                         aria-haspopup="true"
@@ -55,7 +57,7 @@
                                     <Button
                                         class="p-button-sm ml-1 p-button-danger"
                                         type="button"
-                                        label="Usuń"
+                                        :label="$t('common.delete')"
                                         @click="deleteRoute"
                                         aria-haspopup="true"
                                         aria-controls="overlay_tmenu"
@@ -90,27 +92,28 @@
                                     <div>{{ viewRoute.optimize_status_translated }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Szacowany dystans:</div>
+                                    <div class="font-bold mb-2">{{ $t('routes.estimatedDistance') }}:</div>
                                     <div>{{ viewRoute.distance ?? 'Brak' }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Szacowany czas:</div>
+                                    <div class="font-bold mb-2">{{ $t('routes.estimatedTime') }}:</div>
                                     <div>{{ viewRoute.time ?? 'Brak' }}</div>
                                 </div>
                                 <div class="col-12 md:col-3 p-3">
-                                    <div class="font-bold mb-2">Ostatnie pobranie przez kierowcę:</div>
+                                    <div class="font-bold mb-2">{{ $t('routes.lastDownloadByDriver') }}:</div>
                                     <div>{{ viewRoute.driver_downloaded_at ?? 'Brak pobrań' }}</div>
                                 </div>
                                 <div v-if="viewRoute.note" class="col-12 p-3">
-                                    <div class="font-bold mb-2">Notatka:</div>
+                                    <div class="font-bold mb-2">{{ $t('common.note') }}</div>
                                     <div>{{ viewRoute.note }}</div>
                                 </div>
-                                <div v-if="viewRoute?.driver && viewRoute?.driver?.route !== viewRoute.id"
-                                     class="col-12 p-3">
+                                <div
+                                    v-if="viewRoute?.driver && viewRoute?.driver?.route !== viewRoute.id && viewRoute.status !== 'ended'"
+                                    class="col-12 p-3">
                                     <Button
                                         class="p-button-sm"
                                         type="button"
-                                        label="Ustaw jako aktualną trasę kierowcy"
+                                        :label="$t('routes.setAsDriverCurrentRoute')"
                                         :loading="settingCurrentRoute"
                                         @click="setAsCurrentRoute"
                                         aria-haspopup="true"
@@ -159,7 +162,7 @@
                                             <Button
                                                 class="p-button-sm ml-1 p-button-info"
                                                 type="button"
-                                                label="Podgląd"
+                                                :label="$t('common.view')"
                                                 @click="show"
                                                 aria-haspopup="true"
                                                 aria-controls="overlay_tmenu"
@@ -167,23 +170,25 @@
                                             <Button
                                                 class="p-button-sm ml-1 p-button-info"
                                                 type="button"
-                                                label="Export"
+                                                :label="$t('common.export')"
                                                 @click="exportXlsx"
                                                 aria-haspopup="true"
                                                 aria-controls="overlay_tmenu"
                                             />
                                             <Button
+                                                v-if="viewRoute.status !== 'ended'"
                                                 class="p-button-sm ml-1 p-button-help"
                                                 type="button"
-                                                label="Geolokalizuj"
+                                                :label="$t('common.geocode')"
                                                 @click="geocodeAll"
                                                 aria-haspopup="true"
                                                 aria-controls="overlay_tmenu"
                                             />
                                             <Button
+                                                v-if="viewRoute.status !== 'ended'"
                                                 class="p-button-sm ml-1"
                                                 type="button"
-                                                label="Zaznaczone"
+                                                :label="$t('common.selected')"
                                                 @click="toggleSelectedMenu"
                                                 aria-haspopup="true"
                                                 aria-controls="overlay_tmenu"
@@ -195,9 +200,10 @@
                                                 :popup="true"
                                             />
                                             <Button
+                                                v-if="viewRoute.status !== 'ended'"
                                                 class="p-button-sm ml-1"
                                                 type="button"
-                                                label="Dodaj punkt"
+                                                :label="$t('points.addPoint')"
                                                 @click="toggleAddMenu"
                                                 aria-haspopup="true"
                                                 aria-controls="overlay_tmenu"
@@ -238,6 +244,7 @@
                         </template>
                         <template #footer>
                             <Button
+                                v-if="viewRoute.status !== 'ended'"
                                 :label="$t('routes.saveOrder')"
                                 class="p-button-sm"
                                 :loading="reorderForm.processing"
@@ -250,6 +257,7 @@
 
             <div class="speeddial-circle-demo">
                 <SpeedDial
+                    v-if="viewRoute.status !== 'ended'"
                     :model="selectedMenu"
                     :radius="120"
                     direction="up-left"
@@ -262,7 +270,7 @@
 
 
             <Dialog
-                header="Import pliku .xlsx"
+                :header="$t('routes.importXlsxFile')"
                 v-model:visible="importXlsxDialog"
                 :closable="false"
                 modal
@@ -292,13 +300,13 @@
             </Dialog>
 
             <Dialog
-                header="Przenieś punkty do innej trasy"
+                :header="$t('routes.moveWaypointsToAnotherRoute')"
                 v-model:visible="moveWaypointsDialog"
                 :closable="false"
                 modal
             >
                 <div class="field">
-                    <label>Nowa trasa</label>
+                    <label>{{ $t('routes.targetRoute') }}</label>
                     <RouteAutoComplete
                         id="move_points_route_id"
                         class="w-full"
@@ -310,12 +318,12 @@
                 </div>
                 <template #footer>
                     <Button
-                        label="Anuluj"
+                        :label="$t('common.cancel')"
                         @click="closeMoveWaypointsDialog"
                         class="p-button-text"
                     />
                     <Button
-                        label="Przenieś"
+                        :label="$t('common.submit')"
                         :loading="moveWaypointsForm.processing"
                         @click="moveWaypoints"
                     />
@@ -337,6 +345,7 @@
             <RouteOptimizeModal
                 v-model:visible="optimizeDialog"
                 :route-id="viewRoute.id"
+                @optimized="reloadWaypoints"
             />
         </AppLayout>
     </div>
@@ -403,38 +412,38 @@ export default {
             }),
             selectedMenu: [
                 {
-                    label: 'Zaznacz wszystko',
+                    label: this.$t('common.selectAll'),
                     icon: 'pi pi-fw pi-check-circle',
                     command: () => this.selectAll()
                 },
                 {
-                    label: 'Odznacz wszystko',
+                    label: this.$t('common.deselectAll'),
                     icon: 'pi pi-fw pi-circle-off',
                     command: () => this.deselectAll()
                 },
                 {
-                    label: 'Przenieś punkty',
+                    label: this.$t('common.moveWaypoints'),
                     icon: 'pi pi-fw pi-reply',
                     command: () => {
                         this.moveWaypointsDialog = true;
                     }
                 },
                 {
-                    label: 'Usuń zaznaczone',
+                    label: this.$t('common.deleteSelected'),
                     icon: 'pi pi-fw pi-trash',
                     command: () => this.deleteSelected()
                 }
             ],
             addMenu: [
                 {
-                    label: 'Z bazy danych',
+                    label: this.$t('common.fromDatabase'),
                     icon: 'pi pi-fw pi-table',
                     command: () => {
                         this.addFromDBCard = true;
                     }
                 },
                 {
-                    label: 'Import .xlsx',
+                    label: this.$t('common.importXlsx'),
                     icon: 'pi pi-fw pi-file',
                     command: () => this.openImportXlsxDialog()
                 }
@@ -461,7 +470,6 @@ export default {
     methods: {
         onRowReorder(event) {
             this.routeWaypoints = event.value;
-            // this.$toast.add({severity:'success', summary: 'Rows Reordered', life: 3000});
         },
         saveOrder() {
             const ids = this.routeWaypoints.map((waypoint) => {
@@ -473,7 +481,7 @@ export default {
             }, {
                 preserveScroll: true,
                 onSuccess: () => {
-                    this.flashSuccess('Zapisano kolejność.');
+                    this.flashSuccess(this.$t('routes.orderSaved'));
                     this.reloadWaypoints();
                 }
             })
@@ -494,7 +502,7 @@ export default {
             }, {
                 onSuccess: () => {
                     this.deselectAll();
-                    this.flashSuccess('Usunięto wybrane punkty z trasy.');
+                    this.flashSuccess(this.$t('routes.waypointsDeleted'));
                     this.reloadWaypoints();
                 }
             });
@@ -517,7 +525,7 @@ export default {
             this.importForm.post(this.route('routes.import-file', this.viewRoute.id), {
                 onSuccess: () => {
                     this.closeImportXlsxDialog();
-                    this.flashSuccess('Zaimportowano punkty z pliku.');
+                    this.flashSuccess(this.$t('routes.waypointsImported'));
                     this.reloadWaypoints();
                 }
             })
@@ -539,7 +547,7 @@ export default {
             this.$inertia.post(this.route('routes.waypoints.geocode', this.viewRoute.id), {}, {
                 onSuccess: () => {
                     this.reloadWaypoints();
-                    this.flashSuccess('Zgeolokalizowano punkty trasy.');
+                    this.flashSuccess(this.$t('routes.waypointsGeocoded'));
                 }
             })
         },
@@ -568,7 +576,7 @@ export default {
             this.cloningRoute = true;
             this.$inertia.post(this.route('routes.clone', this.viewRoute.id), {}, {
                 onSuccess: () => {
-                    this.flashSuccess('Sklonowano trasę');
+                    this.flashSuccess(this.$t('routes.routeCloned'));
                     this.cloningRoute = false;
                 }
             })
@@ -577,7 +585,7 @@ export default {
             this.checkingStatus = true;
             this.$inertia.post(this.route('routes.check-status', this.viewRoute.id), {}, {
                 onSuccess: () => {
-                    this.flashSuccess('Zaktualizowano status.');
+                    this.flashSuccess(this.$t('routes.statusUpdated'));
                     this.checkingStatus = false;
                 }
             })
@@ -586,7 +594,7 @@ export default {
             this.endingRoute = true;
             this.$inertia.post(this.route('routes.end-resume', this.viewRoute.id), {}, {
                 onSuccess: () => {
-                    this.flashSuccess('Zakończono/wznowiono trasę.');
+                    this.flashSuccess(this.$t('routes.routeEndedOrResumed'));
                     this.endingRoute = false;
                 }
             })
@@ -595,7 +603,7 @@ export default {
             this.settingCurrentRoute = true;
             this.$inertia.post(this.route('routes.set-as-current', this.viewRoute.id), {}, {
                 onSuccess: () => {
-                    this.flashSuccess('Ustawiono trasę jako aktualną dla danego kierowcy.');
+                    this.flashSuccess(this.$t('routes.routeSetAsCurrent'));
                     this.settingCurrentRoute = false;
                 }
             })
@@ -611,7 +619,7 @@ export default {
             this.moveWaypointsForm.post(this.route('routes.move-waypoints'), {
                 onSuccess: () => {
                     this.deselectAll();
-                    this.flashSuccess('Przeniesiono punkty.');
+                    this.flashSuccess(this.$t('routes.waypointsMoved'));
                     this.closeMoveWaypointsDialog();
                     this.reloadWaypoints();
                 }

@@ -34,7 +34,7 @@
             </div>
             <div class="field">
                 <label for="point_street">
-                    Kolumna - Ulica
+                    {{ $t('settings.column') }} - {{ $t('common.street') }}
                 </label>
                 <InputText
                     id="point_street"
@@ -49,7 +49,7 @@
             </div>
             <div class="field">
                 <label for="point_building_number">
-                    Kolumna - Numer budynku
+                    {{ $t('settings.column') }} - {{ $t('common.buildingNumber') }}
                 </label>
                 <InputText
                     id="point_building_number"
@@ -64,7 +64,7 @@
             </div>
             <div class="field">
                 <label for="point_apartment">
-                    Kolumna - Numer mieszkania
+                    {{ $t('settings.column') }} - {{ $t('common.aparment') }}
                 </label>
                 <InputText
                     id="point_building_number"
@@ -79,7 +79,7 @@
             </div>
             <div class="field">
                 <label for="point_city">
-                    Kolumna - Miasto
+                    {{ $t('settings.column') }} - {{ $t('common.city') }}
                 </label>
                 <InputText
                     id="point_city"
@@ -94,7 +94,7 @@
             </div>
             <div class="field">
                 <label for="point_postcode">
-                    Kolumna - Kod pocztowy
+                    {{ $t('settings.column') }} - {{ $t('common.postcode') }}
                 </label>
                 <InputText
                     id="point_postcode"
@@ -109,7 +109,7 @@
             </div>
             <div class="field">
                 <label for="point_intercom">
-                    Kolumna - Kod do domofonu
+                    {{ $t('settings.column') }} - {{ $t('common.intercom') }}
                 </label>
                 <InputText
                     id="point_intercom"
@@ -124,7 +124,7 @@
             </div>
             <div class="field">
                 <label for="point_phone">
-                    Kolumna - Telefon
+                    {{ $t('settings.column') }} - {{ $t('common.phone') }}
                 </label>
                 <InputText
                     id="point_phone"
@@ -139,7 +139,7 @@
             </div>
             <div class="field">
                 <label for="point_note">
-                    Kolumna - Notatka
+                    {{ $t('settings.column') }} - {{ $t('common.note') }}
                 </label>
                 <InputText
                     id="point_note"
@@ -154,7 +154,7 @@
             </div>
             <div class="field">
                 <label for="waypoint_content">
-                    Kolumna - Zawartość
+                    {{ $t('settings.column') }} - {{ $t('common.content') }}
                 </label>
                 <InputText
                     id="waypoint_content"
@@ -172,7 +172,7 @@
             </div>
             <div class="field">
                 <label for="waypoint_quantity">
-                    Kolumna - Ilość paczek
+                    {{ $t('settings.column') }} - {{ $t('common.quantity') }}
                 </label>
                 <InputText
                     id="waypoint_quantity"
@@ -189,7 +189,7 @@
         </div>
         <div class="flex justify-content-end mt-3">
             <Button
-                label="Zapisz"
+                :label="$t('common.save')"
                 class="p-button-lg"
                 :loading="form.processing"
                 @click="submit"
