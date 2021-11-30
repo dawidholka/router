@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Actions\Points\BulkGecodePoints;
 use App\Actions\Points\GeocodePoint;
 use App\Models\Point;
 use Illuminate\Bus\Queueable;
@@ -30,16 +31,10 @@ class GeocodeAllPointsJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(GeocodePoint $geocodePoint)
+    public function handle(BulkGecodePoints $geocodePoint)
     {
         $points = Point::whereNull('lat')->whereNull('long')->get();
 
-        foreach ($points as $point) {
-            try {
-                $geocodePoint->execute($point);
-            } catch (\Exception $exception) {
-                continue;
-            }
-        }
+        $geocodePoint->execute($points);
     }
 }

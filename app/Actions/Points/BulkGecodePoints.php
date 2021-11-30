@@ -14,6 +14,9 @@ class BulkGecodePoints
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function execute(Collection $points)
     {
         $points = $points->reject(function (Point $point) {
@@ -31,7 +34,7 @@ class BulkGecodePoints
                     /** @var Point $point */
                     $point = $chunk->get($key);
                     if($point === null){
-                        dd($key, $chunk);
+                        throw new \Exception('Geocode error');
                     }
                     $point->update([
                         'lat' => $geocodeData->lat,
