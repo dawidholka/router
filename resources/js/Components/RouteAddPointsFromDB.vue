@@ -13,7 +13,7 @@
             v-model:filters="datatable.filters"
             paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             :rows-per-page-options="[5,10,25]"
-            current-page-report-template="Wyświetlanie od {first} do {last} z {totalRecords} wniosków"
+            :current-page-report-template="$tm('common.currentPageReportTemplate')"
             @page="onPage($event)"
             @sort="onSort($event)"
             @filter="onSort($event)"
@@ -21,13 +21,13 @@
             <template #header>
                 <div class="table-header">
                     <h5 class="m-0">
-                        Wyszukiwarka punktów
+                        {{ $t('common.pointsSearch') }}
                     </h5>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <InputText
                             v-model="datatable.filters['global'].value"
-                            placeholder="Szukaj..."
+                            :placeholder="$t('common.search')"
                             style="width: 300px;"
                             @keydown.enter="loadLazyData"
                         />
@@ -39,25 +39,25 @@
                     {{ slotProps.data.id }}
                 </template>
             </Column>
-            <Column field="name" header="Nazwa" :sortable="true">
+            <Column field="name" :header="$t('common.name')" :sortable="true">
                 <template #body="slotProps">
                     {{ slotProps.data.name }}
                 </template>
             </Column>
-            <Column field="city" header="Adres" :sortable="true">
+            <Column field="city" :header="$t('common.address')" :sortable="true">
                 <template #body="slotProps">
                     {{ slotProps.data.address }}
                 </template>
             </Column>
             <Column field="lat" header="Geo" :sortable="true" style="width: 100px;">
                 <template #body="slotProps">
-                    {{ slotProps.data.geocoded ? 'Tak' : 'Nie' }}
+                    {{ slotProps.data.geocoded ? $t('common.yes') : $t('common.no') }}
                 </template>
             </Column>
-            <Column header="Opcje" style="width: 150px;">
+            <Column :header="$t('common.options')" style="width: 150px;">
                 <template #body="slotProps">
                     <Button
-                        label="Dodaj punkt"
+                        :label="$t('points.add')"
                         :loading="addingPoint === slotProps.data.id"
                         class="p-button-info p-button-sm mr-1"
                         @click="addPointToRoute(slotProps.data.id)"
@@ -65,7 +65,7 @@
                 </template>
             </Column>
             <template #empty>
-                Brak wyników.
+                {{ $t('common.searchEmpty') }}
             </template>
         </DataTable>
     </div>
@@ -149,7 +149,7 @@ export default {
                 point_id: pointId
             }).then(() => {
                 this.$emit('pointAdded');
-                this.flashSuccess('Dodano punkt do trasy');
+                this.flashSuccess(this.$t('routes.waypointAdded'));
                 this.addingPoint = null;
             }).catch(() => {
                 this.addingPoint = null;

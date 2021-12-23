@@ -1,10 +1,10 @@
 <template>
     <settings-layout>
         <div class="card">
-            <h5>Ustawienia OSRM</h5>
+            <h5>{{ $t('settings.osrmSettings') }}</h5>
             <div class="field">
                 <label for="url">
-                    Adres URL OSRM
+                    {{ $t('settings.osrmUrl') }}
                 </label>
                 <InputText
                     id="url"
@@ -18,7 +18,7 @@
             </div>
             <div class="field">
                 <label for="is_cloud_run">
-                    Aplikacja w Google Cloud Run
+                    {{ $t('settings.osrmCloudRun') }}
                 </label>
                 <SelectButton
                     id="is_cloud_run"
@@ -33,7 +33,7 @@
             </div>
             <div class="field">
                 <label for="google_json_key">
-                    JSON Key
+                    {{ $t('settings.osrmJsonKey') }}
                 </label>
                 <Textarea
                     id="google_json_key"
@@ -49,7 +49,7 @@
         </div>
         <div class="flex justify-content-end mt-3">
             <Button
-                label="Zapisz"
+                :label="$t('common.save')"
                 class="p-button-lg"
                 :loading="form.processing"
                 @click="submit"
@@ -90,8 +90,8 @@ export default {
                 google_json_key: this.settings.google_json_key,
             }),
             options: [
-                {value: true, label: 'Tak'},
-                {value: false, label: 'Nie'},
+                {value: true, label: this.$t('common.yes')},
+                {value: false, label: this.$t('common.no')},
             ]
         }
     },
@@ -99,7 +99,7 @@ export default {
         submit() {
             this.form.put(this.route('settings.osrm.update'), {
                 onSuccess: () => {
-                    this.flashSuccess('Zapisano ustawienia.');
+                    this.flashSuccess(this.$t('settings.settingsSaved'));
                 }
             })
         },

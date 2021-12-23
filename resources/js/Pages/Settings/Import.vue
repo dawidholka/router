@@ -16,7 +16,7 @@
                     {{ form.errors.start_row }}
                 </small>
             </div>
-            <p>Podaj nazwy kolumny np. litery A, B, C takie jak w pliku .xlsx.</p>
+            <p>{{ $t('settings.importInfo') }}</p>
             <div class="field">
                 <label for="point_name">
                     {{ $t('settings.column') }} - {{ $t('common.pointName') }}
@@ -167,7 +167,7 @@
                     {{ form.errors.waypoint_content }}
                 </small>
                 <small v-else>
-                    Możesz podać wiele kolumn oddzielonych spacją, zostaną one połączone.
+                    {{ $t('settings.columnInfo') }}
                 </small>
             </div>
             <div class="field">

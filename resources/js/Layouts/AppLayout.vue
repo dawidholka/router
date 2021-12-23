@@ -22,7 +22,6 @@
 
 <script>
 import AppTopBar from '../Components/AppTopBar';
-import AppProfile from '../Components/AppProfile';
 import AppMenu from '../Components/AppMenu';
 import Toast from 'primevue/toast';
 import FlashMessage from "../Services/FlashMessage";
@@ -31,7 +30,6 @@ export default {
     name: 'AppLayout',
     components: {
         AppTopBar,
-        AppProfile,
         AppMenu,
         Toast
     },

@@ -6,7 +6,7 @@
         :multiple="multiple"
         :suggestions="filteredRoutes"
         :force-selection="forceSelection"
-        placeholder="Wpisz numer trasy, aby wyszukać..."
+        :placeholder="$t('routes.enterRouteIdToSearch')"
         field="name"
         @update:modelValue="updateValue"
         @complete="search($event)"

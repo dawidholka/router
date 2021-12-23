@@ -1,12 +1,12 @@
 <template>
     <Dialog
         v-model:visible="dialogVisible"
-        header="Optymalizacja trasy"
+        :header="$t('routes.optimizeRoute')"
         :closable="false"
         :modal="true"
     >
         <div class="field">
-            <label for="optimize_methods">Sposób optymalizacji*</label>
+            <label for="optimize_methods">{{ $t('routes.optimizationMethod') }}*</label>
             <Dropdown
                 id="optimize_methods"
                 class="w-full"
@@ -19,8 +19,9 @@
                 {{ form.errors.method }}
             </small>
         </div>
-        <div v-if="form.method === 'routexl' || form.method === 'routexl_manual' || form.method === 'osrm'" class="field">
-            <label for="optimize_methods">Punkt końcowy trasy*</label>
+        <div v-if="form.method === 'routexl' || form.method === 'routexl_manual' || form.method === 'osrm'"
+             class="field">
+            <label for="optimize_methods">{{ $t('routes.endWaypointOfTheRoute') }}*</label>
             <Dropdown
                 id="optimize_methods"
                 class="w-full"
@@ -37,12 +38,12 @@
             <Button
                 class="w-full p-button-info"
                 icon="pi pi-file"
-                label="Generuj plik .txt"
+                :label="$t('routes.generateTxt')"
                 @click="generateTxt"
             />
         </div>
         <div v-if="form.method === 'routexl_manual'" class="field">
-            <label for="file">Plik z trasą*</label>
+            <label for="file">{{ $t('routes.routeFile') }}*</label>
             <FileUpload
                 id="file"
                 class="w-full"
@@ -59,13 +60,13 @@
 
         <template #footer>
             <Button
-                label="Anuluj"
+                :label="$t('common.cancel')"
                 icon="pi pi-times"
                 class="p-button-text"
                 @click="onClose"
             />
             <Button
-                label="Zapisz"
+                :label="$t('common.save')"
                 icon="pi pi-check"
                 class="p-button-text"
                 :loading="form.processing"
@@ -110,14 +111,14 @@ export default {
             }),
             optimizeMethods: [
                 {value: 'routexl', label: 'RouteXL'},
-                {value: 'routexl_manual', label: 'RouteXL Ręczna'},
+                {value: 'routexl_manual', label: this.$t('routes.routeXlManual')},
                 {value: 'open_route_service', label: 'OpenRouteService'},
                 {value: 'osrm', label: 'OSRM'},
             ],
             lastLocationOptions: [
-                {value: 'driver', label: 'Punkt końcowy kierowcy'},
-                {value: 'last_waypoint', label: 'Ostatni punkt trasy'},
-                {value: 'company', label: 'Siedziba firmy'},
+                {value: 'driver', label: this.$t('routes.driverEndPoint')},
+                {value: 'last_waypoint', label: this.$t('routes.lastWaypoint')},
+                {value: 'company', label: this.$t('routes.company')},
             ]
         };
     },

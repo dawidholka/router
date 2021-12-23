@@ -1,18 +1,16 @@
 <template>
     <card>
         <template #title>
-            Sesje przeglądarki
+            {{ $t('profile.browserSessions') }}
         </template>
 
         <template #content>
             <div class="mb-3">
-                Zarządzaj aktywnymi sesjami i wyloguj się z nich na innych przeglądarkach i urządzeniach.
+                {{ $t('profile.manageSessions') }}
             </div>
 
             <div class="max-w-xl text-sm text-gray-600">
-                W razie potrzeby możesz wylogować się ze wszystkich innych sesji przeglądarki na wszystkich swoich
-                urządzeniach. Niektóre z ostatnich sesji są wymienione poniżej; jednak lista ta może nie być
-                wyczerpująca. Jeśli uważasz, że Twoje konto zostało naruszone, powinieneś również zaktualizować hasło.
+                {{ $t('profile.manageSessionsInfo') }}
             </div>
 
             <!-- Other Browser Sessions -->
@@ -45,8 +43,8 @@
                                 {{ session.ip_address }},
 
                                 <span class="text-green-500 font-semibold"
-                                      v-if="session.is_current_device">To urządzenie</span>
-                                <span v-else>Ostatnia aktywność {{ session.last_active }}</span>
+                                      v-if="session.is_current_device">{{ $t('profile.currentDevice') }}</span>
+                                <span v-else>{{ $t('profile.lastActivity') }} {{ session.last_active }}</span>
                             </div>
                         </div>
                     </div>
@@ -61,7 +59,7 @@
             <div class="flex items-center mt-5">
                 <Button
                     @click="confirmLogout"
-                    label="Wyloguj się z innych sesji"
+                    :label="$t('profile.logoutOtherBrowserSessions')"
                 />
             </div>
         </template>
@@ -70,18 +68,17 @@
             :visible="confirmingLogout"
             :closable="false"
             :modal="true"
-            header="Wyloguj się z innych sesji"
+            :header="$t('profile.logoutOtherBrowserSessions')"
             @close="closeModal"
         >
 
-            Wprowadź hasło, aby potwierdzić, że chcesz wylogować się z innych sesji przeglądarki na wszystkich swoich urządzeniach.
+            {{ $t('profile.logoutOtherBrowserSessionsConfirm') }}
 
             <div class="field">
-                <label for="password">Hasło</label>
+                <label for="password">{{ $t('common.password') }}</label>
                 <InputText
                     id="password"
                     class="w-full"
-                    placeholder="Wprowadź hasło"
                     :class="{'p-invalid': form.errors.password}"
                     type="password"
                     v-model="form.password"
@@ -93,13 +90,13 @@
 
             <template #footer>
                 <Button
-                    label="Anuluj"
+                    :label="$t('common.cancel')"
                     icon="pi pi-times"
                     class="p-button-text"
                     @click="closeModal"
                 />
                 <Button
-                    label="Wyloguj"
+                    :label="$t('auth.signOut')"
                     icon="pi pi-check"
                     class="p-button-text"
                     :loading="form.processing"
@@ -145,11 +142,11 @@ export default {
         },
 
         logoutOtherBrowserSessions() {
-            this.form.delete(route('other-browser-sessions.destroy'), {
+            this.form.delete(this.route('other-browser-sessions.destroy'), {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.closeModal();
-                    this.flashSuccess('Wylogowano z innych sesji.')
+                    this.flashSuccess(this.$t('profile.loggedOutOtherBrowserSessions'))
                 },
                 onFinish: () => this.form.reset(),
             })

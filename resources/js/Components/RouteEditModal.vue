@@ -1,13 +1,13 @@
 <template>
     <Dialog
         v-model:visible="dialogVisible"
-        header="Edycja trasy"
+        :header="$t('routes.editRoute')"
         :closable="false"
         :modal="true"
     >
         <div class="formgrid grid">
             <div class="field col">
-                <label for="delivery_date">Data</label>
+                <label for="delivery_date">{{ $t('common.date') }}</label>
                 <Calendar
                     id="delivery_date"
                     class="w-full"
@@ -21,7 +21,7 @@
                 </small>
             </div>
             <div class="field col">
-                <label for="driver">Kierowca</label>
+                <label for="driver">{{ $t('common.driver') }}</label>
                 <DriverDropdown
                     id="driver"
                     class="w-full"
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="field">
-            <label for="note">Notatka</label>
+            <label for="note">{{ $t('common.note') }}</label>
             <Textarea
                 id="note"
                 class="w-full"
@@ -47,13 +47,13 @@
 
         <template #footer>
             <Button
-                label="Anuluj"
+                :label="$t('common.cancel')"
                 icon="pi pi-times"
                 class="p-button-text"
                 @click="onClose"
             />
             <Button
-                label="Zapisz"
+                :label="$t('common.save')"
                 icon="pi pi-check"
                 class="p-button-text"
                 :loading="form.processing"
@@ -119,7 +119,7 @@ export default {
         onSubmit() {
             this.form.put(this.route('routes.update', this.model.id), {
                 onSuccess: () => {
-                    this.flashSuccess('Zapisano trasę');
+                    this.flashSuccess(this.$t('routes.routeSaved'));
                     this.onClose();
                     this.$inertia.get(this.route('routes.edit', this.model.id));
                 }

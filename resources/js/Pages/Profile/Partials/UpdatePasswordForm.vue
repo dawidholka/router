@@ -1,19 +1,18 @@
 <template>
     <card @submitted="updatePassword">
         <template #title>
-            Zmiana hasła
+            {{ $t('profile.updatePassword') }}
         </template>
 
         <template #content>
             <div class="mb-5">
-                Upewnij się, że Twoje konto używa długiego, losowego hasła, aby zachować bezpieczeństwo.
+                {{ $t('profile.updatePasswordInfo') }}
             </div>
             <div class="field">
-                <label for="current_password">Aktualne hasło</label>
+                <label for="current_password">{{ $t('profile.currentPassword') }}</label>
                 <InputText
                     id="current_password"
                     class="w-full"
-                    placeholder="Wprowadź hasło"
                     :class="{'p-invalid': form.errors.current_password}"
                     type="password"
                     v-model="form.current_password"
@@ -23,11 +22,10 @@
                 </small>
             </div>
             <div class="field">
-                <label for="password">Nowe hasło</label>
+                <label for="password">{{ $t('profile.newPassword') }}</label>
                 <InputText
                     id="password"
                     class="w-full"
-                    placeholder="Wprowadź hasło"
                     :class="{'p-invalid': form.errors.password}"
                     type="password"
                     v-model="form.password"
@@ -37,11 +35,10 @@
                 </small>
             </div>
             <div class="field">
-                <label for="password_confirmation">Powórz nowe hasło</label>
+                <label for="password_confirmation">{{ $t('profile.passwordConfirmation') }}</label>
                 <InputText
                     id="password_confirmation"
                     class="w-full"
-                    placeholder="Wprowadź hasło"
                     :class="{'p-invalid': form.errors.password_confirmation}"
                     type="password"
                     v-model="form.password_confirmation"
@@ -54,7 +51,7 @@
 
         <template #footer>
             <Button
-                label="Zapisz"
+                :label="$t('common.save')"
                 :loading="form.processing"
                 @click="updatePassword"
             />
@@ -74,7 +71,7 @@ export default {
         Button,
         InputText,
     },
-        mixins: [FlashMessage],
+    mixins: [FlashMessage],
     data() {
         return {
             form: this.$inertia.form({
@@ -92,7 +89,7 @@ export default {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.form.reset();
-                    this.flashSuccess('Zapisano hasło.');
+                    this.flashSuccess(this.$t('profile.passwordSaved'));
                 },
                 onError: () => {
                     if (this.form.errors.password) {

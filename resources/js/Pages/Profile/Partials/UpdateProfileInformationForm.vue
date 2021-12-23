@@ -1,16 +1,16 @@
 <template>
     <Card @submitted="updateProfileInformation">
         <template #title>
-            Twój profil
+            {{ $t('profile.yourProfile') }}
         </template>
 
         <template #content>
             <div class="mb-5">
-                Zaktualizuj informacje profilowe i adres email swojego konta.
+                {{ $t('profile.yourProfileInfo') }}
             </div>
             <!-- Name -->
             <div class="field">
-                <label for="name">Nazwa</label>
+                <label for="name">{{ $t('common.name') }}</label>
                 <InputText
                     id="name"
                     class="w-full"
@@ -23,7 +23,7 @@
                 </small>
             </div>
             <div class="field">
-                <label for="email">Adres e-mail</label>
+                <label for="email">{{ $t('common.email') }}</label>
                 <InputText
                     id="email"
                     class="w-full"
@@ -39,7 +39,7 @@
 
         <template #footer>
             <Button
-                label="Zapisz"
+                :label="$t('common.save')"
                 :loading="form.processing"
                 @click="updateProfileInformation"
             />
@@ -85,7 +85,7 @@ export default {
                 errorBag: 'updateProfileInformation',
                 preserveScroll: true,
                 onSuccess: () => {
-                    this.flashSuccess('Zapisano dane konta.');
+                    this.flashSuccess(this.$t('profile.profileSaved'));
                 }
             });
         },

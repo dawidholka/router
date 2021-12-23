@@ -76,7 +76,11 @@
         "deleteSelected": "Delete selected",
         "fromDatabase": "From database",
         "importXlsx": "Import .xlsx",
-        "downloadPhoto": "Download photo"
+        "downloadPhoto": "Download photo",
+        "confirmation": "Potwierdzenie",
+        "confirmationQuestion": "Na pewno chcesz kontynuować?",
+        "pointsSearch": "Wyszukiwarka punktów",
+        "searchEmpty": "Brak wyników"
     },
     "dashboard": {
         "completed": "Completed",
@@ -126,7 +130,18 @@
         "statusUpdated": "Status updated",
         "routeEndedOrResumed": "Route ended/resumed",
         "routeSetAsCurrent": "Route set as current",
-        "waypointsMoved": "Waypoints moved"
+        "waypointsMoved": "Waypoints moved",
+        "waypointAdded": "Dodano punkt do trasy",
+        "enterRouteIdToSearch": "Wpisz numer trasy, aby wyszukać...",
+        "routeSaved": "Zapisano trasę.",
+        "optimizationMethod": "Sposób optymalizacji",
+        "endWaypointOfTheRoute": "Punkt końcowy trasy",
+        "generateTxt": "Generuj plik .txt",
+        "routeFile": "Plik z trasą",
+        "routeXlManual": "RouteXL Ręczna",
+        "driverEndPoint": "Punkt końcowy kierowcy",
+        "lastWaypoint": "Ostatni punkt trasy",
+        "company": "Siedziba firmy"
     },
     "auth": {
         "login": "Login",
@@ -153,7 +168,8 @@
         "addUser": "Add user",
         "editUser": "Edit user",
         "userSaved": "User saved.",
-        "userAdded": "User added."
+        "userAdded": "User added.",
+        "empty": "Brak dodanych użytkowników."
     },
     "creator": {
         "title": "Routes creator",
@@ -174,6 +190,36 @@
         "settingsSaved": "Settings saved.",
         "appDataCleared": "App data cleared.",
         "startRowIndex": "Numer pierwszego wiersza",
-        "column": "Column"
+        "column": "Column",
+        "importInfo": "Podaj nazwy kolumny np. litery A, B, C takie jak w pliku .xlsx.",
+        "columnInfo": "Możesz podać wiele kolumn oddzielonych spacją, zostaną one połączone.",
+        "osrmSettings": "Ustawienia OSRM",
+        "osrmCloudRun": "Aplikacja w Google Cloud Run",
+        "osrmJsonKey": "JSON Key",
+        "osrmUrl": "Adres URL OSRM",
+        "currentVersion": "Aktualnie zainstalowana wersja",
+        "newVersion": "Dostępna aktualizacja",
+        "newVersionInfo": "Przed wykonaniem aktualizacji wykonaj kopie zapasową.",
+        "installUpdate": "Wykonaj aktualizację",
+        "checkAvailableUpdates": "Sprawdź aktualizację"
+    },
+    "profile": {
+        "browserSessions": "Sesje przeglądarki",
+        "manageSessions": "Zarządzaj aktywnymi sesjami i wyloguj się z nich na innych przeglądarkach i urządzeniach.",
+        "manageSessionsInfo": "W razie potrzeby możesz wylogować się ze wszystkich innych sesji przeglądarki na wszystkich swoich urządzeniach. Niektóre z ostatnich sesji są wymienione poniżej; jednak lista ta może nie być\n                wyczerpująca. Jeśli uważasz, że Twoje konto zostało naruszone, powinieneś również zaktualizować hasło.",
+        "logoutOtherBrowserSessions": "Wyloguj się z innych sesji",
+        "logoutOtherBrowserSessionsConfirm": "Wprowadź hasło, aby potwierdzić, że chcesz wylogować się z innych sesji przeglądarki na wszystkich swoich urządzeniach.",
+        "loggedOutOtherBrowserSessions": "Wylogowano z innych sesji.",
+        "currentDevice": "To urządzenie",
+        "lastActivity": "Ostatnia aktywność",
+        "updatePassword": "Zmiana hasła",
+        "updatePasswordInfo": "Upewnij się, że Twoje konto używa długiego, losowego hasła, aby zachować bezpieczeństwo.",
+        "currentPassword": "Aktualne hasło",
+        "newPassword": "Nowe hasło",
+        "passwordConfirmation": "Powtórz nowe hasło",
+        "passwordSaved": "Zapisano hasło",
+        "yourProfile": "Twój profil",
+        "yourProfileInfo": "Zaktualizuj informacje profilowe i adres email swojego konta.",
+        "profileSaved": "Zapisano dane konta."
     }
 }

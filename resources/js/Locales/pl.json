@@ -76,7 +76,11 @@
         "deleteSelected": "Usuń zaznaczone",
         "fromDatabase": "Z bazy danych",
         "importXlsx": "Import .xlsx",
-        "downloadPhoto": "Pobierz zdjęcie"
+        "downloadPhoto": "Pobierz zdjęcie",
+        "confirmation": "Potwierdzenie",
+        "confirmationQuestion": "Na pewno chcesz kontynuować?",
+        "pointsSearch": "Wyszukiwarka punktów",
+        "searchEmpty": "Brak wyników"
     },
     "dashboard": {
         "completed": "Ukończone",
@@ -126,7 +130,18 @@
         "statusUpdated": "Zaktualizowano status",
         "routeEndedOrResumed": "Wznowiono/zakończono trasę",
         "routeSetAsCurrent": "Ustawiono trasę jako aktualną dla kierowcy",
-        "waypointsMoved": "Punkty przeniesione"
+        "waypointsMoved": "Punkty przeniesione",
+        "waypointAdded": "Dodano punkt do trasy",
+        "enterRouteIdToSearch": "Wpisz numer trasy, aby wyszukać...",
+        "routeSaved": "Zapisano trasę.",
+        "optimizationMethod": "Sposób optymalizacji",
+        "endWaypointOfTheRoute": "Punkt końcowy trasy",
+        "generateTxt": "Generuj plik .txt",
+        "routeFile": "Plik z trasą",
+        "routeXlManual": "RouteXL Ręczna",
+        "driverEndPoint": "Punkt końcowy kierowcy",
+        "lastWaypoint": "Ostatni punkt trasy",
+        "company": "Siedziba firmy"
     },
     "auth": {
         "login": "Logowanie",
@@ -153,7 +168,8 @@
         "addUser": "Dodaj użytkownika",
         "editUser": "Edytuj użytkownika",
         "userSaved": "Użytkownik zapisany.",
-        "userAdded": "Użytkownik dodany."
+        "userAdded": "Użytkownik dodany.",
+        "empty": "Brak dodanych użytkowników."
     },
     "creator": {
         "title": "Kreator tras",
@@ -174,6 +190,36 @@
         "settingsSaved": "Zapisano ustawienia.",
         "appDataCleared": "Wyczyszczono dane aplikacji.",
         "startRowIndex": "Numer pierwszego wiersza",
-        "column": "Kolumna"
+        "column": "Kolumna",
+        "importInfo": "Podaj nazwy kolumny np. litery A, B, C takie jak w pliku .xlsx.",
+        "columnInfo": "Możesz podać wiele kolumn oddzielonych spacją, zostaną one połączone.",
+        "osrmSettings": "Ustawienia OSRM",
+        "osrmCloudRun": "Aplikacja w Google Cloud Run",
+        "osrmJsonKey": "JSON Key",
+        "osrmUrl": "Adres URL OSRM",
+        "currentVersion": "Aktualnie zainstalowana wersja",
+        "newVersion": "Dostępna aktualizacja",
+        "newVersionInfo": "Przed wykonaniem aktualizacji wykonaj kopie zapasową.",
+        "installUpdate": "Wykonaj aktualizację",
+        "checkAvailableUpdates": "Sprawdź aktualizację"
+    },
+    "profile": {
+        "browserSessions": "Sesje przeglądarki",
+        "manageSessions": "Zarządzaj aktywnymi sesjami i wyloguj się z nich na innych przeglądarkach i urządzeniach.",
+        "manageSessionsInfo": "W razie potrzeby możesz wylogować się ze wszystkich innych sesji przeglądarki na wszystkich swoich urządzeniach. Niektóre z ostatnich sesji są wymienione poniżej; jednak lista ta może nie być\n                wyczerpująca. Jeśli uważasz, że Twoje konto zostało naruszone, powinieneś również zaktualizować hasło.",
+        "logoutOtherBrowserSessions": "Wyloguj się z innych sesji",
+        "logoutOtherBrowserSessionsConfirm": "Wprowadź hasło, aby potwierdzić, że chcesz wylogować się z innych sesji przeglądarki na wszystkich swoich urządzeniach.",
+        "loggedOutOtherBrowserSessions": "Wylogowano z innych sesji.",
+        "currentDevice": "To urządzenie",
+        "lastActivity": "Ostatnia aktywność",
+        "updatePassword": "Zmiana hasła",
+        "updatePasswordInfo": "Upewnij się, że Twoje konto używa długiego, losowego hasła, aby zachować bezpieczeństwo.",
+        "currentPassword": "Aktualne hasło",
+        "newPassword": "Nowe hasło",
+        "passwordConfirmation": "Powtórz nowe hasło",
+        "passwordSaved": "Zapisano hasło",
+        "yourProfile": "Twój profil",
+        "yourProfileInfo": "Zaktualizuj informacje profilowe i adres email swojego konta.",
+        "profileSaved": "Zapisano dane konta."
     }
 }

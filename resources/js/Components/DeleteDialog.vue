@@ -2,25 +2,25 @@
     <Dialog
         v-model:visible="dialogVisible"
         :style="{width: '450px'}"
-        header="Potwierdzenie"
+        :header="$t('common.confirmation')"
         :modal="true"
         :closable="false"
     >
         <div class="confirmation-content">
             <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem"></i>
             <span>
-                {{ message }}
+                {{ messageText }}
             </span>
         </div>
         <template #footer>
             <Button
-                label="Anuluj"
+                :label="$t('common.no')"
                 icon="pi pi-times"
                 class="p-button-text"
                 @click="onClose"
             />
             <Button
-                label="Zapisz"
+                :label="$t('common.yes')"
                 icon="pi pi-check"
                 class="p-button-text"
                 :loading="loading"
@@ -51,13 +51,14 @@ export default {
         },
         message: {
             type: String,
-            default: 'Na pewno chcesz kontynuować?'
+            default: null
         }
     },
     emits: ['update:visible', 'delete'],
     data() {
         return {
             dialogVisible: this.visible,
+            messageText: this.message ?? this.$t('common.confirmationQuestion')
         };
     },
     updated() {

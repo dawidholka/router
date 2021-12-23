@@ -50,7 +50,8 @@
                             </Column>
                             <Column field="admin" :header="$t('common.admin')" :sortable="true">
                                 <template #body="slotProps">
-                                    <i class="pi" :class="{'pi-check': slotProps.data.admin, 'pi-times': !slotProps.data.admin}" />
+                                    <i class="pi"
+                                       :class="{'pi-check': slotProps.data.admin, 'pi-times': !slotProps.data.admin}"/>
                                 </template>
                             </Column>
                             <Column :header="$t('common.options')" style="width: 150px;">
@@ -66,7 +67,7 @@
                                 </template>
                             </Column>
                             <template #empty>
-                                Brak dodanych użytkowników.
+                                {{ $t('users.empty') }}
                             </template>
                         </DataTable>
                     </div>

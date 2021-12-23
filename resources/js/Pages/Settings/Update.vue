@@ -1,26 +1,26 @@
 <template>
     <SettingsLayout>
         <div class="card">
-            <h5>Aktualizacje</h5>
+            <h5>{{ $t('settings.updates') }}</h5>
 
-            <p>Aktualnie zainstalowana wersja: {{ currentVersion }}</p>
+            <p>{{ $t('settings.currentVersion') }}: {{ currentVersion }}</p>
 
             <div v-if="newVersion !== null && currentVersion !== newVersion">
-                <p>Dostępna aktualizacja: {{ newVersion }}</p>
-                <p>Przed wykonaniem aktualizacji wykonaj kopie zapasową.</p>
+                <p>{{ $t('settings.currentVersion') }}: {{ newVersion }}</p>
+                <p>{{ $t('settings.newVersionInfo') }}</p>
             </div>
 
             <Button
                 v-if="newVersion !== null && currentVersion !== newVersion"
                 class="p-button-sm mt-3"
-                label="Wykonaj aktualizację"
+                :label="$t('settings.installUpdate')"
                 :loading="installingUpdate"
                 @click="installUpdate"
             />
             <Button
                 v-else
                 class="p-button-sm"
-                label="Sprawdź aktualizację"
+                :label="$t('settings.checkAvailableUpdates')"
                 :loading="checkingVersion"
                 @click="checkAvailableUpdates"
             />
