@@ -6,43 +6,25 @@
                     <div class="card">
                         <h5 v-if="!pageUser">{{ $t('users.addUser') }}</h5>
                         <h5 v-else>{{ $t('users.editUser') }}</h5>
-                        <div class="field">
-                            <label for="name">{{ $t('common.name') }}</label>
-                            <InputText
-                                id="name"
-                                class="w-full"
-                                v-model="form.name"
-                                :class="{'p-invalid': form.errors.name}"
-                            />
-                            <small v-if="form.errors.name" class="p-invalid">
-                                {{ form.errors.name }}
-                            </small>
-                        </div>
-                        <div class="field">
-                            <label for="login">{{ $t('common.email') }}</label>
-                            <InputText
-                                id="login"
-                                class="w-full"
-                                v-model="form.email"
-                                :class="{'p-invalid': form.errors.email}"
-                            />
-                            <small v-if="form.errors.email" class="p-invalid">
-                                {{ form.errors.email }}
-                            </small>
-                        </div>
-                        <div class="field">
-                            <label for="password">{{ $t('common.password') }}</label>
-                            <InputText
-                                id="password"
-                                class="w-full"
-                                type="password"
-                                v-model="form.password"
-                                :class="{'p-invalid': form.errors.password}"
-                            />
-                            <small v-if="form.errors.password" class="p-invalid">
-                                {{ form.errors.password }}
-                            </small>
-                        </div>
+                        <RouterInputText
+                            name="name"
+                            :label="$t('common.name')"
+                            v-model="form.name"
+                            :error="form.errors.name"
+                        />
+                        <RouterInputText
+                            name="login"
+                            :label="$t('common.email')"
+                            v-model="form.email"
+                            :error="form.errors.email"
+                        />
+                        <RouterInputText
+                            name="password"
+                            :label="$t('common.password')"
+                            type="password"
+                            v-model="form.password"
+                            :error="form.errors.password"
+                        />
                         <div class="field">
                             <label for="admin">{{ $t('common.admin') }}</label>
                             <Dropdown
@@ -86,10 +68,12 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import FlashMessage from "../../Services/FlashMessage";
+import RouterInputText from "../../Components/RouterInputText";
 
 export default {
     name: "Create",
     components: {
+        RouterInputText,
         AppLayout,
         Button,
         InputText,

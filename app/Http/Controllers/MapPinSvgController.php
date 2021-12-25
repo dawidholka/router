@@ -13,6 +13,7 @@ class MapPinSvgController extends Controller
             ->view('map-pin', [
                 'color' => $color
             ], 200)
+            ->header('Cache-Control', 'max-age=100')
             ->header('Content-Type', 'image/svg+xml');
     }
 }

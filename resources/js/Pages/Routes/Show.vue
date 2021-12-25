@@ -33,7 +33,6 @@
                                 responsiveLayout="scroll"
                                 striped-rows
                                 data-key="id"
-                                @rowReorder="onRowReorder"
                             >
                                 <template #header>
                                     <div class="flex justify-content-between align-content-center">

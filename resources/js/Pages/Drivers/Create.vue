@@ -6,43 +6,25 @@
                     <div class="card">
                         <h5 v-if="!driver">{{ $t('drivers.addDriver') }}</h5>
                         <h5 v-else>{{ $t('drivers.editDriver') }}</h5>
-                        <div class="field">
-                            <label for="name">{{ $t('common.name') }}</label>
-                            <InputText
-                                id="name"
-                                class="w-full"
-                                v-model="form.name"
-                                :class="{'p-invalid': form.errors.name}"
-                            />
-                            <small v-if="form.errors.name" class="p-invalid">
-                                {{ form.errors.name }}
-                            </small>
-                        </div>
-                        <div class="field">
-                            <label for="login">{{ $t('common.login' )}}</label>
-                            <InputText
-                                id="login"
-                                class="w-full"
-                                v-model="form.login"
-                                :class="{'p-invalid': form.errors.login}"
-                            />
-                            <small v-if="form.errors.login" class="p-invalid">
-                                {{ form.errors.login }}
-                            </small>
-                        </div>
-                        <div class="field">
-                            <label for="password">{{ $t('common.password') }}</label>
-                            <InputText
-                                id="password"
-                                class="w-full"
-                                type="password"
-                                v-model="form.password"
-                                :class="{'p-invalid': form.errors.password}"
-                            />
-                            <small v-if="form.errors.password" class="p-invalid">
-                                {{ form.errors.password }}
-                            </small>
-                        </div>
+                        <RouterInputText
+                            name="name"
+                            :label="$t('common.name')"
+                            v-model="form.name"
+                            :error="form.errors.name"
+                        />
+                        <RouterInputText
+                            name="login"
+                            :label="$t('common.login')"
+                            v-model="form.login"
+                            :error="form.errors.login"
+                        />
+                        <RouterInputText
+                            name="password"
+                            type="password"
+                            :label="$t('common.password')"
+                            v-model="form.password"
+                            :error="form.errors.password"
+                        />
                         <div class="field">
                             <label for="color">{{ $t('common.color') }}</label>
                             <Dropdown
@@ -65,30 +47,18 @@
                                 {{ form.errors.color }}
                             </small>
                         </div>
-                        <div class="field">
-                            <label for="lat">{{ $t('drivers.driverLat') }}</label>
-                            <InputText
-                                id="lat"
-                                class="w-full"
-                                v-model="form.lat"
-                                :class="{'p-invalid': form.errors.lat}"
-                            />
-                            <small v-if="form.errors.lat" class="p-invalid">
-                                {{ form.errors.lat }}
-                            </small>
-                        </div>
-                        <div class="field">
-                            <label for="long">{{ $t('drivers.driverLng') }}</label>
-                            <InputText
-                                id="long"
-                                class="w-full"
-                                v-model="form.long"
-                                :class="{'p-invalid': form.errors.long}"
-                            />
-                            <small v-if="form.errors.long" class="p-invalid">
-                                {{ form.errors.long }}
-                            </small>
-                        </div>
+                        <RouterInputText
+                            name="lat"
+                            :label="$t('drivers.driverLat')"
+                            v-model="form.lat"
+                            :error="form.errors.lat"
+                        />
+                        <RouterInputText
+                            name="long"
+                            :label="$t('drivers.driverLng')"
+                            v-model="form.long"
+                            :error="form.errors.long"
+                        />
 
                     </div>
                     <div class="flex justify-content-end mt-3">
@@ -116,10 +86,12 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import FlashMessage from "../../Services/FlashMessage";
+import RouterInputText from "../../Components/RouterInputText";
 
 export default {
     name: "Create",
     components: {
+        RouterInputText,
         AppLayout,
         Button,
         InputText,
