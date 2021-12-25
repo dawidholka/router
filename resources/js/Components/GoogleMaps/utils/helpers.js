@@ -1,15 +1,14 @@
-// export function bindEvents(vueInst, googleMapsInst, events) {
-//     events.forEach((eventName) => {
-//         if (
-//             vueInst.$gmapOptions.autobindAllEvents ||
-//             vueInst.$listeners[eventName]
-//         ) {
-//             googleMapsInst.addListener(eventName, (ev) => {
-//                 vueInst.$emit(eventName, ev);
-//             });
-//         }
-//     });
-// }
+export function bindEvents(vueInst, googleMapsInst, events) {
+    events.forEach((eventName) => {
+        if (
+            vueInst.$attrs['on' + eventName]
+        ) {
+            googleMapsInst.addListener(eventName, (ev) => {
+                vueInst.$emit(eventName, ev);
+            });
+        }
+    });
+}
 
 export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -176,7 +175,7 @@ export function watchPrimitiveProperties(
     }
 
     propertiesToTrack.forEach((prop) => {
-        vueInst.$watch(prop, requestHandle, { immediate });
+        vueInst.$watch(prop, requestHandle, {immediate});
     });
 }
 
@@ -189,7 +188,7 @@ export function watchPrimitiveProperties(
  */
 export function bindProps(vueInst, googleMapsInst, props) {
     Object.keys(props).forEach((attribute) => {
-        const { twoWay, type, trackProperties, noBind } = props[attribute];
+        const {twoWay, type, trackProperties, noBind} = props[attribute];
 
         if (!noBind) {
             const setMethodName = `set${capitalizeFirstLetter(attribute)}`;
@@ -233,22 +232,33 @@ export function bindProps(vueInst, googleMapsInst, props) {
                 );
             }
 
-            // if (
-            //     twoWay &&
-            //     (vueInst.$gmapOptions.autobindAllEvents ||
-            //         vueInst.$listeners[eventName])
-            // ) {
-            //     googleMapsInst.addListener(eventName, () => {
-            //         vueInst.$emit(eventName, googleMapsInst[getMethodName]());
-            //     });
-            // }
+            if (twoWay && vueInst.$attrs['on' + eventName]) {
+                googleMapsInst.addListener(eventName, () => {
+                    vueInst.$emit(eventName, googleMapsInst[getMethodName]());
+                });
+            }
         }
     });
+}
+
+export function getCoordsFromPolygon(polygonObj) {
+    const path = polygonObj.getPath();
+    const coords = [];
+
+    for (let i = 0; i < path.length; i++) {
+        coords.push({
+            lat: path.getAt(i).lat(),
+            lng: path.getAt(i).lng(),
+        });
+    }
+
+    return coords;
 }
 
 export default {
     // bindEvents,
     bindProps,
+    getCoordsFromPolygon,
     capitalizeFirstLetter,
     getPropsValues,
     lazyValue,

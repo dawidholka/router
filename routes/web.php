@@ -35,6 +35,7 @@ use App\Http\Controllers\UpdateSettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WaypointPhotoController;
 use App\Http\Controllers\ZoneBulkDeleteController;
+use App\Http\Controllers\ZoneBulkUpdateController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\ZoneEditorController;
 use Illuminate\Foundation\Application;
@@ -81,6 +82,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users/datatable', [UserController::class, 'datatable'])->name('users.datatable');
     Route::resource('users', UserController::class);
     Route::delete('/zones/bulk-destroy', ZoneBulkDeleteController::class)->name('zones.bulk-destroy');
+    Route::post('/zones/bulk-update', ZoneBulkUpdateController::class)->name('zones.bulk-update');
     Route::get('zones/editor', [ZoneEditorController::class, 'index'])->name('zones.editor');
     Route::resource('zones', ZoneController::class);
     Route::post('bulk-destroy', BulkDeleteController::class)->name('bulk-destroy');

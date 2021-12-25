@@ -162,7 +162,9 @@
         "zonesDeleted": "Zones deleted.",
         "zoneDeleted": "Zone deleted.",
         "zonesAdded": "Zones added.",
-        "importKmlFile": "Import .kml file"
+        "importKmlFile": "Import .kml file",
+        "addPolygon": "Add zone",
+        "editor": "Zones Editor"
     },
     "users": {
         "addUser": "Add user",

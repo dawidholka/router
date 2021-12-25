@@ -1,14 +1,14 @@
 <template>
     <div>
         <!-- @slot Used to set your drawing manager -->
-        <slot :setDrawingMode="setDrawingMode" :deleteSelection="deleteSelection" />
+        <slot :setDrawingMode="setDrawingMode" :deleteSelection="deleteSelection"/>
     </div>
 </template>
 
 <script>
 import MapElementMixin from './mixins/map-element';
-import { drawingManagerMappedProps } from './utils/mapped-props-by-map-element';
-import { bindProps, getPropsValues } from './utils/helpers';
+import {drawingManagerMappedProps} from './utils/mapped-props-by-map-element';
+import {bindProps, getPropsValues} from './utils/helpers';
 
 /**
  * DrawingManager component
@@ -33,7 +33,7 @@ export default {
                     ...getPropsValues(this, drawingManagerMappedProps),
                 };
 
-                const { options: extraOptions, ...finalOptions } = initialOptions;
+                const {options: extraOptions, ...finalOptions} = initialOptions;
 
                 this.drawingModes = Object.keys(finalOptions).reduce((modes, opt) => {
                     const val = opt.split('Options');
@@ -82,9 +82,13 @@ export default {
 
         // TODO: analyze the efects of only returns the instance and remove completely the promise
         this.$drawingManagerPromise = promise;
-        return { $drawingManagerPromise: promise };
+        return {$drawingManagerPromise: promise};
     },
     props: {
+        mapMode: {
+            type: String,
+            default: 'ready'
+        },
         /**
          * The circle options
          * @see [circleOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#CircleOptions)
@@ -164,32 +168,32 @@ export default {
                             : google.maps.ControlPosition.TOP_LEFT,
                     drawingModes: this.drawingModes,
                 };
-                this.$drawingManagerObject.setOptions({ drawingControlOptions });
+                this.$drawingManagerObject.setOptions({drawingControlOptions});
             }
         },
         circleOptions(circleOptions) {
             if (this.$drawingManagerObject) {
-                this.$drawingManagerObject.setOptions({ circleOptions });
+                this.$drawingManagerObject.setOptions({circleOptions});
             }
         },
         markerOptions(markerOptions) {
             if (this.$drawingManagerObject) {
-                this.$drawingManagerObject.setOptions({ markerOptions });
+                this.$drawingManagerObject.setOptions({markerOptions});
             }
         },
         polygonOptions(polygonOptions) {
             if (this.$drawingManagerObject) {
-                this.$drawingManagerObject.setOptions({ polygonOptions });
+                this.$drawingManagerObject.setOptions({polygonOptions});
             }
         },
         polylineOptions(polylineOptions) {
             if (this.$drawingManagerObject) {
-                this.$drawingManagerObject.setOptions({ polylineOptions });
+                this.$drawingManagerObject.setOptions({polylineOptions});
             }
         },
         rectangleOptions(rectangleOptions) {
             if (this.$drawingManagerObject) {
-                this.$drawingManagerObject.setOptions({ rectangleOptions });
+                this.$drawingManagerObject.setOptions({rectangleOptions});
             }
         },
     },
@@ -243,20 +247,19 @@ export default {
         },
         clearSelection() {
             if (this.selectedShape) {
-                this.selectedShape.overlay.set('fillColor', '#777');
-                this.selectedShape.overlay.set('strokeColor', '#999');
                 this.selectedShape.overlay.setEditable(false);
                 this.selectedShape.overlay.setDraggable(false);
                 this.selectedShape = null;
             }
         },
         setSelection(shape) {
+            if (this.mapMode === 'ready') {
+                return;
+            }
             this.clearSelection();
             this.selectedShape = shape;
             shape.overlay.setEditable(true);
             shape.overlay.setDraggable(true);
-            this.selectedShape.overlay.set('fillColor', '#555');
-            this.selectedShape.overlay.set('strokeColor', '#777');
         },
         /**
          * The deleteSelection method is binded into the default component slot
@@ -268,11 +271,13 @@ export default {
          */
         deleteSelection() {
             if (this.selectedShape) {
+                console.log(this.selectedShape);
                 this.selectedShape.overlay.setMap(null);
                 const index = this.finalShapes.indexOf(this.selectedShape);
                 if (index > -1) {
                     this.finalShapes.splice(index, 1);
                 }
+                console.log(this.finalShapes);
             }
         },
         addShape(shape) {

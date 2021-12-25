@@ -11,6 +11,7 @@ class UpdateZone
     {
 
         $zone->name = $data->name;
+        $zone->coords = $data->coords;
 
         $zone->save();
 

@@ -12,6 +12,7 @@
                         <MapWithPolygons
                             ref="map"
                             :api-key="$page.props.google_maps_api_key"
+                            :map-center="mapCenter"
                             :polygons="zones"
                         />
                     </div>
@@ -147,6 +148,10 @@ export default {
         zones: {
             type: Array,
             default: null,
+        },
+        mapCenter: {
+            type: Object,
+            default: {lat: 0, lng: 0}
         }
     },
     data() {
@@ -157,6 +162,13 @@ export default {
                     icon: 'pi pi-fw pi-file',
                     command: () => {
                         this.openImportDialog();
+                    },
+                },
+                {
+                    label: this.$t('zones.editor'),
+                    icon: 'pi pi-fw pi-pencil',
+                    command: () => {
+                        this.$inertia.get(this.route('zones.editor'));
                     },
                 },
                 {

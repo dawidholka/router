@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Zones\CreateZonesFromKMLFile;
 use App\Models\Zone;
+use App\ViewModels\ZoneEditorViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,21 +15,8 @@ class ZoneController extends Controller
     public function index(): Response
     {
         abort_if(!auth()->user()->admin, 403);
-        $zones = Zone::all();
 
-        $zones = $zones->map(function (Zone $zone) {
-            return [
-                'id' => $zone->id,
-                'name' => $zone->name,
-                'color' => $zone->color,
-                'created_at' => $zone->created_at?->format('Y-m-d H:m:s'),
-                'coords' => $zone->coords,
-            ];
-        })->toArray();
-
-        return Inertia::render('Zones/Index', [
-            'zones' => $zones
-        ]);
+        return Inertia::render('Zones/Index', new ZoneEditorViewModel());
     }
 
     public function store(Request $request, CreateZonesFromKMLFile $createZonesFromKMLFile): RedirectResponse

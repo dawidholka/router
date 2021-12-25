@@ -160,7 +160,7 @@ export default {
         // binding properties (two and one way)
         bindProps(this, this.$mapObject, mapMappedProps);
         // binding events
-        // bindEvents(this, this.$mapObject, events);
+        bindEvents(this, this.$mapObject, events);
         // manually trigger center and zoom
         twoWayBindingWrapper((increment, decrement, shouldUpdate) => {
             this.$mapObject.addListener('center_changed', () => {
@@ -294,13 +294,6 @@ export default {
                 this.$mapObject.fitBounds(...args);
             }
         },
-        /**
-         * Get the recycle key of the map
-         * @method getRecycleKey
-         * @param {undefined}
-         * @returns {void}
-         * @public
-         */
         getRecycleKey() {
             return this?.options?.recycle
                 ? this.recyclePrefix + this.options.recycle

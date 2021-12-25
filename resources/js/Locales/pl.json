@@ -162,7 +162,9 @@
         "zonesDeleted": "Strefy usunięte.",
         "zoneDeleted": "Strefa usunięta.",
         "zonesAdded": "Strefy dodane.",
-        "importKmlFile": "Import pliku .kml"
+        "importKmlFile": "Import pliku .kml",
+        "addPolygon": "Dodaj strefę",
+        "editor": "Edytor stref"
     },
     "users": {
         "addUser": "Dodaj użytkownika",
