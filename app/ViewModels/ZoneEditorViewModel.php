@@ -2,6 +2,7 @@
 
 namespace App\ViewModels;
 
+use App\Models\Driver;
 use App\Models\Zone;
 use App\Settings\GeneralSettings;
 use Spatie\ViewModels\ViewModel;
@@ -10,7 +11,7 @@ class ZoneEditorViewModel extends ViewModel
 {
     public function zones(): array
     {
-        $zones = Zone::all();
+        $zones = Zone::with('driver')->get();
         return $zones->map(function (Zone $zone) {
             $coords = json_decode($zone->coords, true);
             $coordsArray = [];
@@ -32,6 +33,10 @@ class ZoneEditorViewModel extends ViewModel
                 'color' => $zone->color,
                 'created_at' => $zone->created_at?->format('Y-m-d H:m:s'),
                 'coords' => $coordsArray,
+                'driver' => $zone->driver ? [
+                    'id' => $zone->driver->id,
+                    'name' => $zone->driver->name
+                ] : null
             ];
         })->toArray();
     }
@@ -42,5 +47,10 @@ class ZoneEditorViewModel extends ViewModel
             'lat' => $generalSettings->company_lat,
             'lng' => $generalSettings->company_lng
         ];
+    }
+
+    public function colors(): array
+    {
+        return Driver::COLORS;
     }
 }

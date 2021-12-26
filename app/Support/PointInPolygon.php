@@ -18,7 +18,7 @@ class PointInPolygon
 {
     public bool $pointOnVertex = true; // Check if the point sits exactly on one of the vertices?
 
-    function check($point, $polygon, $pointOnVertex = true): bool|string
+    function check(array $point, array $polygon, $pointOnVertex = true): bool|string
     {
         $this->pointOnVertex = $pointOnVertex;
 
@@ -72,11 +72,11 @@ class PointInPolygon
         return false;
     }
 
-    function pointToCoordinates($point): array
+    function pointToCoordinates(array $point): array
     {
         return [
-            'x' => $point[0],
-            'y' => $point[1]
+            'x' => $point['lat'] ?? $point[0],
+            'y' => $point['lng'] ?? $point[1]
         ];
     }
 

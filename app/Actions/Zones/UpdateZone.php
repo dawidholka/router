@@ -9,9 +9,13 @@ class UpdateZone
 {
     public function execute(Zone $zone, ZoneData $data): Zone
     {
-
         $zone->name = $data->name;
-        $zone->coords = $data->coords;
+        $zone->color = $data->color;
+        $zone->driver_id = $data?->driver?->id;
+
+        if ($data->coords) {
+            $zone->coords = $data->coords;
+        }
 
         $zone->save();
 

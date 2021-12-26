@@ -11,6 +11,8 @@ class ZoneEditorController extends Controller
 {
     public function index(): Response
     {
+        abort_if(!auth()->user()->admin, 403);
+
         return Inertia::render('Zones/Editor', new ZoneEditorViewModel());
     }
 }

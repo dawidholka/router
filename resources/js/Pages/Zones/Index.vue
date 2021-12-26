@@ -41,19 +41,24 @@
                                     {{ slotProps.data.id }}
                                 </template>
                             </Column>
-                            <Column field="delivery_time" :header="$t('common.name')" :sortable="true">
+                            <Column field="name" :header="$t('common.name')" :sortable="true">
                                 <template #body="slotProps">
                                     {{ slotProps.data.name }}
                                 </template>
                             </Column>
-                            <Column field="driver_id" :header="$t('common.color')" :sortable="true">
+                            <Column field="color" :header="$t('common.color')" :sortable="true">
                                 <template #body="slotProps">
                                     <span :style="{color: slotProps.data.color}">
                                     {{ slotProps.data.color }}
                                     </span>
                                 </template>
                             </Column>
-                            <Column field="note" :header="$t('common.createdAt')" :sortable="false">
+                            <Column field="driver" :header="$t('common.driver')" :sortable="true">
+                                <template #body="slotProps">
+                                    {{ slotProps.data.driver?.name ?? '-' }}
+                                </template>
+                            </Column>
+                            <Column field="created_at" :header="$t('common.createdAt')" :sortable="false">
                                 <template #body="slotProps">
                                     {{ slotProps.data.created_at }}
                                 </template>
@@ -63,7 +68,7 @@
                                     <Button
                                         icon="pi pi-pencil"
                                         class="p-button-success p-button-sm mr-1"
-                                        @click="edit(slotProps.data.id)"
+                                        @click="edit(slotProps.data)"
                                     />
                                     <Button icon="pi pi-trash" class="p-button-sm p-button-danger"
                                             @click="showDeleteDialog(slotProps.data)"
@@ -77,6 +82,11 @@
                     </div>
                 </div>
             </div>
+
+            <ZoneEditModal
+                v-model:visible="editModal"
+                :model="selectedModel"
+            />
 
             <DeleteDialog
                 ref="deleteDialog"
@@ -129,10 +139,12 @@ import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
 import MapWithPolygons from "../../Components/MapWithPolygons";
 import FlashMessage from "../../Services/FlashMessage";
+import ZoneEditModal from "../../Components/ZoneEditModal";
 
 export default {
     name: "Index",
     components: {
+        ZoneEditModal,
         MapWithPolygons,
         AppLayout,
         Menubar,
@@ -152,6 +164,10 @@ export default {
         mapCenter: {
             type: Object,
             default: {lat: 0, lng: 0}
+        },
+        colors: {
+            type: Array,
+            default: []
         }
     },
     data() {
@@ -180,6 +196,7 @@ export default {
                 },
             ],
             selectedModel: null,
+            editModal: false,
             deleteDialog: false,
             deletingModel: false,
             importDialog: false,
@@ -189,6 +206,10 @@ export default {
         }
     },
     methods: {
+        edit(model) {
+            this.selectedModel = model;
+            this.editModal = true;
+        },
         onDelete() {
             this.deletingModel = true;
             if (!this.selectedModel) {

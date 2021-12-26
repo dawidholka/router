@@ -56,7 +56,7 @@
                             <RouterInputText
                                 class="col"
                                 name="delivery_time"
-                                :label="$t('common.delivery_time')"
+                                :label="$t('common.deliveryTime')"
                                 v-model="form.delivery_time"
                                 :error="form.errors.delivery_time"
                             />

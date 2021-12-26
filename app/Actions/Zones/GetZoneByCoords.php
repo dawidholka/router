@@ -25,9 +25,9 @@ class GetZoneByCoords
         /** @var Zone $zone */
         foreach ($this->zones as $zone) {
             $point = [$lat, $lng];
-            $polygon = json_decode($zone->coords, true)['outer'];
+            $polygon = json_decode($zone->coords, true);
 
-            if($this->pointInPolygon->check($point, $polygon) === true){
+            if ($this->pointInPolygon->check($point, $polygon) === true) {
                 return $zone;
             }
         }

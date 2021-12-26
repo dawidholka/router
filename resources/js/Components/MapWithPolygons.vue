@@ -12,6 +12,10 @@ export default {
             type: String,
             required: true
         },
+        mapCenter: {
+            type: Object,
+            default: {lat: 0, lng: 0}
+        },
         polygons: {
             type: Array,
             required: true

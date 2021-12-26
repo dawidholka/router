@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Zones\CreateZonesFromKMLFile;
+use App\Actions\Zones\UpdateZone;
+use App\DTOs\ZoneData;
 use App\Models\Zone;
 use App\ViewModels\ZoneEditorViewModel;
 use Illuminate\Http\RedirectResponse;
@@ -28,6 +30,28 @@ class ZoneController extends Controller
         ]);
 
         $createZonesFromKMLFile->execute($request->file);
+
+        return redirect()->back();
+    }
+
+    public function update(
+        Zone       $zone,
+        Request    $request,
+        UpdateZone $updateZone
+    )
+    {
+        abort_if(!auth()->user()->admin, 403);
+
+        $request->validate([
+            'name' => ['required', 'string'],
+            'color' => ['required', 'string'],
+            'driver' => ['nullable', 'array'],
+            'driver.id' => ['nullable', 'integer', 'exists:drivers,id'],
+        ]);
+
+        $zoneData = ZoneData::fromArray($request->toArray());
+
+        $updateZone->execute($zone, $zoneData);
 
         return redirect()->back();
     }

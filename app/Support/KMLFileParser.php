@@ -5,6 +5,7 @@ namespace App\Support;
 use App\DTOs\ZoneData;
 use DOMDocument;
 use DOMElement;
+use Exception;
 use Illuminate\Http\UploadedFile;
 
 class KMLFileParser
@@ -12,6 +13,7 @@ class KMLFileParser
     /**
      * @param UploadedFile $file
      * @return ZoneData[]
+     * @throws Exception
      */
     public function getZoneDataFromKMLFile(UploadedFile $file): array
     {
@@ -26,8 +28,10 @@ class KMLFileParser
             $color = ColorDictionary::getRandomColor();
             $coords = [];
             /** @var DOMElement $polygon */
-            foreach($placemark->getElementsByTagName('Polygon') as $polygon){
+            foreach ($placemark->getElementsByTagName('Polygon') as $polygon) {
                 if (($innerBoundaryIs = $polygon->getElementsByTagName('innerBoundaryIs'))->length) {
+                    // TODO Not supported yet
+                    throw new Exception('Polygons with inner boundary is not supported yet.');
                     $coords['inner'] = $this->getCoordinates($innerBoundaryIs->item(0));
                 }
                 if (($outerBoundaryIs = $polygon->getElementsByTagName('outerBoundaryIs'))->length) {
@@ -35,10 +39,22 @@ class KMLFileParser
                 }
             }
 
+            $coordsArray = [];
+
+            if (isset($coords['outer'])) {
+                for ($i = 0; $i < count($coords['outer']); $i++) {
+                    $coordsArray[] = [
+                        'lat' => (float)$coords['outer'][$i][0],
+                        'lng' => (float)$coords['outer'][$i][1],
+                    ];
+                }
+            }
+
+
             $zonesData[] = new ZoneData([
                 'name' => $name,
                 'color' => $color,
-                'coords' => json_encode($coords)
+                'coords' => json_encode($coordsArray)
             ]);
         }
 
