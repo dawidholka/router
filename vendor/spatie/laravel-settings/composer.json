@@ -1,0 +1,63 @@
+{
+    "name": "spatie/laravel-settings",
+    "description": "Store your application settings",
+    "keywords": [
+        "spatie",
+        "laravel-settings"
+    ],
+    "homepage": "https://github.com/spatie/laravel-settings",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ruben Van Assche",
+            "email": "ruben@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-json": "*",
+        "illuminate/database": "^8.73",
+        "doctrine/dbal": "^2.13|^3.2",
+        "phpdocumentor/type-resolver": "^1.5",
+        "spatie/data-transfer-object": "^2.8|^3.7",
+        "spatie/temporary-directory": "^1.3|^2.0"
+    },
+    "require-dev": {
+        "ext-redis": "*",
+        "mockery/mockery": "^1.4",
+        "orchestra/testbench": "^6.23",
+        "phpunit/phpunit": "^9.5",
+        "psalm/plugin-laravel": "^1.5",
+        "spatie/phpunit-snapshot-assertions": "^4.2",
+        "vimeo/psalm": "^4.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\LaravelSettings\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\LaravelSettings\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm --no-diff --no-cache",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spatie\\LaravelSettings\\LaravelSettingsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
