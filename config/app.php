@@ -181,6 +181,10 @@ return [
 //        App\Providers\TelescopeServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
+        Router\Drivers\Providers\DriversServiceProvider::class,
+        Router\Points\Providers\PointsServiceProvider::class,
+        Router\Zones\Providers\ZonesServiceProvider::class,
+        Router\Routes\Providers\RoutesServiceProvider::class
 
     ],
 
